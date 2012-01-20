@@ -142,6 +142,11 @@ namespace PCSDiagnostics
             Program.Game.close_divertor();
         }
 
+        private void btnClearJams_Click(object sender, EventArgs e)
+        {
+            Program.Game.ClearJams();
+        }
+
 
     }
 }

@@ -19,7 +19,7 @@ namespace PCSDiagnostics
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmMain());
+            Application.Run(new frmDiagnostics());
         }
 
         public static void StartGameThread(ILogger logger = null)

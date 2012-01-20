@@ -428,6 +428,12 @@ namespace NetProcGame.game
 
         void UI_MessageReceived(byte[] message)
         {
+            string received = Encoding.UTF8.GetString(message);
+
+            if (received == "PING")
+            {
+                UI.SendMessage(Encoding.UTF8.GetBytes("PONG"));
+            }
         }
 
         /// <summary>

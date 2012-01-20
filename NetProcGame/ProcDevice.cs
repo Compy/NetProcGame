@@ -47,7 +47,10 @@ namespace NetProcGame
 
         public void flush()
         {
-            PinProc.PRFlushWriteData(ProcHandle);
+            lock (procSyncObject)
+            {
+                PinProc.PRFlushWriteData(ProcHandle);
+            }
         }
 
         ///////////////////////////////////////////////////////////////////////////////
@@ -56,111 +59,129 @@ namespace NetProcGame
 
         public Result driver_pulse(ushort number, byte milliseconds)
         {
-            System.Threading.Monitor.Enter(procSyncObject);
             DriverState state = this.driver_get_state(number);
-            PinProc.PRDriverStatePulse(ref state, milliseconds);
-            Result res = PinProc.PRDriverUpdateState(ProcHandle, ref state);
+            Result res;
+            lock (procSyncObject)
+            {
+                PinProc.PRDriverStatePulse(ref state, milliseconds);
+                res = PinProc.PRDriverUpdateState(ProcHandle, ref state);
+            }
 
             if (res == Result.Success)
             {
-                res = PinProc.PRDriverWatchdogTickle(ProcHandle);
-                res = PinProc.PRFlushWriteData(ProcHandle);
+                lock (procSyncObject)
+                {
+                    res = PinProc.PRDriverWatchdogTickle(ProcHandle);
+                    res = PinProc.PRFlushWriteData(ProcHandle);
+                }
             }
-            System.Threading.Monitor.Exit(procSyncObject);
             return res;
         }
 
         public void driver_schedule(ushort number, uint schedule, ushort cycle_seconds, bool now)
         {
-            Monitor.Enter(procSyncObject);
             DriverState state = this.driver_get_state(number);
-            PinProc.PRDriverStateSchedule(ref state, schedule, (byte)cycle_seconds, now);
-            PinProc.PRDriverUpdateState(ProcHandle, ref state);
-            PinProc.PRFlushWriteData(ProcHandle);
-            Monitor.Exit(procSyncObject);
+            lock (procSyncObject)
+            {
+                PinProc.PRDriverStateSchedule(ref state, schedule, (byte)cycle_seconds, now);
+                PinProc.PRDriverUpdateState(ProcHandle, ref state);
+                PinProc.PRFlushWriteData(ProcHandle);
+            }
         }
 
         public void driver_patter(ushort number, ushort milliseconds_on, ushort milliseconds_off, ushort original_on_time)
         {
-            Monitor.Enter(procSyncObject);
             DriverState state = this.driver_get_state(number);
-            PinProc.PRDriverStatePatter(ref state, milliseconds_on, milliseconds_off, original_on_time);
-            PinProc.PRDriverUpdateState(ProcHandle, ref state);
-            PinProc.PRFlushWriteData(ProcHandle);
-            Monitor.Exit(procSyncObject);
+            lock (procSyncObject)
+            {
+                PinProc.PRDriverStatePatter(ref state, milliseconds_on, milliseconds_off, original_on_time);
+                PinProc.PRDriverUpdateState(ProcHandle, ref state);
+                PinProc.PRFlushWriteData(ProcHandle);
+            }
         }
 
         public void driver_pulsed_patter(ushort number, ushort milliseconds_on, ushort milliseconds_off, ushort milliseconds_overall_patter_time)
         {
-            Monitor.Enter(procSyncObject);
             DriverState state = this.driver_get_state(number);
-            PinProc.PRDriverStatePulsedPatter(ref state, milliseconds_on, milliseconds_off, milliseconds_overall_patter_time);
-            PinProc.PRDriverUpdateState(ProcHandle, ref state);
-            PinProc.PRFlushWriteData(ProcHandle);
-            Monitor.Exit(procSyncObject);
+            lock (procSyncObject)
+            {
+                PinProc.PRDriverStatePulsedPatter(ref state, milliseconds_on, milliseconds_off, milliseconds_overall_patter_time);
+                PinProc.PRDriverUpdateState(ProcHandle, ref state);
+                PinProc.PRFlushWriteData(ProcHandle);
+            }
         }
 
         public void driver_disable(ushort number)
         {
-            Monitor.Enter(procSyncObject);
             DriverState state = this.driver_get_state(number);
-            PinProc.PRDriverStateDisable(ref state);
-            PinProc.PRDriverUpdateState(ProcHandle, ref state);
-            PinProc.PRFlushWriteData(ProcHandle);
-            Monitor.Exit(procSyncObject);
+            lock (procSyncObject)
+            {
+                PinProc.PRDriverStateDisable(ref state);
+                PinProc.PRDriverUpdateState(ProcHandle, ref state);
+                PinProc.PRFlushWriteData(ProcHandle);
+            }
         }
 
         public DriverState driver_get_state(ushort number)
         {
             DriverState ds = new DriverState();
-            PinProc.PRDriverGetState(ProcHandle, (byte)number, ref ds);
+            lock (procSyncObject)
+            {
+                PinProc.PRDriverGetState(ProcHandle, (byte)number, ref ds);
+            }
             return ds;
         }
 
         public void driver_update_state(ref DriverState driver)
         {
-            Monitor.Enter(procSyncObject);
-            PinProc.PRDriverUpdateState(ProcHandle, ref driver);
-            Monitor.Exit(procSyncObject);
+            lock (procSyncObject)
+            {
+                PinProc.PRDriverUpdateState(ProcHandle, ref driver);
+            }
         }
 
         public DriverState driver_state_pulse(DriverState state, byte milliseconds)
         {
-            Monitor.Enter(procSyncObject);
-            PinProc.PRDriverStatePulse(ref state, milliseconds);
-            Monitor.Exit(procSyncObject);
+            lock (procSyncObject)
+            {
+                PinProc.PRDriverStatePulse(ref state, milliseconds);
+            }
             return state;
         }
 
         public DriverState driver_state_disable(DriverState state)
         {
-            Monitor.Enter(procSyncObject);
-            PinProc.PRDriverStateDisable(ref state);
-            Monitor.Exit(procSyncObject);
+            lock (procSyncObject)
+            {
+                PinProc.PRDriverStateDisable(ref state);
+            }
             return state;
         }
 
         public DriverState driver_state_schedule(DriverState state, uint schedule, byte seconds, bool now)
         {
-            Monitor.Enter(procSyncObject);
-            PinProc.PRDriverStateSchedule(ref state, schedule, seconds, now);
-            Monitor.Exit(procSyncObject);
+            lock (procSyncObject)
+            {
+                PinProc.PRDriverStateSchedule(ref state, schedule, seconds, now);
+            }
             return state;
         }
 
         public DriverState driver_state_patter(DriverState state, ushort milliseconds_on, ushort milliseconds_off, ushort original_on_time)
         {
-            Monitor.Enter(procSyncObject);
-            PinProc.PRDriverStatePatter(ref state, milliseconds_on, milliseconds_off, original_on_time);
-            Monitor.Exit(procSyncObject);
+            lock (procSyncObject)
+            {
+                PinProc.PRDriverStatePatter(ref state, milliseconds_on, milliseconds_off, original_on_time);
+            }
             return state;
         }
 
         public DriverState driver_state_pulsed_patter(DriverState state, ushort milliseconds_on, ushort milliseconds_off, ushort milliseconds_overall_patter_time)
         {
-            Monitor.Enter(procSyncObject);
-            PinProc.PRDriverStatePulsedPatter(ref state, milliseconds_on, milliseconds_off, milliseconds_overall_patter_time);
-            Monitor.Exit(procSyncObject);
+            lock (procSyncObject)
+            {
+                PinProc.PRDriverStatePulsedPatter(ref state, milliseconds_on, milliseconds_off, milliseconds_overall_patter_time);
+            }
             return state;
         }
 
@@ -170,11 +191,12 @@ namespace NetProcGame
 
         public EventType[] switch_get_states()
         {
-            Monitor.Enter(procSyncObject);
             ushort numSwitches = PinProc.kPRSwitchPhysicalLast + 1;
             EventType[] procSwitchStates = new EventType[numSwitches];
-            PinProc.PRSwitchGetStates(ProcHandle, procSwitchStates, numSwitches);
-            Monitor.Exit(procSyncObject);
+            lock (procSyncObject)
+            {
+                PinProc.PRSwitchGetStates(ProcHandle, procSwitchStates, numSwitches);
+            }
             return procSwitchStates;
         }
 
@@ -185,8 +207,6 @@ namespace NetProcGame
                 numDrivers = linked_drivers.Length;
 
             bool use_column_8 = g_machineType == MachineType.WPC;
-
-            Monitor.Enter(procSyncObject);
 
             if (firstTime)
             {
@@ -201,9 +221,17 @@ namespace NetProcGame
                 switchConfig.InactivePulsesAfterBurst = 12;
                 switchConfig.PulsesPerBurst = 6;
                 switchConfig.PulseHalfPeriodTime = 13; // Milliseconds
-                PinProc.PRSwitchUpdateConfig(ProcHandle, ref switchConfig);
+                lock (procSyncObject)
+                {
+                    PinProc.PRSwitchUpdateConfig(ProcHandle, ref switchConfig);
+                }
             }
-            if (PinProc.PRSwitchUpdateRule(ProcHandle, (byte)number, event_type, ref rule, linked_drivers, numDrivers, drive_outputs_now) == Result.Success)
+            Result r;
+            lock (procSyncObject)
+            {
+                r = PinProc.PRSwitchUpdateRule(ProcHandle, (byte)number, event_type, ref rule, linked_drivers, numDrivers, drive_outputs_now);
+            }
+            if (r == Result.Success)
             {
                 // Possibly we should flush the write data here
             }
@@ -212,7 +240,6 @@ namespace NetProcGame
                 Logger.Log(String.Format("SwitchUpdateRule FAILED for #{0} event_type={1} numDrivers={2} drive_outputs_now={3}",
                     number, event_type.ToString(), numDrivers, drive_outputs_now));
             }
-            Monitor.Exit(procSyncObject);
         }
 
         /// <summary>
@@ -231,8 +258,11 @@ namespace NetProcGame
 
         public void watchdog_tickle()
         {
-            PinProc.PRDriverWatchdogTickle(ProcHandle);
-            PinProc.PRFlushWriteData(ProcHandle);
+            lock (procSyncObject)
+            {
+                PinProc.PRDriverWatchdogTickle(ProcHandle);
+                PinProc.PRFlushWriteData(ProcHandle);
+            }
         }
 
         public Event[] get_events()
@@ -240,7 +270,12 @@ namespace NetProcGame
             const int batchSize = 16; // Pyprocgame uses 16
             Event[] events = new Event[batchSize];
 
-            int numEvents = PinProc.PRGetEvents(ProcHandle, events, batchSize);
+            int numEvents;
+
+            lock (procSyncObject)
+            {
+                numEvents = PinProc.PRGetEvents(ProcHandle, events, batchSize);
+            }
 
             if (numEvents <= 0) return null;
 
@@ -249,7 +284,10 @@ namespace NetProcGame
 
         public void reset(uint flags)
         {
-            PinProc.PRReset(ProcHandle, flags);
+            lock (procSyncObject)
+            {
+                PinProc.PRReset(ProcHandle, flags);
+            }
         }
 
         ///////////////////////////////////////////////////////////////////////////////
@@ -300,8 +338,10 @@ namespace NetProcGame
             {
                 dmdConfig.DeHighCycles[i] = high_cycles[i];
             }
-
-            PinProc.PRDMDUpdateConfig(ProcHandle, ref dmdConfig);
+            lock (procSyncObject)
+            {
+                PinProc.PRDMDUpdateConfig(ProcHandle, ref dmdConfig);
+            }
             dmdConfigured = true;
 
         }

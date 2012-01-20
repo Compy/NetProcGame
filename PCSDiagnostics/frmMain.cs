@@ -8,13 +8,13 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO.Pipes;
 using System.ComponentModel;
+using NetProcGame.game;
 
 namespace PCSDiagnostics
 {
     public partial class frmMain : Form
     {
-        private BackgroundWorker workerThread;
-        private NamedPipeClientStream clientPipe;
+        private UIProcessClient uiClient;
 
         public frmMain()
         {
@@ -24,36 +24,27 @@ namespace PCSDiagnostics
 
         void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            workerThread.CancelAsync();
+            uiClient.Disconnect();
         }
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-            workerThread = new BackgroundWorker();
-            workerThread.WorkerSupportsCancellation = true;
-            workerThread.DoWork += new System.ComponentModel.DoWorkEventHandler(workerThread_DoWork);
-            workerThread.RunWorkerAsync();
+            uiClient = new UIProcessClient();
+            uiClient.MessageReceived += new UIProcessClient.MessageReceivedHandler(uiClient_MessageReceived);
+            uiClient.Connect(@"\\.\pipe\uiserver");
         }
 
-        void workerThread_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        void uiClient_MessageReceived(byte[] message)
         {
-            clientPipe = new NamedPipeClientStream(".", "PCSServer", PipeDirection.InOut, PipeOptions.None);
-            clientPipe.Connect(5000);
-            int numBytes = -1;
-            byte[] buffer = new byte[1024];
-            string dataRead = "";
-            while (numBytes != 0 && workerThread.CancellationPending)
-            {
-                numBytes = clientPipe.Read(buffer, 0, buffer.Length);
-                dataRead = Encoding.UTF8.GetString(buffer, 0, numBytes);
-                processData(dataRead);
-            }
+            string received = Encoding.UTF8.GetString(message);
+            processData(received);
         }
 
         public void send(string data)
         {
             byte[] buffer = Encoding.UTF8.GetBytes(data);
-            clientPipe.Write(buffer, 0, buffer.Length);
+            uiClient.SendMessage(buffer);
+            
         }
 
         private void processData(string data)

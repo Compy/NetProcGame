@@ -50,8 +50,9 @@
             this.btnCloseDivertor = new System.Windows.Forms.Button();
             this.btnOpenDivertor = new System.Windows.Forms.Button();
             this.displayPage = new System.Windows.Forms.TabPage();
-            this.label2 = new System.Windows.Forms.Label();
             this.lblDisplayEnabled = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.btnClearJams = new System.Windows.Forms.Button();
             this.mainTabs.SuspendLayout();
             this.switchesPage.SuspendLayout();
             this.troughPage.SuspendLayout();
@@ -127,6 +128,7 @@
             // 
             // troughPage
             // 
+            this.troughPage.Controls.Add(this.btnClearJams);
             this.troughPage.Controls.Add(this.btnLaunchAll);
             this.troughPage.Controls.Add(this.btnLaunchTest);
             this.troughPage.Controls.Add(this.total_balls);
@@ -283,6 +285,15 @@
             this.displayPage.Text = "Display";
             this.displayPage.UseVisualStyleBackColor = true;
             // 
+            // lblDisplayEnabled
+            // 
+            this.lblDisplayEnabled.AutoSize = true;
+            this.lblDisplayEnabled.Location = new System.Drawing.Point(160, 13);
+            this.lblDisplayEnabled.Name = "lblDisplayEnabled";
+            this.lblDisplayEnabled.Size = new System.Drawing.Size(98, 18);
+            this.lblDisplayEnabled.TabIndex = 2;
+            this.lblDisplayEnabled.Text = "DISABLED";
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -292,14 +303,15 @@
             this.label2.TabIndex = 1;
             this.label2.Text = "Display Monitor:";
             // 
-            // lblDisplayEnabled
+            // btnClearJams
             // 
-            this.lblDisplayEnabled.AutoSize = true;
-            this.lblDisplayEnabled.Location = new System.Drawing.Point(160, 13);
-            this.lblDisplayEnabled.Name = "lblDisplayEnabled";
-            this.lblDisplayEnabled.Size = new System.Drawing.Size(98, 18);
-            this.lblDisplayEnabled.TabIndex = 2;
-            this.lblDisplayEnabled.Text = "DISABLED";
+            this.btnClearJams.Location = new System.Drawing.Point(19, 274);
+            this.btnClearJams.Name = "btnClearJams";
+            this.btnClearJams.Size = new System.Drawing.Size(179, 50);
+            this.btnClearJams.TabIndex = 10;
+            this.btnClearJams.Text = "Clear Jams";
+            this.btnClearJams.UseVisualStyleBackColor = true;
+            this.btnClearJams.Click += new System.EventHandler(this.btnClearJams_Click);
             // 
             // frmDiagnostics
             // 
@@ -355,6 +367,7 @@
         private System.Windows.Forms.TabPage displayPage;
         private System.Windows.Forms.Label lblDisplayEnabled;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btnClearJams;
     }
 }
 

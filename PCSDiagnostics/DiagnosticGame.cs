@@ -52,14 +52,24 @@ namespace PCSDiagnostics
 
         public void close_divertor()
         {
-            safe_drive_coil("divertorMain", 50);
-            safe_drive_coil("divertorHold", 0);
+            Coils["divertorMain"].Pulse(50);
+            Coils["divertorHold"].Pulse(0);
         }
 
         public void open_divertor()
         {
-            safe_disable_coil("divertorMain");
-            safe_disable_coil("divertorHold");
+            Coils["divertorMain"].Disable();
+            Coils["divertorHold"].Disable();
+        }
+
+        public void ClearJams()
+        {
+            if (Switches["eject"].IsActive())
+                Coils["eject"].Pulse();
+            if (Switches["bottomPopper"].IsActive())
+                Coils["bottomPopper"].Pulse();
+            if (Switches["topPopper"].IsActive())
+                Coils["topPopper"].Pulse();
         }
     }
 }
