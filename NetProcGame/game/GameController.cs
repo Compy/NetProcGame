@@ -129,11 +129,6 @@ namespace NetProcGame.game
         public ILogger Logger { get; set; }
 
         /// <summary>
-        /// The UI process listener for communicating with a separate UI controller process (either diagnostic or visual gameplay)
-        /// </summary>
-        public UIProcessListener UI { get; set; }
-
-        /// <summary>
         /// Thread synchronization object for coils
         /// </summary>
         protected object _coil_lock_object = new object();
@@ -420,19 +415,6 @@ namespace NetProcGame.game
 
             if (_config.PRGame.displayMonitor)
             {
-                this.UI = new UIProcessListener();
-                UI.MessageReceived += new UIProcessListener.MessageReceivedHandler(UI_MessageReceived);
-                UI.Start(@"\\.\pipe\uiserver");
-            }
-        }
-
-        void UI_MessageReceived(byte[] message)
-        {
-            string received = Encoding.UTF8.GetString(message);
-
-            if (received == "PING")
-            {
-                UI.SendMessage(Encoding.UTF8.GetBytes("PONG"));
             }
         }
 

@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
+using System.Net;
 using System.Net.NetworkInformation;
 
 using XNAPinProc.Menus;
@@ -41,6 +42,18 @@ namespace XNAPinProc.Screens
 
             NetworkInterface[] adapters = NetworkInterface.GetAllNetworkInterfaces();
             if (adapters.Length < 1) return;
+
+            IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
+            string localIP = "0.0.0.0";
+            foreach (IPAddress ip in host.AddressList)
+            {
+                if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                {
+                    localIP = ip.ToString();
+                    break;
+                }
+            }
+
             foreach (NetworkInterface adapter in adapters)
             {
                 if (adapter.OperationalStatus == OperationalStatus.Up && 
@@ -53,8 +66,7 @@ namespace XNAPinProc.Screens
                     NetworkGW = properties.GatewayAddresses[0].Address.ToString();
                     NetworkSubnet = properties.UnicastAddresses[0].IPv4Mask.ToString();
 
-                    if (NetworkIP == "0.0.0.0" || NetworkSubnet == "0.0.0.0")
-                        continue;
+                    if (NetworkIP != localIP) continue;
 
                     break;
                 }

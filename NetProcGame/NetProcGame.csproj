@@ -54,8 +54,6 @@
     <Compile Include="game\Mode.cs" />
     <Compile Include="game\ModeQueue.cs" />
     <Compile Include="game\SafeDrive.cs" />
-    <Compile Include="game\UIProcessClient.cs" />
-    <Compile Include="game\UIProcessListener.cs" />
     <Compile Include="modes\BallSave.cs" />
     <Compile Include="modes\TestMode.cs" />
     <Compile Include="modes\Trough.cs" />
