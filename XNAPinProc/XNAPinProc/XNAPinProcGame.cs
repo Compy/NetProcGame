@@ -9,21 +9,28 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
+using System.ComponentModel;
+
 using XNAPinProc.Screens;
+using XNAPinProc.Middleware;
+using NetProcGame.tools;
 
 namespace XNAPinProc
 {
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class XNAPinProcGame : Microsoft.Xna.Framework.Game
+    public class XNAPinProcGame : Microsoft.Xna.Framework.Game, ILogger
     {
         public static XNAPinProcGame instance;
         public static int ScreenWidth = 800;
         public static int ScreenHeight = 600;
         private double lastTimeChecked = 0;
-
+        public static MiddlewareGame middlewareGame;
+        private BackgroundWorker middlewareThread;
         private KeyboardState oldKeyboardState;
+
+        private ErrorScreen errorScreen;
 
         private bool flipScreen = false;
         public bool FlipScreen
@@ -71,20 +78,48 @@ namespace XNAPinProc
         /// </summary>
         protected override void Initialize()
         {
+            this.Exiting += new EventHandler<EventArgs>(XNAPinProcGame_Exiting);
+
             // TODO: Add your initialization logic here
             headerDisplay = new HeaderDisplay();
             camera = new Camera();
             camera.ScreenFlipped = flipScreen;
-
+            errorScreen = new ErrorScreen(GraphicsDevice);
             SCREEN_MANAGER.add_screen(new LoadingScreen(GraphicsDevice));
             SCREEN_MANAGER.add_screen(new SettingsMenu(GraphicsDevice));
             SCREEN_MANAGER.add_screen(new AttractScreen(GraphicsDevice));
             SCREEN_MANAGER.add_screen(new SystemInfoScreen(GraphicsDevice));
+            SCREEN_MANAGER.add_screen(errorScreen);
             SCREEN_MANAGER.goto_screen("LoadingScreen");
 
             oldKeyboardState = Keyboard.GetState();
 
+            // Initialize the middleware thread to communicate with game hardware
+            middlewareThread = new BackgroundWorker();
+            middlewareThread.WorkerSupportsCancellation = true;
+            middlewareThread.DoWork += new DoWorkEventHandler(middlewareThread_DoWork);
+            middlewareThread.RunWorkerAsync();
+
             base.Initialize();
+        }
+
+        void middlewareThread_DoWork(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                System.Threading.Thread.CurrentThread.Name = "p-roc thread";
+                middlewareGame = new MiddlewareGame(this);
+                middlewareGame.setup();
+                middlewareGame.run_loop();
+            }
+            catch (Exception ex)
+            {
+                errorScreen.Title = "Device Communication Error";
+                //errorScreen.ErrorText = "Communication with the P-ROC has been lost. Please make sure the device is plugged into the USB port and is powered on.\n\nPress 'Q' to exit PCS into Windows";
+                errorScreen.ErrorText = ex.ToString();
+                System.Threading.Thread.Sleep(1000);
+                SCREEN_MANAGER.goto_screen("ErrorScreen");
+            }
         }
 
         private void ProcessKeyboard()
@@ -167,6 +202,17 @@ namespace XNAPinProc
 
             
             base.Draw(gameTime);
+        }
+
+        public void Log(string text)
+        {
+            System.Diagnostics.Trace.WriteLine(text);
+        }
+
+        private void XNAPinProcGame_Exiting(object sender, EventArgs e)
+        {
+            if (middlewareGame != null)
+                middlewareGame.end_run_loop();
         }
     }
 }
