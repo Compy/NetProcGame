@@ -693,7 +693,7 @@ namespace NetProcGame.game
         /// Retrieve all events from the PROC interface board
         /// </summary>
         /// <returns>A list of events from the PROC</returns>
-        public Event[] get_events()
+        public virtual Event[] get_events()
         {
             return _proc.get_events();
         }

@@ -19,12 +19,27 @@ namespace XNAPinProc.Middleware
         public BaseGameMode _base_game_mode;
         public BallSave ball_save;
         public Trough trough;
+        public SystemBase system;
+
+        public KeyboardController keyboardController;
 
         public bool ball_being_saved = false;
 
         public MiddlewareGame(ILogger logger)
             : base(MachineType.WPC, logger)
         {
+            keyboardController = new KeyboardController();
+        }
+
+        /// <summary>
+        /// Overridden functionality that gets events from the proc as well as the keyboard triggered switch events
+        /// </summary>
+        /// <returns>A list of keyboard and playfield switch triggered events</returns>
+        public override Event[] get_events()
+        {
+            Event[] events = _proc.get_events();
+            List<Event> eventList = new List<Event>(events);
+            return events;
         }
 
         public void setup()
@@ -33,6 +48,7 @@ namespace XNAPinProc.Middleware
             setup_ball_search();
 
             // Intantiate basic game features
+            system = new SystemBase(this);
             attract = new Attract(this);
             _base_game_mode = new BaseGameMode(this);
 
@@ -51,6 +67,13 @@ namespace XNAPinProc.Middleware
             trough.num_balls_to_save = new GetNumBallsToSaveHandler(ball_save.get_num_balls_to_save);
             ball_save.trough_enable_ball_save = new BallSaveEnable(trough.enable_ball_save);
             
+            // Add keyboard switch maps
+            keyboardController.KeySwitchMap.Add(Microsoft.Xna.Framework.Input.Keys.S, Switches["startButton"].Number);
+            keyboardController.KeySwitchMap.Add(Microsoft.Xna.Framework.Input.Keys.Enter, Switches["enter"].Number);
+            keyboardController.KeySwitchMap.Add(Microsoft.Xna.Framework.Input.Keys.X, Switches["exit"].Number);
+            keyboardController.KeySwitchMap.Add(Microsoft.Xna.Framework.Input.Keys.U, Switches["up"].Number);
+            keyboardController.KeySwitchMap.Add(Microsoft.Xna.Framework.Input.Keys.D, Switches["down"].Number);
+
             // Instead of resetting everything here as well as when a user initiated reset occurs, do everything in
             // this.reset and call it now and during a user initiated reset
             this.Reset();
@@ -65,6 +88,7 @@ namespace XNAPinProc.Middleware
         {
             base.Reset();
             // Add the basic modes to the queue
+            _modes.Add(system);
             _modes.Add(attract);
             _modes.Add(ball_save);
             _modes.Add(trough);
