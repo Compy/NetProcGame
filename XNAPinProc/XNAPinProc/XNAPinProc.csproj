@@ -110,8 +110,6 @@
     <Compile Include="Camera.cs" />
     <Compile Include="HeaderDisplay.cs" />
     <Compile Include="KeyboardController.cs" />
-    <Compile Include="Menus\MenuItem.cs" />
-    <Compile Include="Menus\MenuList.cs" />
     <Compile Include="Middleware\Game.cs" />
     <Compile Include="Middleware\Modes\Attract.cs" />
     <Compile Include="Middleware\Modes\BaseGameMode.cs" />
@@ -122,6 +120,8 @@
     <Compile Include="ScreenManager.cs" />
     <Compile Include="Screens\AttractScreen.cs" />
     <Compile Include="Screens\ErrorScreen.cs" />
+    <Compile Include="Screens\GameScreen.cs" />
+    <Compile Include="Screens\InputState.cs" />
     <Compile Include="Screens\SettingsMenu.cs" />
     <Compile Include="Screens\LoadingScreen.cs" />
     <Compile Include="Screens\SettingsScreenBase.cs" />
@@ -173,6 +173,9 @@
     <None Include="Configuration\machine.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Menus\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />

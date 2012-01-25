@@ -30,7 +30,7 @@ namespace XNAPinProc
         private BackgroundWorker middlewareThread;
         private KeyboardState oldKeyboardState;
 
-        private ErrorScreen errorScreen;
+        //private ErrorScreen errorScreen;
 
         private bool flipScreen = false;
         public bool FlipScreen
@@ -84,6 +84,7 @@ namespace XNAPinProc
             headerDisplay = new HeaderDisplay();
             camera = new Camera();
             camera.ScreenFlipped = flipScreen;
+            /*
             errorScreen = new ErrorScreen(GraphicsDevice);
             SCREEN_MANAGER.add_screen(new LoadingScreen(GraphicsDevice));
             SCREEN_MANAGER.add_screen(new SettingsMenu(GraphicsDevice));
@@ -91,6 +92,7 @@ namespace XNAPinProc
             SCREEN_MANAGER.add_screen(new SystemInfoScreen(GraphicsDevice));
             SCREEN_MANAGER.add_screen(errorScreen);
             SCREEN_MANAGER.goto_screen("LoadingScreen");
+             */
 
             oldKeyboardState = Keyboard.GetState();
 
@@ -114,39 +116,12 @@ namespace XNAPinProc
             }
             catch (Exception ex)
             {
-                errorScreen.Title = "Device Communication Error";
+                //errorScreen.Title = "Device Communication Error";
                 //errorScreen.ErrorText = "Communication with the P-ROC has been lost. Please make sure the device is plugged into the USB port and is powered on.\n\nPress 'Q' to exit PCS into Windows";
-                errorScreen.ErrorText = ex.ToString();
+                //errorScreen.ErrorText = ex.ToString();
                 System.Threading.Thread.Sleep(1000);
-                SCREEN_MANAGER.goto_screen("ErrorScreen");
+                //SCREEN_MANAGER.goto_screen("ErrorScreen");
             }
-        }
-
-        private void ProcessKeyboard()
-        {
-            KeyboardState kbState = Keyboard.GetState();
-            if (kbState.IsKeyDown(Keys.F) && oldKeyboardState.IsKeyUp(Keys.F))
-            {
-                FlipScreen = !FlipScreen;
-                camera.ScreenFlipped = FlipScreen;
-            }
-            else if (kbState.IsKeyDown(Keys.D) && oldKeyboardState.IsKeyUp(Keys.D))
-            {
-                SCREEN_MANAGER.goto_screen("SettingsMenu");
-            }
-            else if (kbState.IsKeyDown(Keys.B) && oldKeyboardState.IsKeyUp(Keys.B))
-            {
-                SCREEN_MANAGER.go_back();
-            }
-            else if (kbState.IsKeyDown(Keys.A) && oldKeyboardState.IsKeyUp(Keys.A))
-                SCREEN_MANAGER.goto_screen("AttractScreen");
-            else if (kbState.IsKeyDown(Keys.Q) && oldKeyboardState.IsKeyUp(Keys.Q))
-            {
-                System.Diagnostics.Process.Start(@"C:\Windows\explorer.exe");
-                this.Exit();
-            }
-
-            oldKeyboardState = kbState;
         }
 
         /// <summary>
@@ -159,7 +134,7 @@ namespace XNAPinProc
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            SCREEN_MANAGER.Init();
+            //SCREEN_MANAGER.Init();
         }
 
         /// <summary>
@@ -183,9 +158,8 @@ namespace XNAPinProc
                 this.Exit();
 
             // TODO: Add your update logic here
-            SCREEN_MANAGER.Update(gameTime);
+            //SCREEN_MANAGER.Update(gameTime);
 
-            ProcessKeyboard();
             base.Update(gameTime);
         }
 
@@ -198,7 +172,7 @@ namespace XNAPinProc
             // TODO: Add your drawing code here
             
 
-            SCREEN_MANAGER.Draw(gameTime);
+            //SCREEN_MANAGER.Draw(gameTime);
 
             
             base.Draw(gameTime);

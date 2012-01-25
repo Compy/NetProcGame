@@ -3,119 +3,292 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+
+using XNAPinProc.Screens;
+using System.Diagnostics;
 
 namespace XNAPinProc
 {
     /// <summary>
-    /// Screen Manager
-    /// Keeps a list of available screens
-    /// so you can switch between them, 
-    /// ie. jumping from the start screen to the game screen 
+    /// The screen manager is a component which manages one or more GameScreen
+    /// instances. It maintains a stack of screens, calls their Update and Draw
+    /// methods at the appropriate times, and automatically routes input to the
+    /// topmost active screen.
     /// </summary>
-    public static class SCREEN_MANAGER
+    public class ScreenManager : DrawableGameComponent
     {
-        // Protected Members
-        static private List<Screen> _screens = new List<Screen>();
-        static private bool _started = false;
-        static private Screen _previous = null;
-        // Public Members
-        static public Screen ActiveScreen = null;
+        #region Fields
+
+        List<GameScreen> screens = new List<GameScreen>();
+        List<GameScreen> screensToUpdate = new List<GameScreen>();
+
+        InputState input = new InputState();
+
+        SpriteBatch spriteBatch;
+        SpriteFont font;
+        Texture2D blankTexture;
+
+        bool isInitialized;
+
+        bool traceEnabled;
+
+        #endregion
+
+        #region Properties
+
 
         /// <summary>
-        /// Add new Screen
+        /// A default SpriteBatch shared by all the screens. This saves
+        /// each screen having to bother creating their own local instance.
         /// </summary>
-        /// <param name="screen">New screen, name must be unique</param>
-        static public void add_screen(Screen screen)
+        public SpriteBatch SpriteBatch
         {
-            foreach (Screen scr in _screens)
+            get { return spriteBatch; }
+        }
+
+
+        /// <summary>
+        /// A default font shared by all the screens. This saves
+        /// each screen having to bother loading their own local copy.
+        /// </summary>
+        public SpriteFont Font
+        {
+            get { return font; }
+        }
+
+
+        /// <summary>
+        /// If true, the manager prints out a list of all the screens
+        /// each time it is updated. This can be useful for making sure
+        /// everything is being added and removed at the right times.
+        /// </summary>
+        public bool TraceEnabled
+        {
+            get { return traceEnabled; }
+            set { traceEnabled = value; }
+        }
+
+
+        #endregion
+
+        #region Initialization
+
+
+        /// <summary>
+        /// Constructs a new screen manager component.
+        /// </summary>
+        public ScreenManager(Game game)
+            : base(game)
+        {
+        }
+
+
+        /// <summary>
+        /// Initializes the screen manager component.
+        /// </summary>
+        public override void Initialize()
+        {
+            base.Initialize();
+
+            isInitialized = true;
+        }
+
+
+        /// <summary>
+        /// Load your graphics content.
+        /// </summary>
+        protected override void LoadContent()
+        {
+            // Load content belonging to the screen manager.
+            ContentManager content = Game.Content;
+
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+            font = content.Load<SpriteFont>("menufont");
+            blankTexture = content.Load<Texture2D>("blank");
+
+            // Tell each of the screens to load their content.
+            foreach (GameScreen screen in screens)
             {
-                if (scr.Name == screen.Name)
-                {
-                    return;
-                }
+                screen.LoadContent();
             }
-            _screens.Add(screen);
         }
 
-        static public int get_screen_number()
-        {
-            return _screens.Count;
-        }
-
-        static public Screen get_screen(int idx)
-        {
-            return _screens[idx];
-        }
 
         /// <summary>
-        /// Go to screen
+        /// Unload your graphics content.
         /// </summary>
-        /// <param name="name">Screen name</param>
-        static public void goto_screen(string name)
+        protected override void UnloadContent()
         {
-            foreach (Screen screen in _screens)
+            // Tell each of the screens to unload their content.
+            foreach (GameScreen screen in screens)
             {
-                if (screen.Name == name)
+                screen.UnloadContent();
+            }
+        }
+
+
+        #endregion
+
+        #region Update and Draw
+
+
+        /// <summary>
+        /// Allows each screen to run logic.
+        /// </summary>
+        public override void Update(GameTime gameTime)
+        {
+            // Read the keyboard and gamepad.
+            input.Update();
+
+            // Make a copy of the master screen list, to avoid confusion if
+            // the process of updating one screen adds or removes others.
+            screensToUpdate.Clear();
+
+            foreach (GameScreen screen in screens)
+                screensToUpdate.Add(screen);
+
+            bool otherScreenHasFocus = !Game.IsActive;
+            bool coveredByOtherScreen = false;
+
+            // Loop as long as there are screens waiting to be updated.
+            while (screensToUpdate.Count > 0)
+            {
+                // Pop the topmost screen off the waiting list.
+                GameScreen screen = screensToUpdate[screensToUpdate.Count - 1];
+
+                screensToUpdate.RemoveAt(screensToUpdate.Count - 1);
+
+                // Update the screen.
+                screen.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
+
+                if (screen.ScreenState == ScreenState.TransitionOn ||
+                    screen.ScreenState == ScreenState.Active)
                 {
-                    // Shutsdown Previous Screen           
-                    _previous = ActiveScreen;
-                    if (ActiveScreen != null)
+                    // If this is the first active screen we came across,
+                    // give it a chance to handle input.
+                    if (!otherScreenHasFocus)
                     {
-                        ActiveScreen.Shutdown();
+                        screen.HandleInput(input);
+
+                        otherScreenHasFocus = true;
                     }
-                    // Inits New Screen
-                    ActiveScreen = screen;
-                    if (_started) ActiveScreen.Init();
-                    return;
+
+                    // If this is an active non-popup, inform any subsequent
+                    // screens that they are covered by it.
+                    if (!screen.IsPopup)
+                        coveredByOtherScreen = true;
                 }
             }
-        }
 
-        /// <summary>
-        /// Init Screen manager
-        /// Only at this point is screen manager going to init the selected screen
-        /// </summary>
-        static public void Init()
-        {
-            _started = true;
-            if (ActiveScreen != null)
-            {
-                ActiveScreen.Init();
-            }
-        }
-        /// <summary>
-        /// Falls back to previous selected screen if any
-        /// </summary>
-        static public void go_back()
-        {
-            if (_previous != null)
-            {
-                goto_screen(_previous.Name);
-                return;
-            }
+            // Print debug trace?
+            if (traceEnabled)
+                TraceScreens();
         }
 
 
         /// <summary>
-        /// Updates Active Screen
+        /// Prints a list of all the screens, for debugging.
         /// </summary>
-        /// <param name="elapsed">GameTime</param>
-        static public void Update(GameTime gameTime)
+        void TraceScreens()
         {
-            if (_started == false) return;
-            if (ActiveScreen != null)
+            List<string> screenNames = new List<string>();
+
+            foreach (GameScreen screen in screens)
+                screenNames.Add(screen.GetType().Name);
+
+            Debug.WriteLine(string.Join(", ", screenNames.ToArray()));
+        }
+
+
+        /// <summary>
+        /// Tells each screen to draw itself.
+        /// </summary>
+        public override void Draw(GameTime gameTime)
+        {
+            foreach (GameScreen screen in screens)
             {
-                ActiveScreen.Update(gameTime);
+                if (screen.ScreenState == ScreenState.Hidden)
+                    continue;
+
+                screen.Draw(gameTime);
             }
         }
 
-        static public void Draw(GameTime gameTime)
+
+        #endregion
+
+        #region Public Methods
+
+
+        /// <summary>
+        /// Adds a new screen to the screen manager.
+        /// </summary>
+        public void AddScreen(GameScreen screen, PlayerIndex? controllingPlayer)
         {
-            if (_started == false) return;
-            if (ActiveScreen != null)
+            screen.ControllingPlayer = controllingPlayer;
+            screen.ScreenManager = this;
+            screen.IsExiting = false;
+
+            // If we have a graphics device, tell the screen to load content.
+            if (isInitialized)
             {
-                ActiveScreen.Draw(gameTime);
+                screen.LoadContent();
             }
+
+            screens.Add(screen);
         }
+
+
+        /// <summary>
+        /// Removes a screen from the screen manager. You should normally
+        /// use GameScreen.ExitScreen instead of calling this directly, so
+        /// the screen can gradually transition off rather than just being
+        /// instantly removed.
+        /// </summary>
+        public void RemoveScreen(GameScreen screen)
+        {
+            // If we have a graphics device, tell the screen to unload content.
+            if (isInitialized)
+            {
+                screen.UnloadContent();
+            }
+
+            screens.Remove(screen);
+            screensToUpdate.Remove(screen);
+        }
+
+
+        /// <summary>
+        /// Expose an array holding all the screens. We return a copy rather
+        /// than the real master list, because screens should only ever be added
+        /// or removed using the AddScreen and RemoveScreen methods.
+        /// </summary>
+        public GameScreen[] GetScreens()
+        {
+            return screens.ToArray();
+        }
+
+
+        /// <summary>
+        /// Helper draws a translucent black fullscreen sprite, used for fading
+        /// screens in and out, and for darkening the background behind popups.
+        /// </summary>
+        public void FadeBackBufferToBlack(float alpha)
+        {
+            Viewport viewport = GraphicsDevice.Viewport;
+
+            spriteBatch.Begin();
+
+            spriteBatch.Draw(blankTexture,
+                             new Rectangle(0, 0, viewport.Width, viewport.Height),
+                             Color.Black * alpha);
+
+            spriteBatch.End();
+        }
+
+
+        #endregion
     }
 }
