@@ -49,6 +49,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="config\MachineConfiguration.cs" />
+    <Compile Include="dmd\AnimatedLayer.cs" />
+    <Compile Include="dmd\Animation.cs" />
+    <Compile Include="dmd\DMDBuffer.cs" />
+    <Compile Include="dmd\DMDGlobals.cs" />
+    <Compile Include="dmd\DMDTypes.cs" />
+    <Compile Include="dmd\Font.cs" />
+    <Compile Include="dmd\Frame.cs" />
+    <Compile Include="dmd\FrameLayer.cs" />
+    <Compile Include="dmd\Layer.cs" />
+    <Compile Include="dmd\TextLayer.cs" />
     <Compile Include="game\AttrCollection.cs" />
     <Compile Include="game\BasicGame.cs" />
     <Compile Include="game\Mode.cs" />
@@ -58,6 +68,7 @@
     <Compile Include="modes\TestMode.cs" />
     <Compile Include="modes\Trough.cs" />
     <Compile Include="tools\ILogger.cs" />
+    <Compile Include="tools\Pair.cs" />
     <Compile Include="YamlConfig.cs" />
     <Compile Include="game\Driver.cs" />
     <Compile Include="game\GameController.cs" />
@@ -75,6 +86,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
