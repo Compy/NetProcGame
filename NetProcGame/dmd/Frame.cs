@@ -35,22 +35,5 @@ namespace NetProcGame.dmd
             frame.set_data(this.get_data());
             return frame;
         }
-
-        public string ascii()
-        {
-            string output = "";
-            char[] table = {' ', '.', '.', '.', ',', ',', ',', '-', '-', '=', '=', '=', '*', '*', '#', '#'};
-            byte dot = 0;
-            for (uint y = 0; y < this.height; y++)
-            {
-                for (uint x = 0; x < this.width; x++)
-                {
-                    dot = this.get_dot(x, y);
-                    output += table[dot & 0xf];
-                }
-                output += "\n";
-            }
-            return output;
-        }
     }
 }

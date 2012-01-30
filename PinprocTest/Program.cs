@@ -4,6 +4,7 @@ using System.Text;
 using System.Yaml.Serialization;
 using NetProcGame;
 using NetProcGame.config;
+using NetProcGame.dmd;
 
 using System.ComponentModel;
 
@@ -19,34 +20,30 @@ namespace PinprocTest
 
         static void Main(string[] args)
         {
+            // Do unit tests 
+            Font f = new Font(@"fonts\Jazz18-18px.dmd");
+            Frame testFrame = new Frame(128, 32);
+            f.draw(testFrame, "NETProcGame", 1, 1);
+
+            bool allZeros = true;
+            for (int i = 0; i < testFrame.frame.buffer.Length; i++)
+            {
+                if (testFrame.frame.buffer[i] != 0)
+                {
+                    Console.WriteLine("Non-zero byte in frame buffer at " + i.ToString());
+                    allZeros = false;
+                }
+            }
+
+            // Ascii checks out good
+
+            string ascii = f.bitmap.ascii();
+
+            if (allZeros)
+                Console.WriteLine("Drawn buffer is all 0s");
+
             System.Threading.Thread.CurrentThread.Name = "Console Thread";
-            //Config cfg = Config.CreateFromFile(@"C:\Users\Jimmy\Documents\Pinball\demo_man\config\dm.yaml");
-
-            //MachineConfiguration mc = new MachineConfiguration();
-            //mc.PRGame.machineType = MachineType.WPC;
-            //mc.PRGame.numBalls = 3;
-            //mc.PRFlippers.Add("flipperLwR");
-            //mc.PRFlippers.Add("flipperLwL");
-            //mc.PRBumpers.Add("leftSling");
-            //mc.AddSwitch("leftInlane", "S23");
-            //mc.AddLamp("startMultiball", "L34");
-            //mc.AddCoil("bottomPopper", "C78");
-            //mc.PRBallSave.PulseCoils.Add("leftSlingshot");
-            //mc.PRBallSave.PulseCoils.Add("rightSlingshot");
-            //mc.PRBallSave.PulseCoils.Add("leftJet");
-            //mc.PRBallSave.PulseCoils.Add("rightJet");
-            //mc.PRBallSave.PulseCoils.Add("bottomJet");
-            //mc.PRBallSave.PulseCoils.Add("eject");
-            //mc.PRBallSave.PulseCoils.Add("topPopper");
-            //mc.PRBallSave.PulseCoils.Add("bottomPopper");
-            //mc.PRBallSave.ResetSwitches.Add("leftSlingshot", "open");
-
-            //string json = mc.ToJSON();
-
-            //MachineConfiguration testmc = MachineConfiguration.FromFile(@"C:\Users\Jimmy\Documents\Pinball\dm_reloaded\config\machine.json");
-
             logger = new ConsoleLogger();
-
             Console.CancelKeyPress += new ConsoleCancelEventHandler(Console_CancelKeyPress);
 
             worker = new BackgroundWorker();
@@ -54,7 +51,7 @@ namespace PinprocTest
 
             worker.DoWork += new DoWorkEventHandler(worker_DoWork);
 
-            worker.RunWorkerAsync();
+            //worker.RunWorkerAsync();
 
             string line = Console.ReadLine();
             while (line != "q" && line != "quit" && line != "exit")

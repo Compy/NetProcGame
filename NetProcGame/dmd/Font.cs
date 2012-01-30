@@ -33,7 +33,7 @@ namespace NetProcGame.dmd
 
         private Animation _anim;
         private uint char_size = 0;
-        private Frame bitmap = null;
+        public Frame bitmap = null;
 
         public Font(string filename = "")
         {
@@ -97,10 +97,11 @@ namespace NetProcGame.dmd
         }
 
         /// <summary>
-        /// Uses this fonts characters to draw th given string at the given position
+        /// Uses this fonts characters to draw the given string at the given position
         /// </summary>
         public void draw(Frame frame, string text, uint x, uint y)
         {
+            Console.WriteLine(String.Format("draw() start at {0}", Time.GetTime()));
             foreach (char ch in text)
             {
                 uint char_offset = (uint)ch - (uint)' ';
@@ -110,9 +111,14 @@ namespace NetProcGame.dmd
                 uint char_x = this.char_size * (char_offset % 10);
                 uint char_y = this.char_size * (char_offset / 10);
                 uint width = this.char_widths[(int)char_offset];
+                Console.WriteLine(String.Format("copy_rect() start at {0}", Time.GetTime()));
                 Frame.copy_rect(frame, x, y, this.bitmap, char_x, char_y, width, this.char_size, this.composite_op);
+                Console.WriteLine(String.Format("copy_rect() ended at {0}", Time.GetTime()));
                 x += width + this.tracking;
             }
+            //string theAscii = frame.ascii();
+            Console.WriteLine(String.Format("draw() end at {0}", Time.GetTime()));
+            Console.WriteLine("font.draw() called");
         }
 
         /// <summary>

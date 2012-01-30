@@ -71,9 +71,27 @@ namespace NetProcGame.dmd
 
         public void copy_to_rect(ref DMDBuffer dst, uint dst_x, uint dst_y, uint src_x, uint src_y, uint width, uint height, DMDBlendMode mode = DMDBlendMode.DMDBlendModeCopy)
         {
+            string srcAscii = ascii();
             DMDRect srcRect = DMDGlobals.DMDRectMake(src_x, src_y, width, height);
             DMDPoint dstPoint = DMDGlobals.DMDPointMake(dst_x, dst_y);
             DMDGlobals.DMDFrameCopyRect(ref frame, srcRect, ref dst.frame, dstPoint, mode);
+        }
+
+        public string ascii()
+        {
+            string output = "";
+            char[] table = { ' ', '.', '.', '.', ',', ',', ',', '-', '-', '=', '=', '=', '*', '*', '#', '#' };
+            byte dot = 0;
+            for (uint y = 0; y < this.frame.size.height; y++)
+            {
+                for (uint x = 0; x < this.frame.size.width; x++)
+                {
+                    dot = this.get_dot(x, y);
+                    output += table[dot & 0xf];
+                }
+                output += "\n";
+            }
+            return output;
         }
     }
 }

@@ -93,6 +93,7 @@ namespace NetProcGame.dmd
             uint width = dstRect.size.width;
             uint height = dstRect.size.height;
             uint x, y;
+            byte dot;
 
             if (blendMode == DMDBlendMode.DMDBlendModeCopy)
             {
@@ -100,8 +101,9 @@ namespace NetProcGame.dmd
                 {
                     for (x = 0; x < width; x++)
                     {
-                        DMDFrameSetDot(ref dst, DMDPointMake(dstRect.origin.x, dstRect.origin.y + y),
-                            DMDFrameGetDot(ref src, DMDPointMake(srcRect.origin.x, srcRect.origin.y + y)));
+                        dot = DMDFrameGetDot(ref src, srcRect.origin.x + x, srcRect.origin.y + y);
+                        DMDFrameSetDot(ref dst, dstRect.origin.x + x, dstRect.origin.y + y,
+                            dot);
                     }
                 }
             }
