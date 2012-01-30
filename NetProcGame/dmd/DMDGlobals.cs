@@ -83,6 +83,7 @@ namespace NetProcGame.dmd
 
         public static void DMDFrameCopyRect(ref DMDFrame src, DMDRect srcRect, ref DMDFrame dst, DMDPoint dstPoint, DMDBlendMode blendMode)
         {
+            double startTime = tools.Time.GetTime();
             srcRect = DMDRectIntersection(DMDFrameGetBounds(ref src), srcRect);
             DMDRect dstRect = DMDRectIntersection(DMDFrameGetBounds(ref dst),
                                 DMDRectMake(dstPoint.x, dstPoint.y, srcRect.size.width, srcRect.size.height));
@@ -164,6 +165,7 @@ namespace NetProcGame.dmd
             else if (blendMode == DMDBlendMode.DMDBlendModeAlphaBoth)
             {
             }
+            Console.WriteLine("     DMDFrameCopyRect total time: {0}ms", (tools.Time.GetTime() - startTime) * 1000);
 
         }
 

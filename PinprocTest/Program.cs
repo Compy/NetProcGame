@@ -22,25 +22,13 @@ namespace PinprocTest
         {
             // Do unit tests 
             Font f = new Font(@"fonts\Jazz18-18px.dmd");
+            TextLayer l = new TextLayer(1, 1, f, FontJustify.Center);
             Frame testFrame = new Frame(128, 32);
-            f.draw(testFrame, "NETProcGame", 1, 1);
-
-            bool allZeros = true;
-            for (int i = 0; i < testFrame.frame.buffer.Length; i++)
-            {
-                if (testFrame.frame.buffer[i] != 0)
-                {
-                    Console.WriteLine("Non-zero byte in frame buffer at " + i.ToString());
-                    allZeros = false;
-                }
-            }
-
+            l.set_text("Test");
+            l.composite_next(testFrame);
             // Ascii checks out good
 
-            string ascii = f.bitmap.ascii();
-
-            if (allZeros)
-                Console.WriteLine("Drawn buffer is all 0s");
+            string ascii = testFrame.ascii();
 
             System.Threading.Thread.CurrentThread.Name = "Console Thread";
             logger = new ConsoleLogger();

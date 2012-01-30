@@ -98,6 +98,7 @@ namespace NetProcGame.dmd
                 else
                     this.blink_frames_counter--;
             }
+            string ascii = this.frame.ascii();
             return this.frame;
         }
 

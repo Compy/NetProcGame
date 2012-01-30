@@ -111,12 +111,9 @@ namespace NetProcGame.dmd
                 uint char_x = this.char_size * (char_offset % 10);
                 uint char_y = this.char_size * (char_offset / 10);
                 uint width = this.char_widths[(int)char_offset];
-                Console.WriteLine(String.Format("copy_rect() start at {0}", Time.GetTime()));
                 Frame.copy_rect(frame, x, y, this.bitmap, char_x, char_y, width, this.char_size, this.composite_op);
-                Console.WriteLine(String.Format("copy_rect() ended at {0}", Time.GetTime()));
                 x += width + this.tracking;
             }
-            //string theAscii = frame.ascii();
             Console.WriteLine(String.Format("draw() end at {0}", Time.GetTime()));
             Console.WriteLine("font.draw() called");
         }
