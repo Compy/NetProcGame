@@ -134,6 +134,11 @@ namespace NetProcGame.game
             }
         }
 
+        public double last_time_changed
+        {
+            get { return _last_time_changed; }
+        }
+
         public override string ToString()
         {
             return String.Format("<Driver name={0} number={1}>", this.Name, this.Number);

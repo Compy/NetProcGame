@@ -32,6 +32,8 @@ namespace NetProcGame
 
             g_machineType = machineType;
 
+            dmdConfigured = false;
+
             ProcHandle = PinProc.PRCreate(machineType);
             if (ProcHandle == IntPtr.Zero)
                 throw new InvalidOperationException(PinProc.PRGetLastErrorText());
@@ -319,8 +321,22 @@ namespace NetProcGame
             dmdConfig.DeHighCycles[3] = 377;
         }
 
-        public void dmd_draw()
+        public void dmd_draw(byte[] bytes)
         {
+            if (!dmdConfigured)
+            {
+                DMDConfig dmdConfig = new DMDConfig(kDMDColumns,kDMDRows);
+                DMDConfigPopulateDefaults(ref dmdConfig);
+                PinProc.PRDMDUpdateConfig(ProcHandle, ref dmdConfig);
+                dmdConfigured = true;
+            }
+
+            PinProc.PRDMDDraw(ProcHandle, bytes);
+        }
+
+        public void dmd_draw(dmd.Frame frame)
+        {
+            dmd_draw(frame.get_data());
         }
 
         public void set_dmd_color_mapping()

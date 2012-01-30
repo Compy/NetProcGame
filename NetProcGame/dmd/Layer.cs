@@ -32,12 +32,12 @@ namespace NetProcGame.dmd
         /// <summary>
         /// Translation component used in addition to 'target_x' as this layer's final compositing position
         /// </summary>
-        public uint target_x_offset = 0;
+        public int target_x_offset = 0;
 
         /// <summary>
         /// Translation component used in addition to 'target_y' as this layer's final compositing position
         /// </summary>
-        public uint target_y_offset = 0;
+        public int target_y_offset = 0;
 
         /// <summary>
         /// If false, the DisplayController will ignore this layer
@@ -88,7 +88,7 @@ namespace NetProcGame.dmd
         /// <returns></returns>
         public virtual Frame composite_next(Frame target)
         {
-            Frame src = this.next_frame();
+            Frame src = next_frame();
             if (src != null)
             {
                 if (transition != null)
@@ -96,7 +96,7 @@ namespace NetProcGame.dmd
                     //src = this.transition.next_frame(target, src)
                 }
                 
-                Frame.copy_rect(target, this.target_x + this.target_x_offset, this.target_y + this.target_y_offset, src, 0, 0, src.width, src.height, this.composite_op);
+                Frame.copy_rect(target, (uint)(this.target_x + this.target_x_offset), (uint)(this.target_y + this.target_y_offset), src, 0, 0, src.width, src.height, this.composite_op);
             }
             return src;
         }

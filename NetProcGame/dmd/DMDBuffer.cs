@@ -17,12 +17,18 @@ namespace NetProcGame.dmd
         {
             frame.buffer = null;
         }
+
+        public void clear()
+        {
+            Array.Clear(frame.buffer, 0, 0);
+        }
+
         public void set_data(byte[,] data)
         {
             uint frame_size = DMDGlobals.DMDFrameGetBufferSize(ref frame);
             if (data.Length != frame_size)
             {
-                throw new Exception("Buffer length is incorrect");
+                throw new Exception("Buffer length is incorrect (" + data.Length.ToString() + " != " + frame_size.ToString() + ")");
             }
             Buffer.BlockCopy(data, 0, frame.buffer, 0, (int)frame_size);
         }
@@ -35,15 +41,9 @@ namespace NetProcGame.dmd
             }
             Buffer.BlockCopy(data, 0, frame.buffer, 0, (int)frame_size);
         }
-        public byte[,] get_data()
+        public byte[] get_data()
         {
             return frame.buffer;
-        }
-        public byte[] get_data_flat()
-        {
-            byte[] result = new byte[frame.buffer.Length];
-            Array.Copy(frame.buffer, result, result.Length);
-            return result;
         }
         public byte get_dot(uint x, uint y)
         {
@@ -51,7 +51,7 @@ namespace NetProcGame.dmd
             {
                 throw new Exception("X or Y are out of range");
             }
-            return frame.buffer[x, y];
+            return DMDGlobals.DMDFrameGetDot(ref frame, x, y);
         }
         public void set_dot(uint x, uint y, byte value)
         {
@@ -59,7 +59,7 @@ namespace NetProcGame.dmd
             {
                 throw new Exception("X or Y are out of range");
             }
-            frame.buffer[x, y] = value;
+            DMDGlobals.DMDFrameSetDot(ref frame, x, y, value);
         }
 
         public void fill_rect(uint x, uint y, uint width, uint height, byte value)

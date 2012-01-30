@@ -1,0 +1,77 @@
+coil:jetsFlasher           |   .
+coil:rightRampUpFlasher    |        . 
+coil:rightRampFlasher      |              .
+coil:divertorFlasher       |                    . 
+coil:sideRampFlasher       |                           .
+coil:lowerReboundFlasher   |                                    .
+ballSave                | [          ]
+fortressMultiball       | [          ]
+museumMultiball         | [          ]
+cryoprisonMultiball     | [          ]
+wastelandMultiball      | [          ]
+shootAgain              | [          ]
+accessClaw              | [          ]
+leftRampExplode         |     [          ]
+rightRampJackpot        |     [          ]
+rightLoopExplode        |     [          ]
+lightQuickFreeze        |     [          ]
+freeze4                 |     [          ]
+clawReady               |     [          ]
+freeze3                 |     [          ]
+freeze2                 |        [          ]
+freeze1                 |        [          ]
+rightLoopJackpot        |        [          ]
+standup5                |        [          ]
+rightRampArrow          |        [          ]
+leftRampJackpot         |        [          ]
+leftLoopJackpot         |        [          ]
+carCrashTop             |        [          ]
+standup1                |        [          ]
+carCrashCenter          |            [          ]
+rightRampExplode        |            [          ]
+rightRampCarChase       |            [          ]
+quickFreeze             |            [          ]
+leftRampCarChase        |            [          ]
+extraBall               |            [          ]
+startMultiball          |            [          ]
+carCrashBottom          |            [          ]
+leftLoopExplode         |            [          ]
+undergroundArrow        |                [          ]
+undergroundJackpot      |                [          ]
+standup2                |                [          ]
+leftRampArrow           |                [          ]
+sideRampJackpot         |                [          ]
+sideRampArrow           |                [          ]
+leftLoopArrow           |                [          ]
+centerRampJackpot       |                [          ]
+clawCaptureSimon        |                [          ]
+clawSuperJets           |                [          ]
+clawPrisonBreak         |                [          ]
+clawFreeze              |                   [          ]
+clawAcmag               |                   [          ]
+middleRollOver          |                   [          ]
+topRollOver             |                   [          ]
+lowerRollOver           |                   [          ]
+superJackpot            |                   [          ]
+computer                |                   [          ]
+demoTime                |                   [          ]
+standup4                |                       [          ]
+standup3                |                       [          ]
+retinaScan              |                       [          ]
+centerRampMiddle        |                       [          ]
+centerRampOuter         |                       [          ]
+centerRampInner         |                       [          ]
+centerRampArrow         |                       [          ]
+rightLoopArrow          |                       [          ]
+#coil:clawFlasher           |   .       .      .      .      .      .      .      .      .      .      .
+#coil:leftRampUpFlasher     |     .       .      .      .      .      .      .      .      .      .      .
+#coil:leftRampLwrFlasher     |   .      .       .      .      .      .      .      .      .      .      .
+#coil:carChaseCenterFlasher |       .       .      .      .      .      .      .      .      .      .    .
+#coil:carChaseLowerFlasher  |     .       .      .      .      .      .      .      .      .      .      .
+#coil:ejectFlasher          |       .       .      .      .      .      .      .      .      .      .    .
+#coil:carChaseUpFlasher     |     .       .      .      .      .      .      .      .      .      .      .
+#coil:lowerReboundFlasher   |   .      .       .      .      .      .      .      .      .      .      .
+#coil:eyeBallFlasher        |       .       .      .      .      .      .      .      .      .      .    .
+#coil:centerRampFlasher     |     .       .      .      .      .      .      .      .      .      .      .
+#coil:elevator2Flasher      |   .      .       .      .      .      .      .      .      .      .      .
+#coil:elevator1Flasher      |       .       .      .      .      .      .      .      .      .      .    .

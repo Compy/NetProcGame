@@ -24,7 +24,7 @@ namespace NetProcGame.dmd
     public struct DMDFrame
     {
         public DMDSize size;
-        public byte[,] buffer;
+        public byte[] buffer;
     }
 
     public enum DMDBlendMode

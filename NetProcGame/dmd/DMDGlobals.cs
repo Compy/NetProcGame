@@ -32,13 +32,16 @@ namespace NetProcGame.dmd
         public static uint DMDRectGetMaxX(DMDRect r) { return r.origin.x + r.size.width; }
         public static uint DMDRectGetMaxY(DMDRect r) { return r.origin.y + r.size.height; }
 
-        public static byte DMDFrameGetDot(ref DMDFrame frame, DMDPoint p) { return frame.buffer[p.x, p.y]; }
-        public static void DMDFrameSetDot(ref DMDFrame frame, DMDPoint p, byte c) { frame.buffer[p.x, p.y] = c; }
+        public static byte DMDFrameGetDot(ref DMDFrame frame, DMDPoint p) { return frame.buffer[p.y * frame.size.width + p.x]; }
+        public static byte DMDFrameGetDot(ref DMDFrame frame, uint x, uint y) { return frame.buffer[y * frame.size.width + x]; }
+        
+        public static void DMDFrameSetDot(ref DMDFrame frame, DMDPoint p, byte c) { frame.buffer[p.y * frame.size.width + p.x] = c; }
+        public static void DMDFrameSetDot(ref DMDFrame frame, uint x, uint y, byte c) { frame.buffer[y * frame.size.width + x] = c; }
 
         public static DMDFrame DMDFrameCreate(DMDSize size)
         {
             DMDFrame result = new DMDFrame();
-            result.buffer = new byte[size.width, size.height];
+            result.buffer = new byte[size.width * size.height];
             result.size = size;
             return result;
         }
@@ -62,7 +65,7 @@ namespace NetProcGame.dmd
 
         public static uint DMDFrameGetBufferSize(ref DMDFrame frame)
         {
-            return frame.size.width * frame.size.height + sizeof(char);
+            return frame.size.width * frame.size.height;
         }
 
         public static void DMDFrameFillRect(ref DMDFrame frame, DMDRect rect, byte color)
@@ -75,7 +78,7 @@ namespace NetProcGame.dmd
             uint x, y;
             for (x = DMDRectGetMinX(rect); x < maxX; x++)
                 for (y = DMDRectGetMinY(rect); y < maxY; y++)
-                    frame.buffer[x, y] = color;
+                    DMDFrameSetDot(ref frame, x, y, color);
         }
 
         public static void DMDFrameCopyRect(ref DMDFrame src, DMDRect srcRect, ref DMDFrame dst, DMDPoint dstPoint, DMDBlendMode blendMode)

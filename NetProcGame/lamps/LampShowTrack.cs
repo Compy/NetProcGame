@@ -18,7 +18,7 @@ namespace NetProcGame.lamps
         /// <summary>
         /// Sequence of 32-bit schedule values
         /// </summary>
-        public List<int> schedules;
+        public List<uint> schedules;
 
         /// <summary>
         /// Index into the schedules list
@@ -30,14 +30,17 @@ namespace NetProcGame.lamps
         /// </summary>
         public Driver driver = null;
 
+        private uint static31shift;
+
         public LampShowTrack(string line)
         {
+            this.static31shift = BitConverter.ToUInt32(BitConverter.GetBytes(1 << 31), 0);
             this.load_from_line(line);
         }
 
         public void load_from_line(string line)
         {
-            Regex line_re = new Regex(@"(?P<name>\S+)\s*\| (?P<data>.*)$");
+            Regex line_re = new Regex(@"(?<name>\S+)\s*\| (?<data>.*)$");
             Match m = line_re.Match(line);
 
             if (m == null)
@@ -47,17 +50,17 @@ namespace NetProcGame.lamps
             string data = m.Groups["data"].Value + new string(' ', 32);
             data = LampshowUtils.expand_line(data);
 
-            int bits = 0;
+            uint bits = 0;
             uint bit_count = 0;
             bool ignore_first = true;
-            this.schedules = new List<int>();
+            this.schedules = new List<uint>();
             foreach (char ch in data)
             {
                 bits >>= 1;
                 bit_count++;
 
                 if (ch != ' ')
-                    bits |= 1 << 31;
+                    bits |= static31shift;
                 if (bit_count % 16 == 0)
                 {
                     if (!ignore_first)

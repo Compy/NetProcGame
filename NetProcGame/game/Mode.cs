@@ -36,6 +36,8 @@ namespace NetProcGame.game
         public const bool SWITCH_STOP = true;
         public const bool SWITCH_CONTINUE = false;
 
+        public dmd.Layer layer = null;
+
 
         /// <summary>
         /// Creates a new Mode

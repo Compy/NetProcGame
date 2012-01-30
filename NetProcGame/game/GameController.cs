@@ -152,6 +152,8 @@ namespace NetProcGame.game
         /// </summary>
         public int ball { get; set; }
 
+        public byte[] testFrame;
+
         /// <summary>
         /// Creates a new GameController object with the given machine type and logging infrastructure
         /// </summary>
@@ -171,6 +173,12 @@ namespace NetProcGame.game
             this._gi = new AttrCollection<ushort, string, Driver>();
             this._old_players = new List<Player>();
             this._players = new List<Player>();
+
+            testFrame = new byte[128 * 32];
+            for (int i = 0; i < (128 * 32); i++)
+            {
+                testFrame[i] = 0;
+            }
         }
 
         ~GameController()
@@ -658,7 +666,7 @@ namespace NetProcGame.game
             // DMD events
             else if (evt.Type == EventType.DMDFrameDisplayed)
             {
-                //this.dmd_event();
+                this.dmd_event();
             }
             else
             {
@@ -714,7 +722,14 @@ namespace NetProcGame.game
             }
         }
 
-        public void tick()
+        public virtual void tick()
+        {
+        }
+
+        /// <summary>
+        /// Called by the GameController when a DMD event has been received.
+        /// </summary>
+        public virtual void dmd_event()
         {
         }
 
@@ -729,7 +744,7 @@ namespace NetProcGame.game
         {
             long loops = 0;
             _done = false;
-            //dmd_event();
+            dmd_event();
             Event[] events;
             try
             {
@@ -746,7 +761,7 @@ namespace NetProcGame.game
                         }
                     }
 
-                    //this.tick();
+                    this.tick();
                     //tick_virtual_drivers();
                     this._modes.tick();
                     //this.modes.tick();

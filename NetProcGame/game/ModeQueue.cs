@@ -64,5 +64,10 @@ namespace NetProcGame.game
                 _modes[i].mode_tick();
             }
         }
+
+        public List<Mode> Modes
+        {
+            get { return _modes; }
+        }
     }
 }

@@ -15,12 +15,12 @@ namespace NetProcGame.game
         /// <summary>
         /// This player's score
         /// </summary>
-        protected int _score = 0;
+        public int score { get; set; }
 
         /// <summary>
         /// This players name (optional)
         /// </summary>
-        protected string _name = "";
+        public string name { get; set; }
 
         /// <summary>
         /// The number of extra balls this player has accumulated
@@ -34,7 +34,7 @@ namespace NetProcGame.game
 
         public Player(string name)
         {
-            this._name = name;
+            this.name = name;
         }
     }
 }

@@ -10,7 +10,9 @@ namespace NetProcGame.lamps
     {
         public static string make_pattern_of_length(int l)
         {
-            string s = ".  .  . . .. .. ... ... .... .... ..... .....".Substring(0, l);
+            string pattern = ".  .  . . .. .. ... ... .... .... ..... .....";
+            if (l > pattern.Length) l = pattern.Length;
+            string s = pattern.Substring(0, l);
             if (s.Length < l)
             {
                 s += String.Concat(Enumerable.Repeat(".", l - s.Length));
