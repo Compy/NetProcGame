@@ -37,7 +37,7 @@ namespace NetProcGame.dmd
             this.width = width;
             this.height = height;
             if (message_font != null)
-                this.message_layer = new TextLayer(width / 2, height - 2 * 7, message_font, FontJustify.Center);
+                this.message_layer = new TextLayer(1, 1, message_font, FontJustify.Center);
 
             // Do two updates to get the "pump primed" ? -- Yeah.
             for (int i = 0; i < 2; i++)
@@ -86,7 +86,6 @@ namespace NetProcGame.dmd
             {
                 this.message_layer.composite_next(frame);
             }
-
             if (frame != null && this.frame_handlers != null)
             {
                 foreach (DMDFrameHandler handler in this.frame_handlers)

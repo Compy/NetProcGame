@@ -69,11 +69,11 @@ namespace NetProcGame.dmd
                 value);
         }
 
-        public void copy_to_rect(ref DMDBuffer dst, uint dst_x, uint dst_y, uint src_x, uint src_y, uint width, uint height, DMDBlendMode mode = DMDBlendMode.DMDBlendModeCopy)
+        public void copy_to_rect(DMDBuffer dst, uint dst_x, uint dst_y, uint src_x, uint src_y, uint width, uint height, DMDBlendMode mode = DMDBlendMode.DMDBlendModeCopy)
         {
             DMDRect srcRect = DMDGlobals.DMDRectMake(src_x, src_y, width, height);
             DMDPoint dstPoint = DMDGlobals.DMDPointMake(dst_x, dst_y);
-            DMDGlobals.DMDFrameCopyRect(ref frame, srcRect, ref dst.frame, dstPoint, mode);
+            DMDGlobals.DMDFrameCopyRect(ref frame, srcRect, ref dst.frame, dstPoint, mode);            
         }
 
         public string ascii()

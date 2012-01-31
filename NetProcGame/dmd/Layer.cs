@@ -95,7 +95,8 @@ namespace NetProcGame.dmd
                 {
                     //src = this.transition.next_frame(target, src)
                 }
-                
+                // src not all zeroes
+                // Target = all zeros here
                 Frame.copy_rect(target, (uint)(this.target_x + this.target_x_offset), (uint)(this.target_y + this.target_y_offset), src, 0, 0, src.width, src.height, this.composite_op);
             }
             return src;

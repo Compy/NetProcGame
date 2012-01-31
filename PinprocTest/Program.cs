@@ -20,16 +20,6 @@ namespace PinprocTest
 
         static void Main(string[] args)
         {
-            // Do unit tests 
-            Font f = new Font(@"fonts\Jazz18-18px.dmd");
-            TextLayer l = new TextLayer(1, 1, f, FontJustify.Center);
-            Frame testFrame = new Frame(128, 32);
-            l.set_text("Test");
-            l.composite_next(testFrame);
-            // Ascii checks out good
-
-            string ascii = testFrame.ascii();
-
             System.Threading.Thread.CurrentThread.Name = "Console Thread";
             logger = new ConsoleLogger();
             Console.CancelKeyPress += new ConsoleCancelEventHandler(Console_CancelKeyPress);
@@ -39,7 +29,7 @@ namespace PinprocTest
 
             worker.DoWork += new DoWorkEventHandler(worker_DoWork);
 
-            //worker.RunWorkerAsync();
+            worker.RunWorkerAsync();
 
             string line = Console.ReadLine();
             while (line != "q" && line != "quit" && line != "exit")

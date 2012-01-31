@@ -18,7 +18,7 @@ namespace NetProcGame.dmd
 
         public static void copy_rect(DMDBuffer dst, uint dst_x, uint dst_y, DMDBuffer src, uint src_x, uint src_y, uint width, uint height, DMDBlendMode mode = DMDBlendMode.DMDBlendModeCopy)
         {
-            src.copy_to_rect(ref dst, dst_x, dst_y, src_x, src_y, width, height, mode);
+            src.copy_to_rect(dst, dst_x, dst_y, src_x, src_y, width, height, mode);
         }
 
         public Frame subframe(uint x, uint y, uint width, uint height)

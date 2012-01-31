@@ -330,7 +330,6 @@ namespace NetProcGame
                 PinProc.PRDMDUpdateConfig(ProcHandle, ref dmdConfig);
                 dmdConfigured = true;
             }
-
             PinProc.PRDMDDraw(ProcHandle, bytes);
         }
 
