@@ -20,6 +20,18 @@ namespace PinprocTest
 
         static void Main(string[] args)
         {
+            Font f = new Font(@"fonts\Font09Bx7.dmd");
+            TextLayer l = new TextLayer(1, 1, f, FontJustify.Right);
+            Frame testFrame = new Frame(128, 32);
+
+            l.set_text("ABC123");
+
+            l.composite_next(testFrame);
+
+            string ascii = l.frame.ascii();
+
+            string result = testFrame.ascii();
+
             System.Threading.Thread.CurrentThread.Name = "Console Thread";
             logger = new ConsoleLogger();
             Console.CancelKeyPress += new ConsoleCancelEventHandler(Console_CancelKeyPress);
@@ -29,7 +41,7 @@ namespace PinprocTest
 
             worker.DoWork += new DoWorkEventHandler(worker_DoWork);
 
-            worker.RunWorkerAsync();
+            //worker.RunWorkerAsync();
 
             string line = Console.ReadLine();
             while (line != "q" && line != "quit" && line != "exit")
@@ -88,6 +100,22 @@ namespace PinprocTest
             game.end_run_loop();
 
             game = null;
+        }
+
+        static string Matrix2String(byte[] matrix)
+        {
+            if (matrix.Length != 4096) return "";
+            string result = "";
+            //public static byte DMDFrameGetDot(ref DMDFrame frame, uint x, uint y) { return frame.buffer[y * frame.size.width + x]; }
+            for (int y = 0; y < 32; y++)
+            {
+                for (int x = 0; x < 128; x++)
+                {
+                    result += matrix[y * 128 + x];
+                }
+                result += "\n";
+            }
+            return result;
         }
     }
 }

@@ -21,8 +21,8 @@ namespace NetProcGame.dmd
         private Font font;
         private double started_at = -1;
         private int seconds = -1;
-        private Frame frame = null;
-        private Frame frame_old = null;
+        public Frame frame = null;
+        public Frame frame_old = null;
         private FontJustify justify = FontJustify.Left;
         private int blink_frames = -1;
         private int blink_frames_counter = 0;
@@ -65,12 +65,12 @@ namespace NetProcGame.dmd
                 }
                 else if (this.justify == FontJustify.Right)
                 {
-                    this.target_x_offset = (int)-(font_size.First);
+                    this.target_x_offset = 0;
                     this.target_y_offset = 0;
                 }
                 else if (this.justify == FontJustify.Center)
                 {
-                    this.target_x_offset = (int)(-(font_size.First) / 2);
+                    this.target_x_offset = 0;
                     this.target_y_offset = 0;
                 }
             }
