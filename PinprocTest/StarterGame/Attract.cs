@@ -5,6 +5,8 @@ using System.Text;
 using NetProcGame;
 using NetProcGame.modes;
 using NetProcGame.game;
+using NetProcGame.dmd;
+using NetProcGame.tools;
 
 namespace PinprocTest.StarterGame
 {
@@ -22,7 +24,26 @@ namespace PinprocTest.StarterGame
             // Lamp show
             change_lampshow();
 
-            this.Game.set_status("This is a test", 30);
+            List<Pair<uint, Layer>> script = new List<Pair<uint, Layer>>();
+
+            TextLayer t = new TextLayer(0, 0, FontManager.instance.font_named("Font09Bx7.dmd"), FontJustify.Center, true);
+            t.set_text("GAME OVER");
+            script.Add(new Pair<uint, Layer>(5, t));
+
+            ///-------
+            GroupedLayer gl = new GroupedLayer(128, 32);
+            t = new TextLayer(0, 0, FontManager.instance.font_named("Font09Bx7.dmd"), FontJustify.Center, true);
+            t.set_text("INSERT COINS", -1, 10);
+            gl.layers.Add(t);
+            t = new TextLayer(10, 0, FontManager.instance.font_named("Font09Bx7.dmd"), FontJustify.Center, true);
+            t.set_text("CREDITS 0");
+            gl.layers.Add(t);
+
+            script.Add(new Pair<uint, Layer>(10, gl));
+            t = new TextLayer(0, 0, FontManager.instance.font_named("Font09Bx7.dmd"), FontJustify.Center, true);
+            t.set_text("HELLO");
+            script.Add(new Pair<uint, Layer>(3, t));
+            this.layer = new ScriptedLayer(128, 32, script);
 
             // Blinky start button
             Game.Lamps["startButton"].Schedule(0x00ff00ff, 0, false);
@@ -53,8 +74,8 @@ namespace PinprocTest.StarterGame
 
         public bool sw_coinDoor_open(Switch sw)
         {
-            Game.Logger.Log("COINDOOR OPEN");
-            Game.set_status("COIN DOOR OPEN");
+            Game.PROC.swCoindoor = true;
+            
             return SWITCH_CONTINUE;
         }
 

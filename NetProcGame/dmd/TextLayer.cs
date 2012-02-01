@@ -39,6 +39,11 @@ namespace NetProcGame.dmd
             this.justify = justify;
             this.blink_frames = -1;
             this.blink_frames_counter = 0;
+
+            if (justify == FontJustify.Center)
+            {
+                this.set_target_position(64, 16);
+            }
         }
 
         /// <summary>
@@ -70,8 +75,8 @@ namespace NetProcGame.dmd
                 }
                 else if (this.justify == FontJustify.Center)
                 {
-                    this.target_x_offset = 0;
-                    this.target_y_offset = 0;
+                    this.target_x_offset = (int)-(font_size.First / 2);
+                    this.target_y_offset = (int)-(font_size.Second / 2);
                 }
             }
         }

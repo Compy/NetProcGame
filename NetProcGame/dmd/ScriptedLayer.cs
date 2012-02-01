@@ -89,19 +89,19 @@ namespace NetProcGame.dmd
             }
             // Composite the current script item's layer
             layer = script_item.Second;
-
             // Do layer transitions here
 
             this.is_new_script_item = false;
 
             if (layer != null)
             {
-                this.buffer.clear();
+                //this.buffer.clear();
+                Array.Clear(this.buffer.frame.buffer, 0, this.buffer.frame.buffer.Length);
 
                 // If the layer is opaque we can composite the last layer onto our buffer first.
                 // This will allow us to do transitions between script frames
-                if (this.last_layer != null && this.opaque)
-                    this.last_layer.composite_next(this.buffer);
+                //if (this.last_layer != null && this.opaque)
+                //    this.last_layer.composite_next(this.buffer);
 
                 layer.composite_next(this.buffer);
                 return this.buffer;

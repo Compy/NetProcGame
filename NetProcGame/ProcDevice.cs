@@ -14,7 +14,11 @@ namespace NetProcGame
         private static bool firstTime = true;
         private bool dmdConfigured = false;
         private int dmdMappingSize = 16;
-        char[] dmdMapping;
+        byte[] dmdMapping;
+
+        byte[] testFrame = new byte[128 * 32];
+
+        public bool swCoindoor = false;
 
         private object procSyncObject = new object();
 
@@ -26,9 +30,9 @@ namespace NetProcGame
 
             Logger.Log("Initializing P-ROC device...");
 
-            dmdMapping = new char[dmdMappingSize];
+            dmdMapping = new byte[dmdMappingSize];
             for (int i = 0; i < dmdMappingSize; i++)
-                dmdMapping[i] = (char)i;
+                dmdMapping[i] = (byte)i;
 
             g_machineType = machineType;
 
@@ -335,10 +339,20 @@ namespace NetProcGame
 
         public void dmd_draw(dmd.Frame frame)
         {
-            dmd_draw(frame.get_data());
+            if (!dmdConfigured)
+            {
+                DMDConfig dmdConfig = new DMDConfig(kDMDColumns, kDMDRows);
+                DMDConfigPopulateDefaults(ref dmdConfig);
+                PinProc.PRDMDUpdateConfig(ProcHandle, ref dmdConfig);
+                dmdConfigured = true;
+            }
+            //dmd_draw(testFrame);
+            byte[] dots = new byte[4*kDMDColumns*kDMDRows/8];
+            dmd.DMDGlobals.DMDFrameCopyPROCSubframes(ref frame.frame, dots, kDMDColumns, kDMDRows, 4, dmdMapping);
+            dmd_draw(dots);
         }
 
-        public void set_dmd_color_mapping()
+        public void set_dmd_color_mapping(byte[] mapping)
         {
         }
 
