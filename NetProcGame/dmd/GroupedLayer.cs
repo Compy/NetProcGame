@@ -19,7 +19,7 @@ namespace NetProcGame.dmd
 
         private Frame buffer;
 
-        public GroupedLayer(uint width, uint height, List<Layer> layers = null)
+        public GroupedLayer(int width, int height, List<Layer> layers = null)
         {
             this.buffer = new Frame(width, height);
             if (layers == null)

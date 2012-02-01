@@ -152,7 +152,7 @@ namespace PinprocTest.StarterGame
             return SWITCH_CONTINUE;
         }
 
-        public StarterGame Game
+        public new StarterGame Game
         {
             get { return (StarterGame)base.Game; }
         }

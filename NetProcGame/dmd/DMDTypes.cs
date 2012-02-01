@@ -7,12 +7,12 @@ namespace NetProcGame.dmd
 {
     public struct DMDPoint
     {
-        public uint x, y;
+        public int x, y;
     }
 
     public struct DMDSize
     {
-        public uint width, height;
+        public int width, height;
     }
 
     public struct DMDRect

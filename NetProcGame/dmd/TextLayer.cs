@@ -27,7 +27,7 @@ namespace NetProcGame.dmd
         private int blink_frames = -1;
         private int blink_frames_counter = 0;
 
-        public TextLayer(uint x, uint y, Font font, FontJustify justify, bool opaque = false)
+        public TextLayer(int x, int y, Font font, FontJustify justify, bool opaque = false)
             : base(opaque)
         {
             this.set_target_position(x, y);
@@ -60,7 +60,7 @@ namespace NetProcGame.dmd
                 this.frame = null;
             else
             {
-                Pair<uint, uint> font_size = this.font.size(text);
+                Pair<int, int> font_size = this.font.size(text);
                 this.frame = new Frame(font_size.First, font_size.Second);
                 this.font.draw(this.frame, text, 0, 0);
                 if (this.justify == FontJustify.Left)

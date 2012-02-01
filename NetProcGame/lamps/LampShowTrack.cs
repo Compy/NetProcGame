@@ -51,7 +51,7 @@ namespace NetProcGame.lamps
             data = LampshowUtils.expand_line(data);
 
             uint bits = 0;
-            uint bit_count = 0;
+            int bit_count = 0;
             bool ignore_first = true;
             this.schedules = new List<uint>();
             foreach (char ch in data)

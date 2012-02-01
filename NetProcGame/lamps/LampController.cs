@@ -93,6 +93,7 @@ namespace NetProcGame.lamps
         public void save_state(string key)
         {
             SavedLampState state = new SavedLampState();
+            state.time_saved = Time.GetTime();
             foreach (Driver lamp in this.game.Lamps.Values)
             {
                 state.lamp_states.Add(lamp.Name, new LampStateRecord(lamp.last_time_changed, lamp.State));
@@ -110,7 +111,7 @@ namespace NetProcGame.lamps
         {
             if (this.saved_state_dicts.ContainsKey(key))
             {
-                uint duration = 0;
+                int duration = 0;
                 SavedLampState state = saved_state_dicts[key];
                 foreach (string lamp_name in state.lamp_states.Keys)
                 {
@@ -131,7 +132,7 @@ namespace NetProcGame.lamps
                             }
                             else
                             {
-                                duration = (uint)time_remaining;
+                                duration = (int)time_remaining;
                             }
                             if (state.lamp_states[lamp_name].state.Timeslots == 0)
                                 this.game.Lamps[lamp_name].Disable();

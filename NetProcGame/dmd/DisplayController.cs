@@ -28,10 +28,10 @@ namespace NetProcGame.dmd
 
         private GameController game;
         private TextLayer message_layer;
-        private uint width = 0;
-        private uint height = 0;
+        private int width = 0;
+        private int height = 0;
 
-        public DisplayController(GameController game, uint width = 128, uint height = 32, Font message_font = null)
+        public DisplayController(GameController game, int width = 128, int height = 32, Font message_font = null)
         {
             this.game = game;
             this.width = width;

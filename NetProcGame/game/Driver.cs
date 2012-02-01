@@ -104,7 +104,7 @@ namespace NetProcGame.game
         /// <param name="schedule"></param>
         /// <param name="cycle_seconds"></param>
         /// <param name="now"></param>
-        public void Schedule(uint schedule, uint cycle_seconds = 0, bool now = true)
+        public void Schedule(uint schedule, int cycle_seconds = 0, bool now = true)
         {
             this._game.PROC.driver_schedule(this._number, schedule, (byte)cycle_seconds, now);
             this._last_time_changed = Time.GetTime();

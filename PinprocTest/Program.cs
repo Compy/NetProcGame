@@ -106,7 +106,7 @@ namespace PinprocTest
         {
             if (matrix.Length != 4096) return "";
             string result = "";
-            //public static byte DMDFrameGetDot(ref DMDFrame frame, uint x, uint y) { return frame.buffer[y * frame.size.width + x]; }
+            //public static byte DMDFrameGetDot(ref DMDFrame frame, int x, int y) { return frame.buffer[y * frame.size.width + x]; }
             for (int y = 0; y < 32; y++)
             {
                 for (int x = 0; x < 128; x++)

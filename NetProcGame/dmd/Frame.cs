@@ -7,21 +7,21 @@ namespace NetProcGame.dmd
 {
     public class Frame : DMDBuffer
     {
-        public uint width = 0;
-        public uint height = 0;
-        public Frame(uint width, uint height)
+        public int width = 0;
+        public int height = 0;
+        public Frame(int width, int height)
             : base(width, height)
         {
             this.width = width;
             this.height = height;
         }
 
-        public static void copy_rect(DMDBuffer dst, uint dst_x, uint dst_y, DMDBuffer src, uint src_x, uint src_y, uint width, uint height, DMDBlendMode mode = DMDBlendMode.DMDBlendModeCopy)
+        public static void copy_rect(DMDBuffer dst, int dst_x, int dst_y, DMDBuffer src, int src_x, int src_y, int width, int height, DMDBlendMode mode = DMDBlendMode.DMDBlendModeCopy)
         {
             src.copy_to_rect(dst, dst_x, dst_y, src_x, src_y, width, height, mode);
         }
 
-        public Frame subframe(uint x, uint y, uint width, uint height)
+        public Frame subframe(int x, int y, int width, int height)
         {
             // Generates a new frame based on a sub rectangle of this frame
             Frame subframe = new Frame(width, height);

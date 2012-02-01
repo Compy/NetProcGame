@@ -22,12 +22,12 @@ namespace NetProcGame.dmd
         /// <summary>
         /// Base 'x' component of the coordinates at which this layer will be composited upon a target buffer
         /// </summary>
-        public uint target_x = 0;
+        public int target_x = 0;
 
         /// <summary>
         /// Base 'y' component of the coordinates at which this layer will be composited upon a target buffer
         /// </summary>
-        public uint target_y = 0;
+        public int target_y = 0;
 
         /// <summary>
         /// Translation component used in addition to 'target_x' as this layer's final compositing position
@@ -64,7 +64,7 @@ namespace NetProcGame.dmd
         {
         }
 
-        public virtual void set_target_position(uint x, uint y)
+        public virtual void set_target_position(int x, int y)
         {
             this.target_x = x;
             this.target_y = y;
@@ -97,7 +97,7 @@ namespace NetProcGame.dmd
                 }
                 // src not all zeroes
                 // Target = all zeros here
-                Frame.copy_rect(target, (uint)(this.target_x + this.target_x_offset), (uint)(this.target_y + this.target_y_offset), src, 0, 0, src.width, src.height, this.composite_op);
+                Frame.copy_rect(target, (int)(this.target_x + this.target_x_offset), (int)(this.target_y + this.target_y_offset), src, 0, 0, src.width, src.height, this.composite_op);
             }
             return src;
         }

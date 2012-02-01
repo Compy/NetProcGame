@@ -12,7 +12,7 @@
 //    {
 //        public Mode mode;
 
-//        public ScoreLayer(uint width, uint height, ScoreDisplay mode)
+//        public ScoreLayer(int width, int height, ScoreDisplay mode)
 //            : base(width, height)
 //        {
 //            this.mode = mode;

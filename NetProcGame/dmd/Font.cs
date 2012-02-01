@@ -19,12 +19,12 @@ namespace NetProcGame.dmd
         /// Array of dot widths for each character, 0-indexed from 'space'.
         /// This array is populated by the load() method
         /// </summary>
-        public List<uint> char_widths = null;
+        public List<int> char_widths = null;
 
         /// <summary>
         /// Number of dots to adjust the horizontal position between characters, in addition to the last chars width.
         /// </summary>
-        public uint tracking = 0;
+        public int tracking = 0;
 
         /// <summary>
         /// Composite operation used by draw() when calling DMDBuffer.copy_rect()
@@ -32,7 +32,7 @@ namespace NetProcGame.dmd
         public DMDBlendMode composite_op = DMDBlendMode.DMDBlendModeCopy;
 
         private Animation _anim;
-        private uint char_size = 0;
+        public int char_size = 0;
         public Frame bitmap = null;
 
         public Font(string filename = "")
@@ -55,7 +55,7 @@ namespace NetProcGame.dmd
         /// <param name="filename"></param>
         public void load(string filename)
         {
-            this.char_widths = new List<uint>();
+            this.char_widths = new List<int>();
             this._anim.load(filename, false);
 
             if (this._anim.width != this._anim.height)
@@ -74,7 +74,7 @@ namespace NetProcGame.dmd
             }
             this.char_size = (this._anim.width / 10);
             this.bitmap = this._anim.frames[0];
-            for (uint i = 0; i < 96; i++)
+            for (int i = 0; i < 96; i++)
             {
                 this.char_widths.Add(this._anim.frames[1].get_dot(i % _anim.width, i / _anim.width));
             }
@@ -90,7 +90,7 @@ namespace NetProcGame.dmd
             result.height = this._anim.height;
             result.frames.Add(this.bitmap);
             result.frames.Add(new Frame(result.width, result.height));
-            for (uint i = 0; i < 96; i++)
+            for (int i = 0; i < 96; i++)
             {
                 result.frames[1].set_dot(i % _anim.width, i / _anim.width, (byte)this.char_widths[(int)i]);
             }
@@ -99,18 +99,18 @@ namespace NetProcGame.dmd
         /// <summary>
         /// Uses this fonts characters to draw the given string at the given position
         /// </summary>
-        public void draw(Frame frame, string text, uint x, uint y)
+        public void draw(Frame frame, string text, int x, int y)
         {
             Console.WriteLine(String.Format("draw() start at {0}", Time.GetTime()));
             foreach (char ch in text)
             {
-                uint char_offset = (uint)ch - (uint)' ';
+                int char_offset = (int)ch - (int)' ';
                 if (char_offset < 0 || char_offset >= 96)
                     continue;
 
-                uint char_x = this.char_size * (char_offset % 10);
-                uint char_y = this.char_size * (char_offset / 10);
-                uint width = this.char_widths[(int)char_offset];
+                int char_x = this.char_size * (char_offset % 10);
+                int char_y = this.char_size * (char_offset / 10);
+                int width = this.char_widths[(int)char_offset];
                 Frame.copy_rect(frame, x, y, this.bitmap, char_x, char_y, width, this.char_size, this.composite_op);
                 x += width + this.tracking;
             }
@@ -121,20 +121,20 @@ namespace NetProcGame.dmd
         /// <summary>
         /// Returns a tuple of the width and height of this text as rendered with this font.
         /// </summary>
-        public Pair<uint, uint> size(string text)
+        public Pair<int, int> size(string text)
         {
-            uint x = 0;
-            uint char_offset = 0;
+            int x = 0;
+            int char_offset = 0;
             foreach (char ch in text)
             {
-                char_offset = (uint)ch - (uint)' ';
+                char_offset = (int)ch - (int)' ';
                 if (char_offset < 0 || char_offset >= 96)
                     continue;
 
-                uint width = this.char_widths[(int)char_offset];
+                int width = this.char_widths[(int)char_offset];
                 x += width + this.tracking;
             }
-            return new Pair<uint, uint>(x, this.char_size);
+            return new Pair<int, int>(x, this.char_size);
         }
     }
 }

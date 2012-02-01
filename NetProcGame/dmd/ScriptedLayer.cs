@@ -21,15 +21,15 @@ namespace NetProcGame.dmd
     public class ScriptedLayer : Layer
     {
         private Frame buffer;
-        private List<Pair<uint, Layer>> script;
-        private uint script_index = 0;
+        private List<Pair<int, Layer>> script;
+        private int script_index = 0;
         private double frame_start_time = -1;
         private Direction force_direction = Direction.None;
         private Delegate on_complete = null;
         private bool is_new_script_item = true;
         private Layer last_layer = null;
 
-        public ScriptedLayer(uint width, uint height, List<Pair<uint, Layer>> script)
+        public ScriptedLayer(int width, int height, List<Pair<int, Layer>> script)
         {
             this.buffer = new Frame(width, height);
             this.script = script;
@@ -47,7 +47,7 @@ namespace NetProcGame.dmd
             if (this.frame_start_time == -1)
                 this.frame_start_time = Time.GetTime();
 
-            Pair<uint, Layer> script_item = this.script[(int)this.script_index];
+            Pair<int, Layer> script_item = this.script[(int)this.script_index];
             double time_on_frame = Time.GetTime() - this.frame_start_time;
 
             // If we are being forced to the next frame, or if the current script item has expired
@@ -58,7 +58,7 @@ namespace NetProcGame.dmd
                 // Update the script index
                 if (this.force_direction == Direction.Backward)
                     if (this.script_index == 0)
-                        this.script_index = (uint)this.script.Count - 1;
+                        this.script_index = (int)this.script.Count - 1;
                     else
                         this.script_index--;
                 else

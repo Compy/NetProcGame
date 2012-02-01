@@ -7,19 +7,19 @@ namespace NetProcGame.dmd
 {
     static class DMDGlobals
     {
-        public static DMDPoint DMDPointMake(uint x, uint y)
+        public static DMDPoint DMDPointMake(int x, int y)
         {
             DMDPoint p = new DMDPoint() { x = x, y = y };
             return p;
         }
 
-        public static DMDSize DMDSizeMake(uint w, uint h)
+        public static DMDSize DMDSizeMake(int w, int h)
         {
             DMDSize s = new DMDSize() { width = w, height = h };
             return s;
         }
 
-        public static DMDRect DMDRectMake(uint x, uint y, uint w, uint h)
+        public static DMDRect DMDRectMake(int x, int y, int w, int h)
         {
             DMDRect r = new DMDRect();
             r.origin = new DMDPoint() { x = x, y = y };
@@ -27,16 +27,16 @@ namespace NetProcGame.dmd
             return r;
         }
 
-        public static uint DMDRectGetMinX(DMDRect r) { return r.origin.x; }
-        public static uint DMDRectGetMinY(DMDRect r) { return r.origin.y; }
-        public static uint DMDRectGetMaxX(DMDRect r) { return r.origin.x + r.size.width; }
-        public static uint DMDRectGetMaxY(DMDRect r) { return r.origin.y + r.size.height; }
+        public static int DMDRectGetMinX(DMDRect r) { return r.origin.x; }
+        public static int DMDRectGetMinY(DMDRect r) { return r.origin.y; }
+        public static int DMDRectGetMaxX(DMDRect r) { return r.origin.x + r.size.width; }
+        public static int DMDRectGetMaxY(DMDRect r) { return r.origin.y + r.size.height; }
 
         public static byte DMDFrameGetDot(ref DMDFrame frame, DMDPoint p) { return frame.buffer[p.y * frame.size.width + p.x]; }
-        public static byte DMDFrameGetDot(ref DMDFrame frame, uint x, uint y) { return frame.buffer[y * frame.size.width + x]; }
+        public static byte DMDFrameGetDot(ref DMDFrame frame, int x, int y) { return frame.buffer[y * frame.size.width + x]; }
         
         public static void DMDFrameSetDot(ref DMDFrame frame, DMDPoint p, byte c) { frame.buffer[p.y * frame.size.width + p.x] = c; }
-        public static void DMDFrameSetDot(ref DMDFrame frame, uint x, uint y, byte c) { frame.buffer[y * frame.size.width + x] = c; }
+        public static void DMDFrameSetDot(ref DMDFrame frame, int x, int y, byte c) { frame.buffer[y * frame.size.width + x] = c; }
 
         public static DMDFrame DMDFrameCreate(DMDSize size)
         {
@@ -63,7 +63,7 @@ namespace NetProcGame.dmd
             return DMDRectMake(0, 0, frame.size.width, frame.size.height);
         }
 
-        public static uint DMDFrameGetBufferSize(ref DMDFrame frame)
+        public static int DMDFrameGetBufferSize(ref DMDFrame frame)
         {
             return frame.size.width * frame.size.height;
         }
@@ -72,10 +72,10 @@ namespace NetProcGame.dmd
         {
             rect = DMDRectIntersection(DMDFrameGetBounds(ref frame), rect);
 
-            uint maxX = DMDRectGetMaxX(rect);
-            uint maxY = DMDRectGetMaxY(rect);
+            int maxX = DMDRectGetMaxX(rect);
+            int maxY = DMDRectGetMaxY(rect);
 
-            uint x, y;
+            int x, y;
             for (x = DMDRectGetMinX(rect); x < maxX; x++)
                 for (y = DMDRectGetMinY(rect); y < maxY; y++)
                     DMDFrameSetDot(ref frame, x, y, color);
@@ -91,9 +91,9 @@ namespace NetProcGame.dmd
             if (srcRect.size.width == 0 || srcRect.size.height == 0)
                 return; /* Nothing to do */
 
-            uint width = dstRect.size.width;
-            uint height = dstRect.size.height;
-            uint x, y;
+            int width = dstRect.size.width;
+            int height = dstRect.size.height;
+            int x, y;
             byte dot;
 
             if (blendMode == DMDBlendMode.DMDBlendModeCopy)
@@ -188,7 +188,7 @@ namespace NetProcGame.dmd
         public static byte[] DMDGetAlphaMap()
         {
             byte[] gAlphaMap = new byte[256 * 256];
-            uint src, dst;
+            int src, dst;
             for (src = 0x00; src <= 0xff; src++)
             {
                 for (dst = 0x00; dst <= 0xff; dst++)
@@ -210,7 +210,7 @@ namespace NetProcGame.dmd
             return gAlphaMap;
         }
 
-        public static void DMDFrameCopyPROCSubframes(ref DMDFrame frame, byte[] dots, uint width, uint height, uint subframes, byte[] colorMap)
+        public static void DMDFrameCopyPROCSubframes(ref DMDFrame frame, byte[] dots, int width, int height, int subframes, byte[] colorMap)
         {
             if (subframes != 4)
             {
@@ -223,7 +223,7 @@ namespace NetProcGame.dmd
             if (colorMap != null)
                 colorMap = defaultColorMap;
 
-            uint row, col;
+            int row, col;
 
             for (row = 0; row < height; row++)
             {

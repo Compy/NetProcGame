@@ -16,12 +16,12 @@ namespace NetProcGame.dmd
         /// <summary>
         /// Width of each of the animation frames in dots
         /// </summary>
-        public uint width = 0;
+        public int width = 0;
 
         /// <summary>
         /// Height of each of the animation frames in dots
         /// </summary>
-        public uint height = 0;
+        public int height = 0;
 
         /// <summary>
         /// Ordered collection of Frame objects
@@ -73,8 +73,8 @@ namespace NetProcGame.dmd
             long file_length = br.BaseStream.Length;
             br.BaseStream.Seek(4, SeekOrigin.Begin); // Skip over the 4 byte DMD header
             int frame_count = br.ReadInt32();
-            this.width = (uint)br.ReadInt32();
-            this.height = (uint)br.ReadInt32();
+            this.width = (int)br.ReadInt32();
+            this.height = (int)br.ReadInt32();
 
             if (file_length != 16 + this.width * this.height * frame_count)
                 throw new Exception("File size inconsistent with header information. Old or incompatible file format?");

@@ -12,7 +12,6 @@ namespace PinprocTest
 {
     public class TestGame : GameController
     {
-        Timer testTimer;
         public TestGame(ILogger logger)
             : base(MachineType.WPC, logger)
         {

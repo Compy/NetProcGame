@@ -12,9 +12,7 @@ namespace NetProcGame.modes
     {
         private const int STROBE_INTERVAL = 3;
 
-        private double _last_strobe = 0;
         private Dictionary<string, Driver> _trap_switch_coils;
-        private bool _is_checking = false;
 
         public TestMode(GameController game, Dictionary<string, Driver> drivers)
             : base(game, 90)

@@ -24,11 +24,11 @@ namespace PinprocTest.StarterGame
             // Lamp show
             change_lampshow();
 
-            List<Pair<uint, Layer>> script = new List<Pair<uint, Layer>>();
+            List<Pair<int, Layer>> script = new List<Pair<int, Layer>>();
 
             TextLayer t = new TextLayer(0, 0, FontManager.instance.font_named("Font09Bx7.dmd"), FontJustify.Center, true);
             t.set_text("GAME OVER");
-            script.Add(new Pair<uint, Layer>(5, t));
+            script.Add(new Pair<int, Layer>(5, t));
 
             ///-------
             GroupedLayer gl = new GroupedLayer(128, 32);
@@ -39,10 +39,10 @@ namespace PinprocTest.StarterGame
             t.set_text("CREDITS 0");
             gl.layers.Add(t);
 
-            script.Add(new Pair<uint, Layer>(10, gl));
+            script.Add(new Pair<int, Layer>(10, gl));
             t = new TextLayer(0, 0, FontManager.instance.font_named("Font09Bx7.dmd"), FontJustify.Center, true);
             t.set_text("HELLO");
-            script.Add(new Pair<uint, Layer>(3, t));
+            script.Add(new Pair<int, Layer>(3, t));
             this.layer = new ScriptedLayer(128, 32, script);
 
             // Blinky start button

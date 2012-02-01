@@ -120,7 +120,7 @@ namespace NetProcGame.game
             else this._timeMs = Time.GetTime() + milliseconds / 1000;
         }
 
-        public new void Schedule(uint schedule, uint cycle_seconds = 0, bool now = true)
+        public new void Schedule(uint schedule, int cycle_seconds = 0, bool now = true)
         {
             this._function = "schedule";
             this._functionActive = true;
