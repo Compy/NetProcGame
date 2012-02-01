@@ -24,11 +24,9 @@ namespace PinprocTest
             TextLayer l = new TextLayer(1, 1, f, FontJustify.Right);
             Frame testFrame = new Frame(128, 32);
 
-            l.set_text("ABC123");
+            l.set_text("TEST");
 
             l.composite_next(testFrame);
-
-            string ascii = l.frame.ascii();
 
             string result = testFrame.ascii();
 
@@ -41,7 +39,7 @@ namespace PinprocTest
 
             worker.DoWork += new DoWorkEventHandler(worker_DoWork);
 
-            worker.RunWorkerAsync();
+            //worker.RunWorkerAsync();
 
             string line = Console.ReadLine();
             while (line != "q" && line != "quit" && line != "exit")

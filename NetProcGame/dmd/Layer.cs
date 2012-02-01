@@ -52,7 +52,7 @@ namespace NetProcGame.dmd
         /// <summary>
         /// Transition which composite_next() applies to the result of next_frame prior to compositing upon the target buffer
         /// </summary>
-        public object transition = null;
+        public LayerTransitionBase transition = null;
 
         public Layer(bool opaque = false)
         {
@@ -93,7 +93,7 @@ namespace NetProcGame.dmd
             {
                 if (transition != null)
                 {
-                    //src = this.transition.next_frame(target, src)
+                    src = this.transition.next_frame(target, src);
                 }
                 // src not all zeroes
                 // Target = all zeros here

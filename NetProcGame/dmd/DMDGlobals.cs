@@ -114,9 +114,9 @@ namespace NetProcGame.dmd
                 {
                     for (x = 0; x < width; x++)
                     {
-                        byte srcDot = DMDFrameGetDot(ref src, DMDPointMake(srcRect.origin.x, srcRect.origin.y + y));
-                        byte dstDot = DMDFrameGetDot(ref dst, DMDPointMake(dstRect.origin.x, dstRect.origin.y + y));
-                        DMDFrameSetDot(ref dst, DMDPointMake(dstRect.origin.x, dstRect.origin.y + y), (byte)Math.Min(srcDot + dstDot, 0xF));
+                        byte srcDot = DMDFrameGetDot(ref src, srcRect.origin.x, srcRect.origin.y + y);
+                        byte dstDot = DMDFrameGetDot(ref dst, dstRect.origin.x, dstRect.origin.y + y);
+                        DMDFrameSetDot(ref dst, dstRect.origin.x, dstRect.origin.y + y, (byte)Math.Min(srcDot + dstDot, 0xF));
                     }
                 }
             }
@@ -126,12 +126,12 @@ namespace NetProcGame.dmd
                 {
                     for (x = 0; x < width; x++)
                     {
-                        byte srcDot = DMDFrameGetDot(ref src, DMDPointMake(srcRect.origin.x, srcRect.origin.y + y));
-                        byte dstDot = DMDFrameGetDot(ref dst, DMDPointMake(dstRect.origin.x, dstRect.origin.y + y));
+                        byte srcDot = DMDFrameGetDot(ref src, srcRect.origin.x, srcRect.origin.y + y);
+                        byte dstDot = DMDFrameGetDot(ref dst, dstRect.origin.x, dstRect.origin.y + y);
                         // Only write dots into black dots
                         if ((srcDot & 0xf) != 0)
                         {
-                            DMDFrameSetDot(ref dst, DMDPointMake(dstRect.origin.x, dstRect.origin.y + y), (byte)((dstDot & 0xf0) | (srcDot & 0xf)));
+                            DMDFrameSetDot(ref dst, dstRect.origin.x, dstRect.origin.y + y, (byte)((dstDot & 0xf0) | (srcDot & 0xf)));
                         }
                     }
                 }
@@ -142,9 +142,9 @@ namespace NetProcGame.dmd
                 {
                     for (x = 0; x < width; x++)
                     {
-                        byte srcDot = DMDFrameGetDot(ref src, DMDPointMake(srcRect.origin.x, srcRect.origin.y + y));
-                        byte dstDot = DMDFrameGetDot(ref dst, DMDPointMake(dstRect.origin.x, dstRect.origin.y + y));
-                        DMDFrameSetDot(ref dst, DMDPointMake(dstRect.origin.x, dstRect.origin.y + y), (byte)Math.Max(srcDot + dstDot, 0xF));
+                        byte srcDot = DMDFrameGetDot(ref src, srcRect.origin.x, srcRect.origin.y + y);
+                        byte dstDot = DMDFrameGetDot(ref dst, dstRect.origin.x, dstRect.origin.y + y);
+                        DMDFrameSetDot(ref dst, dstRect.origin.x, dstRect.origin.y + y, (byte)Math.Max(srcDot + dstDot, 0xF));
                     }
                 }
             }
@@ -156,14 +156,26 @@ namespace NetProcGame.dmd
                 {
                     for (x = 0; x < width; x++)
                     {
-                        byte srcDot = DMDFrameGetDot(ref src, DMDPointMake(srcRect.origin.x, srcRect.origin.y + y));
-                        byte dstDot = DMDFrameGetDot(ref dst, DMDPointMake(dstRect.origin.x, dstRect.origin.y + y));
-                        //byte v = alphaMap[(byte)srv
+                        byte srcDot = DMDFrameGetDot(ref src, srcRect.origin.x, srcRect.origin.y + y);
+                        byte dstDot = DMDFrameGetDot(ref dst, dstRect.origin.x, dstRect.origin.y + y);
+                        byte v = alphaMap[srcDot * 256 + (dstDot | 0xf0)];
+                        DMDFrameSetDot(ref dst, dstRect.origin.x, dstRect.origin.y + y, (byte)((dstDot & 0xf0) | (v & 0x0f)));
                     }
                 }
             }
             else if (blendMode == DMDBlendMode.DMDBlendModeAlphaBoth)
             {
+                byte[] alphaMap = DMDGetAlphaMap();
+                for (y = 0; y < height; y++)
+                {
+                    for (x = 0; x < width; x++)
+                    {
+                        byte dstValue = DMDFrameGetDot(ref dst, dstRect.origin.x, dstRect.origin.y + y);
+                        byte srcValue = DMDFrameGetDot(ref src, srcRect.origin.x, srcRect.origin.y + y);
+
+                        DMDFrameSetDot(ref dst, dstRect.origin.x, dstRect.origin.y + y, alphaMap[srcValue * 256 + dstValue]);
+                    }
+                }
             }
             //Console.WriteLine("     DMDFrameCopyRect total time: {0}ms", (tools.Time.GetTime() - startTime) * 1000);
 

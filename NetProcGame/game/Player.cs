@@ -15,7 +15,7 @@ namespace NetProcGame.game
         /// <summary>
         /// This player's score
         /// </summary>
-        public int score { get; set; }
+        public long score { get; set; }
 
         /// <summary>
         /// This players name (optional)

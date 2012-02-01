@@ -70,13 +70,13 @@ namespace NetProcGame.dmd
                 }
                 else if (this.justify == FontJustify.Right)
                 {
-                    this.target_x_offset = 0;
+                    this.target_x_offset = (127 - font_size.First);
                     this.target_y_offset = 0;
                 }
                 else if (this.justify == FontJustify.Center)
                 {
                     this.target_x_offset = (int)-(font_size.First / 2);
-                    this.target_y_offset = (int)-(font_size.Second / 2);
+                    this.target_y_offset = 0;
                 }
             }
         }

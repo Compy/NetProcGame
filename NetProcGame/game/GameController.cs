@@ -70,7 +70,7 @@ namespace NetProcGame.game
         /// The index in _players of the current player
         /// TODO: implement this logic
         /// </summary>
-        protected int _current_player_index = 0;
+        public int current_player_index = 0;
 
         /// <summary>
         /// The date/time when the framework was started (machine powered up)
@@ -195,7 +195,7 @@ namespace NetProcGame.game
             _old_players.Clear();
             _old_players.AddRange(_players);
             _players.Clear();
-            _current_player_index = 0;
+            current_player_index = 0;
             _modes.Clear();
         }
 
@@ -226,8 +226,8 @@ namespace NetProcGame.game
         /// <returns></returns>
         public Player current_player()
         {
-            if (this._players.Count > this._current_player_index)
-                return this._players[this._current_player_index];
+            if (this._players.Count > this.current_player_index)
+                return this._players[this.current_player_index];
             else
                 return null;
         }
@@ -308,14 +308,14 @@ namespace NetProcGame.game
                 return;
             }
 
-            if (this._current_player_index + 1 == this._players.Count)
+            if (this.current_player_index + 1 == this._players.Count)
             {
                 this.ball += 1;
-                this._current_player_index = 0;
+                this.current_player_index = 0;
             }
             else
             {
-                this._current_player_index += 1;
+                this.current_player_index += 1;
             }
 
             if (this.ball > this._balls_per_game)
@@ -336,7 +336,7 @@ namespace NetProcGame.game
         {
             this.ball = 1;
             this._players = new List<Player>();
-            this._current_player_index = 0;
+            this.current_player_index = 0;
         }
 
         /// <summary>
@@ -846,6 +846,15 @@ namespace NetProcGame.game
         {
             get { return _modes; }
             set { _modes = value; }
+        }
+
+        /// <summary>
+        /// The list of players currently playing the game
+        /// </summary>
+        public List<Player> Players
+        {
+            get { return _players; }
+            set { _players = value; }
         }
 
         /// <summary>
