@@ -119,6 +119,11 @@ namespace PinprocTest.StarterGame
             p.extra_balls++;
         }
 
+        public override void game_started()
+        {
+            lampctrl.stop_show();
+            base.game_started();
+        }
 
         public void setup_ball_search()
         {
@@ -134,6 +139,21 @@ namespace PinprocTest.StarterGame
         {
             safe_disable_coil("divertorMain");
             safe_disable_coil("divertorHold");
+        }
+
+        public void all_gi_on()
+        {
+            foreach (Driver d in this.GI.Values)
+            {
+                d.Enable();
+            }
+        }
+        public void all_gi_off()
+        {
+            foreach (Driver d in this.GI.Values)
+            {
+                d.Disable();
+            }
         }
     }
 }
