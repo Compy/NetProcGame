@@ -45,6 +45,7 @@ namespace NetProcGame.dmd
         /// </summary>
         public Frame frame_for_markup(string markup, int y_offset = 0)
         {
+            markup = markup.Replace("\r", "");
             string[] lines = markup.Split('\n');
             foreach (bool draw in new bool[] { false, true })
             {
@@ -52,15 +53,15 @@ namespace NetProcGame.dmd
                 foreach (string line in lines)
                 {
                     if (line.StartsWith("#") && line.EndsWith("#")) // Centered headline
-                        y = this.draw_text(y, line.Substring(1, line.Length - 1), font_bold, FontJustify.Center, draw);
+                        y = this.draw_text(y, line.Substring(1, line.Length - 2), font_bold, FontJustify.Center, draw);
                     else if (line.StartsWith("#")) // Left justified headline
                         y = this.draw_text(y, line.Substring(1), font_bold, FontJustify.Left, draw);
                     else if (line.EndsWith("#")) // Right justified headline
-                        y = this.draw_text(y, line.Substring(0, line.Length - 1), font_bold, FontJustify.Right, draw);
+                        y = this.draw_text(y, line.Substring(0, line.Length - 2), font_bold, FontJustify.Right, draw);
                     else if (line.StartsWith("[") && line.EndsWith("]")) // Centered text
-                        y = this.draw_text(y, line.Substring(1, line.Length - 1), font_plain, FontJustify.Center, draw);
+                        y = this.draw_text(y, line.Substring(1, line.Length - 2), font_plain, FontJustify.Center, draw);
                     else if (line.EndsWith("]")) // Right justified text
-                        y = this.draw_text(y, line.Substring(0, line.Length - 1), font_plain, FontJustify.Right, draw);
+                        y = this.draw_text(y, line.Substring(0, line.Length - 2), font_plain, FontJustify.Right, draw);
                     else if (line.StartsWith("[")) // Left justified text
                         y = this.draw_text(y, line.Substring(1), font_plain, FontJustify.Left, draw);
                     else // Left justified but nothing to clip off
@@ -97,7 +98,7 @@ namespace NetProcGame.dmd
                         {
                             // We found a space!
                             y = this.draw_line(y, line.Substring(0, idx), font, justify, draw);
-                            line = line.Substring(idx + 1, line.Length - idx);
+                            line = line.Substring(idx + 1, line.Length - idx - 1);
                         }
                         // Recalculate w
                         w = font.size(line).First;

@@ -39,11 +39,6 @@ namespace NetProcGame.dmd
             this.justify = justify;
             this.blink_frames = -1;
             this.blink_frames_counter = 0;
-
-            if (justify == FontJustify.Center)
-            {
-                this.set_target_position(64, 16);
-            }
         }
 
         /// <summary>

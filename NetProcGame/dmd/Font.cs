@@ -101,7 +101,6 @@ namespace NetProcGame.dmd
         /// </summary>
         public void draw(Frame frame, string text, int x, int y)
         {
-            Console.WriteLine(String.Format("draw() start at {0}", Time.GetTime()));
             foreach (char ch in text)
             {
                 int char_offset = (int)ch - (int)' ';
@@ -114,8 +113,6 @@ namespace NetProcGame.dmd
                 Frame.copy_rect(frame, x, y, this.bitmap, char_x, char_y, width, this.char_size, this.composite_op);
                 x += width + this.tracking;
             }
-            Console.WriteLine(String.Format("draw() end at {0}", Time.GetTime()));
-            Console.WriteLine("font.draw() called");
         }
 
         /// <summary>

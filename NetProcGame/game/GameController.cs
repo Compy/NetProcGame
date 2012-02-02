@@ -332,7 +332,7 @@ namespace NetProcGame.game
         /// <summary>
         /// Called by the GameController when a new game is starting.
         /// </summary>
-        public void game_started()
+        public virtual void game_started()
         {
             this.ball = 1;
             this._players = new List<Player>();

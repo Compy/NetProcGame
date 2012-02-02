@@ -171,7 +171,7 @@ namespace NetProcGame.modes
             if (this.Game.ball == 0)
                 common.set_text("FREE PLAY");
             else
-                common.set_text(String.Format("BALL {0}      FREE PLAY", this.Game.ball));
+                common.set_text(String.Format("BALL {0}            FREE PLAY", this.Game.ball));
 
             ((ScoreLayer)this.layer).layers.Add(common);
         }

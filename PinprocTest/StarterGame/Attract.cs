@@ -13,6 +13,14 @@ namespace PinprocTest.StarterGame
     public delegate void VoidDelegateNoArgs();
     public class Attract : Mode
     {
+        private TextLayer testfontlayer_04B37, testfontlayer_07x4, testfontlayer_07x5, testfontlayer_09Bx7,
+            testfontlayer_09x5, testfontlayer_09x6, testfontlayer_09x7, testfontlayer_14x10,
+            testfontlayer_14x8, testfontlayer_14x9, testfontlayer_18x10, testfontlayer_18x11,
+            testfontlayer_18x12, testfontlayer_eurostile, presents_layer;
+        private PanningLayer credits_layer;
+
+        private AnimatedLayer williams_logo, ballcross, dm_logo, pcc_logo, github_logo;
+
         public Attract(StarterGame game)
             : base(game, 1)
         {
@@ -24,25 +32,98 @@ namespace PinprocTest.StarterGame
             // Lamp show
             change_lampshow();
 
+            Game.score_display.layer.enabled = false;
+
+            Animation anim = new Animation().load(@"animations\williams_animated.dmd");
+            this.williams_logo = new AnimatedLayer(false, true, false, 1, anim.frames.ToArray());
+
+            anim = new Animation().load(@"animations\ballcross.dmd");
+            this.ballcross = new AnimatedLayer(false, true, false, 1, anim.frames.ToArray());
+
+            anim = new Animation().load(@"animations\dm_logo.dmd");
+            this.dm_logo = new AnimatedLayer(false, true, false, 1, anim.frames.ToArray());
+
+            anim = new Animation().load(@"animations\pcc_logo.dmd");
+            this.pcc_logo = new AnimatedLayer(false, true, false, 1, anim.frames.ToArray());
+
+            anim = new Animation().load(@"animations\github_fork.dmd");
+            this.github_logo = new AnimatedLayer(false, true, false, 1, anim.frames.ToArray());
+
+            presents_layer = new TextLayer(128 / 2, 0, FontManager.instance.font_named("Font09Bx7.dmd"), FontJustify.Center, true);
+            presents_layer.set_text("PRESENTS");
+            //testfontlayer_04B37 = new TextLayer(128 / 2, 0, FontManager.instance.font_named("04B-03-7px.dmd"), FontJustify.Center, true);
+            //testfontlayer_07x4 = new TextLayer(128 / 2, 0, FontManager.instance.font_named("Font07x4.dmd"), FontJustify.Center, true);
+            //testfontlayer_07x5 = new TextLayer(128 / 2, 0, FontManager.instance.font_named("Font07x5.dmd"), FontJustify.Center, true);
+            //testfontlayer_09Bx7 = new TextLayer(128 / 2, 0, FontManager.instance.font_named("Font09Bx7.dmd"), FontJustify.Center, true);
+            //testfontlayer_09x5 = new TextLayer(128 / 2, 0, FontManager.instance.font_named("Font09x5.dmd"), FontJustify.Center, true);
+            //testfontlayer_09x6 = new TextLayer(128 / 2, 0, FontManager.instance.font_named("Font09x6.dmd"), FontJustify.Center, true);
+            //testfontlayer_09x7 = new TextLayer(128 / 2, 0, FontManager.instance.font_named("Font09x7.dmd"), FontJustify.Center, true);
+            //testfontlayer_14x10 = new TextLayer(128 / 2, 0, FontManager.instance.font_named("Font14x10.dmd"), FontJustify.Center, true);
+            //testfontlayer_14x8 = new TextLayer(128 / 2, 0, FontManager.instance.font_named("Font14x8.dmd"), FontJustify.Center, true);
+            //testfontlayer_14x9 = new TextLayer(128 / 2, 0, FontManager.instance.font_named("Font14x9.dmd"), FontJustify.Center, true);
+            //testfontlayer_18x10 = new TextLayer(128 / 2, 0, FontManager.instance.font_named("Font18x10.dmd"), FontJustify.Center, true);
+            //testfontlayer_18x11 = new TextLayer(128 / 2, 0, FontManager.instance.font_named("Font18x11.dmd"), FontJustify.Center, true);
+            //testfontlayer_18x12 = new TextLayer(128 / 2, 0, FontManager.instance.font_named("Font18x12.dmd"), FontJustify.Center, true);
+            //testfontlayer_eurostile = new TextLayer(128 / 2, 0, FontManager.instance.font_named("eurostile.dmd"), FontJustify.Center, true);
+
+            //testfontlayer_04B37.set_text("FONT04B037");
+            //testfontlayer_07x4.set_text("FONT07x4");
+            //testfontlayer_07x5.set_text("FONT07x5");
+            //testfontlayer_09Bx7.set_text("FONT09Bx7");
+            //testfontlayer_09x5.set_text("FONT09x5");
+            //testfontlayer_09x6.set_text("FONT09x6");
+            //testfontlayer_09x7.set_text("FONT09x7");
+            //testfontlayer_14x10.set_text("FONT14x10");
+            //testfontlayer_14x8.set_text("FONT14x8");
+            //testfontlayer_14x9.set_text("FONT14x9");
+            //testfontlayer_18x10.set_text("FONT18x10");
+            //testfontlayer_18x11.set_text("FONT18x11");
+            //testfontlayer_18x12.set_text("FONT18x12");
+            //testfontlayer_eurostile.set_text("Eurostile 123");
+
+            MarkupGenerator gen = new MarkupGenerator();
+            gen.font_plain = FontManager.instance.font_named("Font09x7.dmd");
+            gen.font_bold = FontManager.instance.font_named("Font09Bx7.dmd");
+            
+            Frame credits_frame = gen.frame_for_markup(@"
+
+[CREDITS]
+
+[Game Rules and Coding]
+[Jimmy Lipham]
+
+[Special Thanks]
+[Gerry Stellenberg]
+[Adam Preble]");
+
+            this.credits_layer = new PanningLayer(128, 32, credits_frame, new Pair<int, int>(0, 0),
+                new Pair<int, int>(0, 1), false);
+            this.credits_layer.composite_op = DMDBlendMode.DMDBlendModeCopy;
+
             List<Pair<int, Layer>> script = new List<Pair<int, Layer>>();
 
-            TextLayer t = new TextLayer(0, 0, FontManager.instance.font_named("Font09Bx7.dmd"), FontJustify.Center, true);
-            t.set_text("GAME OVER");
-            script.Add(new Pair<int, Layer>(5, t));
+            script.Add(new Pair<int, Layer>(7, williams_logo));
+            script.Add(new Pair<int, Layer>(4, presents_layer));
+            script.Add(new Pair<int, Layer>(10, dm_logo));
+            script.Add(new Pair<int, Layer>(1, ballcross));
+            script.Add(new Pair<int, Layer>(5, pcc_logo));
+            script.Add(new Pair<int, Layer>(5, github_logo));
+            //script.Add(new Pair<int, Layer>(5, testfontlayer_eurostile));
+            //script.Add(new Pair<int, Layer>(5, testfontlayer_04B37));
+            //script.Add(new Pair<int, Layer>(5, testfontlayer_07x4));
+            //script.Add(new Pair<int, Layer>(5, testfontlayer_07x5));
+            //script.Add(new Pair<int, Layer>(5, testfontlayer_09Bx7));
+            //script.Add(new Pair<int, Layer>(5, testfontlayer_09x5));
+            //script.Add(new Pair<int, Layer>(5, testfontlayer_09x6));
+            //script.Add(new Pair<int, Layer>(5, testfontlayer_09x7));
+            //script.Add(new Pair<int, Layer>(5, testfontlayer_14x10));
+            //script.Add(new Pair<int, Layer>(5, testfontlayer_14x8));
+            //script.Add(new Pair<int, Layer>(5, testfontlayer_14x9));
+            //script.Add(new Pair<int, Layer>(5, testfontlayer_18x10));
+            //script.Add(new Pair<int, Layer>(5, testfontlayer_18x11));
+            //script.Add(new Pair<int, Layer>(5, testfontlayer_18x12));
+            //script.Add(new Pair<int,Layer>(30, credits_layer));
 
-            ///-------
-            GroupedLayer gl = new GroupedLayer(128, 32);
-            t = new TextLayer(0, 0, FontManager.instance.font_named("Font09Bx7.dmd"), FontJustify.Center, true);
-            t.set_text("INSERT COINS", -1, 10);
-            gl.layers.Add(t);
-            t = new TextLayer(10, 0, FontManager.instance.font_named("Font09Bx7.dmd"), FontJustify.Center, true);
-            t.set_text("CREDITS 0");
-            gl.layers.Add(t);
-
-            script.Add(new Pair<int, Layer>(10, gl));
-            t = new TextLayer(0, 0, FontManager.instance.font_named("Font09Bx7.dmd"), FontJustify.Center, true);
-            t.set_text("HELLO");
-            script.Add(new Pair<int, Layer>(3, t));
             this.layer = new ScriptedLayer(128, 32, script);
 
             // Blinky start button

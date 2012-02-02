@@ -20,15 +20,6 @@ namespace PinprocTest
 
         static void Main(string[] args)
         {
-            Font f = new Font(@"fonts\Font09Bx7.dmd");
-            TextLayer l = new TextLayer(1, 1, f, FontJustify.Right);
-            Frame testFrame = new Frame(128, 32);
-
-            l.set_text("TEST");
-
-            l.composite_next(testFrame);
-
-            string result = testFrame.ascii();
 
             System.Threading.Thread.CurrentThread.Name = "Console Thread";
             logger = new ConsoleLogger();
@@ -39,7 +30,7 @@ namespace PinprocTest
 
             worker.DoWork += new DoWorkEventHandler(worker_DoWork);
 
-            //worker.RunWorkerAsync();
+            worker.RunWorkerAsync();
 
             string line = Console.ReadLine();
             while (line != "q" && line != "quit" && line != "exit")

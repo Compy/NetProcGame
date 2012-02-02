@@ -6,6 +6,7 @@ using NetProcGame;
 using NetProcGame.game;
 using NetProcGame.dmd;
 using NetProcGame.tools;
+using NetProcGame.modes;
 
 namespace NetProcGame.game
 {
@@ -19,6 +20,7 @@ namespace NetProcGame.game
     {
         public DisplayController dmd = null;
         //public ScoreDisplay score_display = null;
+        public ScoreDisplay score_display = null;
 
         public BasicGame(MachineType machine_type, ILogger logger)
             : base(machine_type, logger)
@@ -33,7 +35,7 @@ namespace NetProcGame.game
                 this.dmd = new DisplayController(this, 128, 32, manager.font_named("Font07x5.dmd"));
             }
 
-            //this.score_display = new ScoreDisplay(this, 0);
+            this.score_display = new ScoreDisplay(this, 50);
 
             // The below code is for showing frames on the desktop
             //if (this.dmd != null) this.dmd.frame_handlers.Add(new DMDFrameHandler(this.set_last_frame));
@@ -47,7 +49,7 @@ namespace NetProcGame.game
         public override void Reset()
         {
             base.Reset();
-            //this.Modes.Add(this.score_display);
+            this.Modes.Add(this.score_display);
         }
 
         /// <summary>
@@ -62,6 +64,12 @@ namespace NetProcGame.game
         {
             base.tick();
             //this.show_last_frame();
+        }
+
+        public override void game_started()
+        {
+            score_display.layer.enabled = true;
+            base.game_started();
         }
 
         public void score(int points)

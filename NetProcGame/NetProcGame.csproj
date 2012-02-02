@@ -84,6 +84,7 @@
     <Compile Include="lamps\LampShowTrack.cs" />
     <Compile Include="lamps\LampshowUtils.cs" />
     <Compile Include="modes\BallSave.cs" />
+    <Compile Include="modes\ScoreDisplay.cs" />
     <Compile Include="modes\TestMode.cs" />
     <Compile Include="modes\Trough.cs" />
     <Compile Include="tools\ILogger.cs" />
