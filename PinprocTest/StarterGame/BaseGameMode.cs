@@ -128,6 +128,12 @@ namespace PinprocTest.StarterGame
             return SWITCH_CONTINUE;
         }
 
+        public bool sw_elevatorHold_open_for_1s(Switch sw)
+        {
+            Game.Modes.Add(((StarterGame)Game).claw);
+            return SWITCH_CONTINUE;
+        }
+
         public bool sw_topPopper_active_for_100ms(Switch sw)
         {
             Game.Coils["topPopper"].Pulse();
@@ -140,8 +146,8 @@ namespace PinprocTest.StarterGame
             return SWITCH_CONTINUE;
         }
 
-        public bool sw_leftSlingShot_active(Switch sw) { Game.score(500); return SWITCH_CONTINUE; }
-        public bool sw_rightSlingShot_active(Switch sw) { Game.score(500); return SWITCH_CONTINUE; }
+        public bool sw_leftSlingshot_active(Switch sw) { Game.score(500); return SWITCH_CONTINUE; }
+        public bool sw_rightSlingshot_active(Switch sw) { Game.score(500); return SWITCH_CONTINUE; }
         public bool sw_leftJet_active(Switch sw) { Game.score(1000); return SWITCH_CONTINUE; }
         public bool sw_rightJet_active(Switch sw) { Game.score(1000); return SWITCH_CONTINUE; }
         public bool sw_bottomJet_active(Switch sw) { Game.score(1000); return SWITCH_CONTINUE; }
@@ -156,9 +162,9 @@ namespace PinprocTest.StarterGame
         public bool sw_rightRampExit_active(Switch sw) { Game.score(5000); return SWITCH_CONTINUE; }
         public bool sw_leftRampExit_active(Switch sw) { Game.score(5000); return SWITCH_CONTINUE; }
         public bool sw_sideRampExit_active(Switch sw) { Game.score(5000); return SWITCH_CONTINUE; }
-        public bool sw_leftRollover_active(Switch sw) { Game.score(5000); return SWITCH_CONTINUE; }
-        public bool sw_centerRollover_active(Switch sw) { Game.score(5000); return SWITCH_CONTINUE; }
-        public bool sw_rightRollover_active(Switch sw) { Game.score(5000); return SWITCH_CONTINUE; }
+        public bool sw_leftRollOver_active(Switch sw) { Game.score(5000); return SWITCH_CONTINUE; }
+        public bool sw_centerRollOver_active(Switch sw) { Game.score(5000); return SWITCH_CONTINUE; }
+        public bool sw_rightRollOver_active(Switch sw) { Game.score(5000); return SWITCH_CONTINUE; }
         public bool sw_topPopper_active(Switch sw) { Game.score(500000); return SWITCH_CONTINUE; }
         public bool sw_eyeballStandup_active(Switch sw) { Game.score(1000000); return SWITCH_CONTINUE; }
         public bool sw_centerRamp_active(Switch sw) { Game.score(6000); return SWITCH_CONTINUE; }
@@ -166,7 +172,7 @@ namespace PinprocTest.StarterGame
 
         public bool sw_eject_active(Switch sw) {
             Game.score(50000);
-            Game.Coils["ejectFlasher"].Schedule(0xAAAAAAAA, 1, true);
+            Game.Coils["ejectFlasher"].Schedule(0xaaaaaaaa, 1, true);
             return SWITCH_CONTINUE; 
         }
 
@@ -177,10 +183,11 @@ namespace PinprocTest.StarterGame
             Game.score(800000); 
             return SWITCH_CONTINUE; 
         }
-        public bool sw_bottomPopper_active_for_800ms(Switch sw)
+        public bool sw_bottomPopper_active_for_500ms(Switch sw)
         {
             ((StarterGame)Game).all_gi_on();
             Game.Coils["bottomPopper"].Pulse();
+            Game.Lamps["accessClaw"].Enable();
             return SWITCH_CONTINUE;
         }
 
@@ -193,6 +200,10 @@ namespace PinprocTest.StarterGame
                 // Open divertor
                 Game.Coils["divertorHold"].Pulse(0);
                 Game.Coils["divertorMain"].Pulse(30);
+
+                // Turn off lamp
+                Game.Lamps["accessClaw"].Disable();
+
             }
 
             return SWITCH_CONTINUE; 

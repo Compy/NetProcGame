@@ -9,6 +9,7 @@ namespace NetProcGame.game
     {
         protected GameController _game;
         protected List<Mode> _modes;
+        protected object _mode_lock_obj = new object();
         public ModeQueue(GameController game)
         {
             _game = game;
@@ -20,7 +21,10 @@ namespace NetProcGame.game
             if (_modes.Contains(mode))
                 throw new Exception("Attempted to add mode " + mode.ToString() + ", already in mode queue.");
 
-            _modes.Add(mode);
+            lock (_mode_lock_obj)
+            {
+                _modes.Add(mode);
+            }
             //self.modes.sort(lambda x, y: y.priority - x.priority)
             mode.mode_started();
 
@@ -31,7 +35,10 @@ namespace NetProcGame.game
         public void Remove(Mode mode)
         {
             mode.mode_stopped();
-            _modes.Remove(mode);
+            lock (_mode_lock_obj)
+            {
+                _modes.Remove(mode);
+            }
 
             if (_modes.Count > 0)
                 _modes[0].mode_topmost();
@@ -56,12 +63,15 @@ namespace NetProcGame.game
 
         public void tick()
         {
-            //Mode[] modes = new Mode[_modes.Count()];
-            //_modes.CopyTo(modes);
-            for (int i = 0; i < _modes.Count; i++)
+            lock (_mode_lock_obj)
             {
-                _modes[i].dispatch_delayed();
-                _modes[i].mode_tick();
+                Mode[] modes = new Mode[_modes.Count()];
+                _modes.CopyTo(modes);
+                for (int i = 0; i < modes.Length; i++)
+                {
+                    modes[i].dispatch_delayed();
+                    modes[i].mode_tick();
+                }
             }
         }
 

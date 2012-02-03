@@ -16,6 +16,7 @@ namespace PinprocTest.StarterGame
         public BaseGameMode _base_game_mode;
         public BallSave ball_save;
         public Trough trough;
+        public Claw claw;
         public LampController lampctrl;
 
         public bool ball_being_saved = false;
@@ -34,6 +35,8 @@ namespace PinprocTest.StarterGame
         {
             LoadConfig(@"configuration\machine.json");
             setup_ball_search();
+
+            this.all_gi_on();
 
             // Lamp showage
             this.lampctrl.register_show("attract1", @"lamps\attract1.lampshow");
@@ -54,7 +57,10 @@ namespace PinprocTest.StarterGame
                                 "shooterLane");
             ball_save = new BallSave(this, "ballSave", "shooterLane");
 
+            claw = new Claw(this);
+
             // Link ball save to trough
+            ball_save.allow_multiple_saves = false;
             trough.ball_save_callback = new AnonDelayedHandler(ball_save.launch_callback);
             trough.num_balls_to_save = new GetNumBallsToSaveHandler(ball_save.get_num_balls_to_save);
             ball_save.trough_enable_ball_save = new BallSaveEnable(trough.enable_ball_save);
@@ -81,6 +87,9 @@ namespace PinprocTest.StarterGame
             _modes.Add(attract);
             _modes.Add(ball_save);
             _modes.Add(trough);
+            _modes.Add(claw);
+
+            claw.orient();
             //_modes.Add(_ball_search);
 
             // Disable the flippers

@@ -120,6 +120,10 @@ namespace NetProcGame.modes
                 return this.font_18x10;
         }
 
+        public override void mode_started()
+        {
+        }
+
         /// <summary>
         /// Returns the font to be used for displaying the given numeric score in a 2,3, or 4 player game
         /// </summary>
