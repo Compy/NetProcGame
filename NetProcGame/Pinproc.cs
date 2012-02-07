@@ -118,6 +118,7 @@ namespace NetProcGame
         public byte PatterOnTime;
         public byte PatterOffTime;
         public bool PatterEnable;
+        public bool futureEnable;
 
         public override string ToString() { return string.Format("DriverState num={0}", DriverNum); }
     };
@@ -285,7 +286,8 @@ namespace NetProcGame
         [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void PRDriverFuturePulse(IntPtr handle, byte driverNum, UInt16 milliseconds, UInt16 futureTime);
 
-
+        [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void PRDriverStateFuturePulse(ref DriverState state, UInt16 milliseconds, UInt16 futureTime);
 
         // Status: Good
         [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]

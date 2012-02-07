@@ -178,6 +178,12 @@ namespace PinprocTest.StarterGame
             return SWITCH_CONTINUE;
         }
 
+        public bool sw_buyIn_active(Switch sw)
+        {
+            Game.Coils["sideRampFlasher"].FuturePulse(30, 500);
+            return SWITCH_CONTINUE;
+        }
+
         public bool sw_leftInlane_active_for_1s(Switch sw)
         {
             Game.open_divertor();

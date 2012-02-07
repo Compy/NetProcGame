@@ -84,6 +84,27 @@ namespace NetProcGame
             return res;
         }
 
+        public Result driver_future_pulse(ushort number, byte milliseconds, UInt16 futureTime)
+        {
+            DriverState state = this.driver_get_state(number);
+            Result res;
+            lock (procSyncObject)
+            {
+                PinProc.PRDriverStateFuturePulse(ref state, milliseconds, futureTime);
+                res = PinProc.PRDriverUpdateState(ProcHandle, ref state);
+            }
+
+            if (res == Result.Success)
+            {
+                lock (procSyncObject)
+                {
+                    res = PinProc.PRDriverWatchdogTickle(ProcHandle);
+                    res = PinProc.PRFlushWriteData(ProcHandle);
+                }
+            }
+            return res;
+        }
+
         public void driver_schedule(ushort number, uint schedule, ushort cycle_seconds, bool now)
         {
             DriverState state = this.driver_get_state(number);
@@ -151,6 +172,15 @@ namespace NetProcGame
             lock (procSyncObject)
             {
                 PinProc.PRDriverStatePulse(ref state, milliseconds);
+            }
+            return state;
+        }
+
+        public DriverState driver_state_future_pulse(DriverState state, byte milliseconds, UInt16 futureTime)
+        {
+            lock (procSyncObject)
+            {
+                PinProc.PRDriverStateFuturePulse(ref state, milliseconds, futureTime);
             }
             return state;
         }

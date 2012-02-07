@@ -222,6 +222,12 @@ namespace PinprocTest.StarterGame
             return SWITCH_CONTINUE;
         }
 
+        public bool sw_buyIn_active(Switch sw)
+        {
+            Game.FlippersEnabled = !Game.FlippersEnabled;
+            return SWITCH_CONTINUE;
+        }
+
         public new StarterGame Game
         {
             get { return (StarterGame)base.Game; }

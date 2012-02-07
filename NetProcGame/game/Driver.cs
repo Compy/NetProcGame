@@ -54,6 +54,17 @@ namespace NetProcGame.game
             this._last_time_changed = Time.GetTime();
         }
 
+        public void FuturePulse(int milliseconds = -1, UInt16 futureTime = 100)
+        {
+            if (milliseconds < 0) milliseconds = _default_pulse_time;
+
+            if (milliseconds > 255)
+                throw new ArgumentOutOfRangeException("Milliseconds must be in range 0-255");
+
+            this._game.PROC.driver_future_pulse(this._number, (byte)milliseconds, futureTime);
+            this._last_time_changed = Time.GetTime();
+        }
+
         /// <summary>
         /// Enables a pitter-patter sequence.
         /// 
