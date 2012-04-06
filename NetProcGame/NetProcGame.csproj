@@ -88,6 +88,11 @@
     <Compile Include="modes\ScoreDisplay.cs" />
     <Compile Include="modes\TestMode.cs" />
     <Compile Include="modes\Trough.cs" />
+    <Compile Include="pdb\Coil.cs" />
+    <Compile Include="pdb\DriverAlias.cs" />
+    <Compile Include="pdb\PDBConfig.cs" />
+    <Compile Include="pdb\PDBFunctions.cs" />
+    <Compile Include="pdb\Switch.cs" />
     <Compile Include="tools\ILogger.cs" />
     <Compile Include="tools\Pair.cs" />
     <Compile Include="YamlConfig.cs" />

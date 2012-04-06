@@ -52,7 +52,8 @@ namespace NetProcGame
         WPC = 3,
         WPC95 = 4,
         SternWhitestar = 5,
-        SternSAM = 6
+        SternSAM = 6,
+        PDB = 7
     };
 
     public enum SwitchType
@@ -220,6 +221,9 @@ namespace NetProcGame
         [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void PRLogSetLevel(LogLevel level);
 
+        [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int PRGetVersionInfo(ref UInt16 version, ref UInt16 revision, ref UInt16 combined);
+
         // Status: Good
         [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern string PRGetLastErrorText();
@@ -261,6 +265,11 @@ namespace NetProcGame
         [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern Result PRDriverUpdateGlobalConfig(IntPtr handle, ref DriverGlobalConfig driverGlobalConfig);
 
+        [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern Result PRDriverGetGroupConfig(IntPtr handle, byte groupNum, ref DriverGroupConfig driverGroupConfig);
+
+        [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern Result PRDriverUpdateGroupConfig(IntPtr handle, ref DriverGroupConfig driverGroupConfig);
 
         // Status: UNTESTED
         [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]
