@@ -154,5 +154,12 @@ namespace NetProcGame.game
         {
             return String.Format("<Driver name={0} number={1}>", this.Name, this.Number);
         }
+
+        public void reconfigure(bool polarity)
+        {
+            DriverState state = this.State;
+            state.Polarity = polarity;
+            _game.PROC.driver_update_state(ref state);
+        }
     }
 }

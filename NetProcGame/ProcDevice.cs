@@ -138,6 +138,14 @@ namespace NetProcGame
             }
         }
 
+        public void driver_group_disable(byte number)
+        {
+            lock (procSyncObject)
+            {
+                PinProc.PRDriverGroupDisable(ProcHandle, number);
+            }
+        }
+
         public void driver_disable(ushort number)
         {
             DriverState state = this.driver_get_state(number);
@@ -164,6 +172,52 @@ namespace NetProcGame
             lock (procSyncObject)
             {
                 PinProc.PRDriverUpdateState(ProcHandle, ref driver);
+            }
+        }
+
+        public void driver_update_global_config(bool enable, bool polarity, bool use_clear, bool strobe_start_select,
+            byte start_strobe_time, byte matrix_row_enable_index0, byte matrix_row_enable_index1,
+            bool active_low_matrix_rows, bool tickle_stern_watchdog, bool encode_enables, bool watchdog_expired,
+            bool watchdog_enable, ushort watchdog_reset_time)
+        {
+            lock (procSyncObject)
+            {
+                DriverGlobalConfig globals = new DriverGlobalConfig();
+                globals.EnableOutputs = enable;
+                globals.GlobalPolarity = polarity;
+                globals.UseClear = use_clear;
+                globals.StrobeStartSelect = strobe_start_select;
+                globals.StartStrobeTime = start_strobe_time;
+                globals.MatrixRowEnableIndex0 = matrix_row_enable_index0;
+                globals.MatrixRowEnableIndex1 = matrix_row_enable_index1;
+                globals.ActiveLowMatrixRows = active_low_matrix_rows;
+                globals.TickleSternWatchdog = tickle_stern_watchdog;
+                globals.EncodeEnables = encode_enables;
+                globals.WatchdogExpired = watchdog_expired;
+                globals.WatchdogEnable = watchdog_enable;
+                globals.WatchdogResetTime = watchdog_reset_time;
+
+                PinProc.PRDriverUpdateGlobalConfig(ProcHandle, ref globals);
+            }
+        }
+
+        public void driver_update_group_config(byte group_num, ushort slow_time, byte enable_index, byte row_activate_index,
+            byte row_enable_select, bool matrixed, bool polarity, bool active, bool disable_strobe_after)
+        {
+            lock (procSyncObject)
+            {
+                DriverGroupConfig group = new DriverGroupConfig();
+                group.GroupNum = group_num;
+                group.SlowTime = slow_time;
+                group.EnableIndex = enable_index;
+                group.RowActivateIndex = row_activate_index;
+                group.RowEnableSelect = row_enable_select;
+                group.Matrixed = matrixed;
+                group.Polarity = polarity;
+                group.Active = active;
+                group.DisableStrobeAfter = disable_strobe_after;
+
+                PinProc.PRDriverUpdateGroupConfig(ProcHandle, ref group);
             }
         }
 

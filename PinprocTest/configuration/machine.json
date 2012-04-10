@@ -484,6 +484,7 @@
 	{
       "Name": "rightSlingshot",
       "Number": "C10",
+	  "Bus": "AuxPort"
     },
 	{
       "Name": "leftJet",
@@ -670,7 +671,8 @@
 	},
 	{
 	  "Name": "leftRampJackpot",
-	  "Number": "L34"
+	  "Number": "L34",
+	  "Bus": "AuxPort"
 	},
 	{
 	  "Name": "leftLoopJackpot",

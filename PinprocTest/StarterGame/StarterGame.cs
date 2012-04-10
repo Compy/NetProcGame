@@ -39,10 +39,10 @@ namespace PinprocTest.StarterGame
             this.all_gi_on();
 
             // Lamp showage
-            this.lampctrl.register_show("attract1", @"lamps\attract1.lampshow");
+            //this.lampctrl.register_show("attract1", @"lamps\attract1.lampshow");
             this.lampctrl.register_show("attract2", @"lamps\attract2.lampshow");
-            this.lampctrl.register_show("attract3", @"lamps\attract3.lampshow");
-            this.lampctrl.register_show("attract4", @"lamps\attract4.lampshow");
+            //this.lampctrl.register_show("attract3", @"lamps\attract3.lampshow");
+            //this.lampctrl.register_show("attract4", @"lamps\attract4.lampshow");
 
             // Intantiate basic game features
             attract = new Attract(this);

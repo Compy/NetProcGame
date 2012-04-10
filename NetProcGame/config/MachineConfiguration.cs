@@ -35,7 +35,8 @@ namespace NetProcGame.config
         public string Name { get; set; }
         public string Number { get; set; }
         public int PulseTime { get; set; }
-
+        public string Bus { get; set; }
+        public bool Polarity { get; set; }
         public CoilConfigFileEntry()
         {
             PulseTime = 30;
@@ -49,6 +50,8 @@ namespace NetProcGame.config
     {
         public string Name { get; set; }
         public string Number { get; set; }
+        public string Bus { get; set; }
+        public bool Polarity { get; set; }
     }
 
     /// <summary>
@@ -58,6 +61,26 @@ namespace NetProcGame.config
     {
         public string Name { get; set; }
         public string Number { get; set; }
+    }
+
+    public class PRDriverGlobalsEntry
+    {
+        public ushort lamp_matrix_strobe_time { get; set; }
+        public ushort watchdog_time { get; set; }
+        public bool use_watchdog { get; set; }
+
+        public PRDriverGlobalsEntry()
+        {
+            lamp_matrix_strobe_time = 200;
+            watchdog_time = 1000;
+            use_watchdog = true;
+        }
+    }
+
+    public class DriverAliasEntry
+    {
+        public string expr { get; set; }
+        public string repl { get; set; }
     }
 
     public class BallSaveConfigFileEntry
@@ -99,6 +122,8 @@ namespace NetProcGame.config
         public List<LampConfigFileEntry> PRLamps { get; set; }
         public List<GIConfigFileEntry> PRGI { get; set; }
         public BallSaveConfigFileEntry PRBallSave { get; set; }
+        public PRDriverGlobalsEntry PRDriverGlobals { get; set; }
+        public List<DriverAliasEntry> PRDriverAliases { get; set; }
 
         /// <summary>
         /// Creates a new MachineConfiguration object and initializes all subconfiguration objects
@@ -115,6 +140,8 @@ namespace NetProcGame.config
             PRGI = new List<GIConfigFileEntry>();
             PRBallSave = new BallSaveConfigFileEntry();
             PRGame = new GameConfigFileEntry();
+            PRDriverGlobals = new PRDriverGlobalsEntry();
+            PRDriverAliases = new List<DriverAliasEntry>();
         }
 
         /// <summary>

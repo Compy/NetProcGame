@@ -90,6 +90,7 @@
     <Compile Include="modes\Trough.cs" />
     <Compile Include="pdb\Coil.cs" />
     <Compile Include="pdb\DriverAlias.cs" />
+    <Compile Include="pdb\Lamp.cs" />
     <Compile Include="pdb\PDBConfig.cs" />
     <Compile Include="pdb\PDBFunctions.cs" />
     <Compile Include="pdb\Switch.cs" />

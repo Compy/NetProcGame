@@ -82,7 +82,7 @@ namespace NetProcGame
         public bool GlobalPolarity;
         public bool UseClear;
         public bool StrobeStartSelect;
-        public byte StarStrobeTime;
+        public byte StartStrobeTime;
         public byte MatrixRowEnableIndex1;
         public byte MatrixRowEnableIndex0;
         public bool ActiveLowMatrixRows;
@@ -214,6 +214,7 @@ namespace NetProcGame
         public const int kPRSwitchVirtualFirst = 224;
         public const int kPRSwitchVirtualLast = 255;
         public const int kPRSwitchCount = 256;
+        public const int kPRDriverCount = 256;
         public const int kPRSwitchRulesCount = (kPRSwitchCount << 2);
         // General Methods //
 
@@ -302,6 +303,8 @@ namespace NetProcGame
         [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern UInt16 PRDecode(MachineType machineType, string str);
 
+        [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern Result PRDriverGroupDisable(IntPtr handle, byte groupNum);
 
 
         // Switch & Event Methods //

@@ -9,9 +9,9 @@ namespace NetProcGame.pdb
     {
         public struct PDBAddress
         {
-            public int board;
-            public int bank;
-            public int output;
+            public byte board;
+            public byte bank;
+            public byte output;
         }
 
         public static bool is_pdb_address(string addr, DriverAlias[] aliases = null)
@@ -49,9 +49,9 @@ namespace NetProcGame.pdb
                 if (_params.Length != 3)
                     throw new ArgumentOutOfRangeException("PDB address must have 3 components");
 
-                address.board = Int32.Parse(_params[0].Substring(1));
-                address.bank = Int32.Parse(_params[1].Substring(1));
-                address.output = Int32.Parse(_params[2]);
+                address.board = (byte)Int32.Parse(_params[0].Substring(1));
+                address.bank = (byte)Int32.Parse(_params[1].Substring(1));
+                address.output = (byte)Int32.Parse(_params[2]);
                 return address;
             }
             else if (addr.Contains('/'))
@@ -62,9 +62,9 @@ namespace NetProcGame.pdb
                 if (_params.Length != 3)
                     throw new ArgumentOutOfRangeException("PDB address must have 3 components");
 
-                address.board = Int32.Parse(_params[0]);
-                address.bank = Int32.Parse(_params[1]);
-                address.output = Int32.Parse(_params[2]);
+                address.board = (byte)Int32.Parse(_params[0]);
+                address.bank = (byte)Int32.Parse(_params[1]);
+                address.output = (byte)Int32.Parse(_params[2]);
                 return address;
             }
             else

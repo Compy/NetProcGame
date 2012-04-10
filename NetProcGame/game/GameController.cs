@@ -5,6 +5,7 @@ using System.Text;
 
 using NetProcGame.config;
 using NetProcGame.tools;
+using NetProcGame.pdb;
 
 namespace NetProcGame.game
 {
@@ -153,6 +154,8 @@ namespace NetProcGame.game
         public int ball { get; set; }
 
         public byte[] testFrame;
+
+        public PDBConfig pdb_config;
 
         /// <summary>
         /// Creates a new GameController object with the given machine type and logging infrastructure
@@ -370,17 +373,73 @@ namespace NetProcGame.game
         public void LoadConfig(string PathToFile)
         {
             MachineConfiguration config = MachineConfiguration.FromFile(PathToFile);
+
+            List<VirtualDriver> new_virtual_drivers = new List<VirtualDriver>();
+
+            bool polarity = (this._machineType == MachineType.SternWhitestar || this._machineType == MachineType.SternSAM || this._machineType == MachineType.PDB);
+
+            if (_machineType == MachineType.PDB)
+                pdb_config = new PDBConfig(this._proc, config);
+
             foreach (CoilConfigFileEntry ce in config.PRCoils)
             {
-                Driver d = new Driver(this, ce.Name, PinProc.PRDecode(_machineType, ce.Number));
-                Log("Adding driver " + d.ToString());
+                Driver d;
+                int number;
+                if (_machineType == MachineType.PDB)
+                {
+                    number = pdb_config.get_proc_number("PRCoils", ce.Number);
+
+                    if (number == -1)
+                    {
+                        Console.WriteLine("Coil {0} cannot be controlled by the P-ROC. Ignoring...", ce.Name);
+                        continue;
+                    }
+                }
+                else
+                    number = PinProc.PRDecode(_machineType, ce.Number);
+
+                if ((ce.Bus != null && ce.Bus == "AuxPort") || number >= PinProc.kPRDriverCount)
+                {
+                    d = new VirtualDriver(this, ce.Name, (ushort)number, polarity);
+                    new_virtual_drivers.Add((VirtualDriver)d);
+                }
+                else
+                {
+                    d = new Driver(this, ce.Name, (ushort)number);
+                    Log("Adding driver " + d.ToString());
+                    d.reconfigure(ce.Polarity);
+                }
                 _coils.Add(d.Number, d.Name, d);
             }
 
             foreach (LampConfigFileEntry le in config.PRLamps)
             {
-                Driver d = new Driver(this, le.Name, PinProc.PRDecode(_machineType, le.Number));
-                Log("Adding lamp " + d.ToString());
+                Driver d;
+                int number;
+                if (_machineType == MachineType.PDB)
+                {
+                    number = pdb_config.get_proc_number("PRLamps", le.Number);
+
+                    if (number == -1)
+                    {
+                        Console.WriteLine("Lamp {0} cannot be controlled by the P-ROC. Ignoring...", le.Name);
+                        continue;
+                    }
+                }
+                else
+                    number = PinProc.PRDecode(_machineType, le.Number);
+
+                if ((le.Bus != null && le.Bus == "AuxPort") || number >= PinProc.kPRDriverCount)
+                {
+                    d = new VirtualDriver(this, le.Name, (ushort)number, polarity);
+                    new_virtual_drivers.Add((VirtualDriver)d);
+                }
+                else
+                {
+                    d = new Driver(this, le.Name, (ushort)number);
+                    Log("Adding driver " + d.ToString());
+                    d.reconfigure(le.Polarity);
+                }
                 _lamps.Add(d.Number, d.Name, d);
             }
 
@@ -420,6 +479,35 @@ namespace NetProcGame.game
 
             _num_balls_total = config.PRGame.numBalls;
             _config = config;
+
+            foreach (VirtualDriver virtual_driver in new_virtual_drivers)
+            {
+                int base_group_number = virtual_driver.Number / 8;
+                List<Driver> items_to_remove = new List<Driver>();
+                foreach (Driver d in _coils.Values)
+                {
+                    if (d.Number / 8 == base_group_number)
+                        items_to_remove.Add(d);
+                }
+                foreach (Driver d in items_to_remove)
+                {
+                    _coils.Remove(d.Name);
+                    VirtualDriver vd = new VirtualDriver(this, d.Name, d.Number, polarity);
+                    _coils.Add(d.Number, d.Name, d);
+                }
+                items_to_remove.Clear();
+                foreach (Driver d in _lamps.Values)
+                {
+                    if (d.Number / 8 == base_group_number)
+                        items_to_remove.Add(d);
+                }
+                foreach (Driver d in items_to_remove)
+                {
+                    _lamps.Remove(d.Name);
+                    VirtualDriver vd = new VirtualDriver(this, d.Name, d.Number, polarity);
+                    _lamps.Add(d.Number, d.Name, d);
+                }
+            }
 
             if (_config.PRGame.displayMonitor)
             {
