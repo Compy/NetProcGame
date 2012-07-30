@@ -7,7 +7,7 @@ namespace NetProcGame
     /// <summary>
     /// Wrapper for netpinproc (libpinproc native interface).
     /// </summary>
-    public class ProcDevice
+    public class ProcDevice : IProcDevice
     {
         public IntPtr ProcHandle;
         public MachineType g_machineType;
@@ -88,6 +88,7 @@ namespace NetProcGame
         {
             DriverState state = this.driver_get_state(number);
             Result res;
+
             lock (procSyncObject)
             {
                 PinProc.PRDriverStateFuturePulse(ref state, milliseconds, futureTime);

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using NetProcGame.game;
+using NetProcGame.lamps;
 using NetProcGame.config;
 using NetProcGame.tools;
 using NetProcGame.pdb;
@@ -25,7 +27,7 @@ namespace NetProcGame.game
         /// <summary>
         /// A pinproc class instance, created in the constructor with the Machine_Type attribute
         /// </summary>
-        protected ProcDevice _proc;
+        protected IProcDevice _proc;
 
         /// <summary>
         /// TODO: Implement mode queue logic
@@ -129,6 +131,8 @@ namespace NetProcGame.game
         /// </summary>
         public ILogger Logger { get; set; }
 
+        public LampController LampController { get; set; }
+
         /// <summary>
         /// Thread synchronization object for coils
         /// </summary>
@@ -162,12 +166,21 @@ namespace NetProcGame.game
         /// </summary>
         /// <param name="machineType">Machine type to use (WPC, STERN, PDB etc)</param>
         /// <param name="logger">The logger interface to use</param>
-        public GameController(MachineType machineType, ILogger logger)
+        public GameController(MachineType machineType, ILogger logger, bool Simulated = false)
         {
             this.Logger = logger;
             this._machineType = machineType;
-            this._proc = new ProcDevice(machineType, Logger);
-            this._proc.reset(1);
+            if (Simulated)
+            {
+                this._proc = new FakePinProc(machineType);
+                this._proc.Logger = logger;
+                this._proc.reset(1);
+            }
+            else
+            {
+                this._proc = new ProcDevice(machineType, Logger);
+                this._proc.reset(1);
+            }
             this._modes = new ModeQueue(this);
             this._bootTime = Time.GetTime();
             this._coils = new AttrCollection<ushort, string, Driver>();
@@ -176,6 +189,8 @@ namespace NetProcGame.game
             this._gi = new AttrCollection<ushort, string, Driver>();
             this._old_players = new List<Player>();
             this._players = new List<Player>();
+
+            this.LampController = new lamps.LampController(this);
 
             testFrame = new byte[128 * 32];
             for (int i = 0; i < (128 * 32); i++)
@@ -529,7 +544,7 @@ namespace NetProcGame.game
         /// <summary>
         /// PROC device driver wrapper
         /// </summary>
-        public ProcDevice PROC
+        public IProcDevice PROC
         {
             get { return _proc; }
         }
@@ -850,7 +865,7 @@ namespace NetProcGame.game
                     }
 
                     this.tick();
-                    //tick_virtual_drivers();
+                    tick_virtual_drivers();
                     this._modes.tick();
                     //this.modes.tick();
 

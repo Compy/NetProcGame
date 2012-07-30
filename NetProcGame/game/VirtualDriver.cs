@@ -104,6 +104,18 @@ namespace NetProcGame.game
             this.ChangeState(false);
         }
 
+        public new DriverState State
+        {
+            get
+            {
+                return _state;
+            }
+            set
+            {
+                _state = value;
+            }
+        }
+
         /// <summary>
         /// Enables this driver for 'milliseconds'
         /// </summary>

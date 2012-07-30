@@ -73,11 +73,13 @@
     <Compile Include="dmd\SlideOverTransition.cs" />
     <Compile Include="dmd\TextLayer.cs" />
     <Compile Include="dmd\WipeTransition.cs" />
+    <Compile Include="FakePinProc.cs" />
     <Compile Include="game\AttrCollection.cs" />
     <Compile Include="game\BasicGame.cs" />
     <Compile Include="game\Mode.cs" />
     <Compile Include="game\ModeQueue.cs" />
     <Compile Include="game\SafeDrive.cs" />
+    <Compile Include="IProcDevice.cs" />
     <Compile Include="lamps\LampController.cs" />
     <Compile Include="lamps\LampShow.cs" />
     <Compile Include="lamps\LampShowMode.cs" />

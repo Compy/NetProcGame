@@ -23,14 +23,14 @@ namespace NetProcGame.pdb
     public class PDBConfig
     {
         public List<object> indexes;
-        public ProcDevice proc;
+        public IProcDevice proc;
         public List<DriverAlias> aliases;
 
         private ushort lamp_matrix_strobe_time;
         private ushort watchdog_time;
         private bool use_watchdog;
 
-        public PDBConfig(ProcDevice proc, MachineConfiguration config)
+        public PDBConfig(IProcDevice proc, MachineConfiguration config)
         {
             this.proc = proc;
             this.get_globals(config);
@@ -200,7 +200,7 @@ namespace NetProcGame.pdb
             configure_globals(proc, lamp_source_bank_list, true);
         }
 
-        public void configure_globals(ProcDevice proc, List<int> lamp_source_bank_list, bool enable = true)
+        public void configure_globals(IProcDevice proc, List<int> lamp_source_bank_list, bool enable = true)
         {
             if (enable)
             {
@@ -239,7 +239,7 @@ namespace NetProcGame.pdb
                 this.watchdog_time);
         }
 
-        public void initialize_drivers(ProcDevice proc)
+        public void initialize_drivers(IProcDevice proc)
         {
             // Loop through all of the drivers, initializing them with the polarity
             for (ushort i = 0; i < 208; i++)

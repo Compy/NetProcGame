@@ -143,6 +143,9 @@ namespace NetProcGame.game
             {
                 return this._game.PROC.driver_get_state(this._number);
             }
+            set
+            {
+            }
         }
 
         public double last_time_changed
