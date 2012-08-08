@@ -231,7 +231,7 @@ namespace NetProcGame.game
         /// Adds a new player to 'Players' and auto-assigns a name
         /// </summary>
         /// <returns></returns>
-        public Player add_player()
+        public virtual Player add_player()
         {
             Player newPlayer = this.CreatePlayer("Player " + (_players.Count + 1).ToString());
             _players.Add(newPlayer);
@@ -849,8 +849,8 @@ namespace NetProcGame.game
             _done = false;
             dmd_event();
             Event[] events;
-            try
-            {
+            //try
+            //{
                 while (!_done)
                 {
                     loops++;
@@ -889,13 +889,13 @@ namespace NetProcGame.game
                         _proc.watchdog_tickle();
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                Logger.Log("RUN LOOP EXCEPTION: " + ex.ToString());
-            }
-            finally
-            {
+            //}
+            //catch (Exception ex)
+            //{
+            //    Logger.Log("RUN LOOP EXCEPTION: " + ex.ToString());
+            //}
+            //finally
+            //{
                 Logger.Log("Run loop ended");
                 if (loops != 0)
                 {
@@ -903,7 +903,7 @@ namespace NetProcGame.game
                 }
                 _proc.Close();
 
-            }
+            //}
         }
 
         /// <summary>

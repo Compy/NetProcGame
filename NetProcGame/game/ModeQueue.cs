@@ -26,6 +26,7 @@ namespace NetProcGame.game
                 _modes.Add(mode);
             }
             //self.modes.sort(lambda x, y: y.priority - x.priority)
+            _modes.Sort();
             mode.mode_started();
 
             if (mode == _modes[0])
@@ -63,15 +64,16 @@ namespace NetProcGame.game
 
         public void tick()
         {
+            Mode[] modes;
             lock (_mode_lock_obj)
             {
-                Mode[] modes = new Mode[_modes.Count()];
+                modes = new Mode[_modes.Count()];
                 _modes.CopyTo(modes);
-                for (int i = 0; i < modes.Length; i++)
-                {
-                    modes[i].dispatch_delayed();
-                    modes[i].mode_tick();
-                }
+            }
+            for (int i = 0; i < modes.Length; i++)
+            {
+                modes[i].dispatch_delayed();
+                modes[i].mode_tick();
             }
         }
 

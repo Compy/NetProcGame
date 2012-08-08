@@ -10,7 +10,7 @@ namespace NetProcGame.game
     public delegate bool SwitchAcceptedHandler(Switch sw);
     public delegate bool DelayedHandler(object param);
     public delegate void AnonDelayedHandler();
-    public class Mode
+    public class Mode : IComparable
     {
         // Properties
         /// <summary>
@@ -344,6 +344,14 @@ namespace NetProcGame.game
             {
                 return String.Format("name={0} time={1} event_type={2}", this.Name, this.Time, this.Event_Type);
             }
+        }
+
+        public int CompareTo(object obj)
+        {
+            if (obj is Mode)
+                return ((Mode)obj).Priority.CompareTo(Priority);
+            else
+                return -1;
         }
     }
 }

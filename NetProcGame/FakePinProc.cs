@@ -188,6 +188,8 @@ namespace NetProcGame
                     d.Add(drivers[s.DriverNum]);
                 }
             }
+            if (rule_index >= switch_rules.Length)
+                return;
             this.switch_rules[rule_index] = new FakeSwitchRule() { Drivers = d, NotifyHost = rule.NotifyHost };
         }
 
