@@ -22,7 +22,7 @@ namespace PinprocTest.StarterGame
         public bool ball_being_saved = false;
 
         public StarterGame(ILogger logger)
-            : base(MachineType.WPC, logger)
+            : base(MachineType.WPC, logger, false)
         {
             this.lampctrl = new LampController(this);
         }
@@ -33,14 +33,14 @@ namespace PinprocTest.StarterGame
 
         public void setup()
         {
-            LoadConfig(@"configuration\machine.json");
+            LoadConfig(@"configuration/machine.json");
             setup_ball_search();
 
             this.all_gi_on();
 
             // Lamp showage
             //this.lampctrl.register_show("attract1", @"lamps\attract1.lampshow");
-            this.lampctrl.register_show("attract2", @"lamps\attract2.lampshow");
+            this.lampctrl.register_show("attract2", @"lamps/attract2.lampshow");
             //this.lampctrl.register_show("attract3", @"lamps\attract3.lampshow");
             //this.lampctrl.register_show("attract4", @"lamps\attract4.lampshow");
 

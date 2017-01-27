@@ -381,6 +381,32 @@ namespace NetProcGame
             }
         }
 
+		public Result write_data(uint module, uint startingAddr, ref uint data)
+		{
+			Result r;
+			lock (procSyncObject) {
+				//Logger.Log(String.Format("write_data - thread: {0}", System.Threading.Thread.CurrentThread.Name));
+
+				r = PinProc.PRWriteData(ProcHandle, module, startingAddr, 1, ref data);
+				//Logger.Log(String.Format ("write_data module: {0} start_addr: {1} data: {2}",
+				//                          module, startingAddr, data));
+			}
+			return r;
+		}
+
+		public Result read_data(uint module, uint startingAddr, ref uint data)
+		{
+			Result r;
+
+			lock (procSyncObject) {
+				//Logger.Log(String.Format("read_data - thread: {0}", System.Threading.Thread.CurrentThread.Name));
+				r = PinProc.PRReadData(ProcHandle, module, startingAddr, 1, ref data);
+				//Logger.Log(String.Format ("read_data module: {0} start_addr: {1} data: {2}",
+				//                          module, startingAddr, data));
+			}
+			return r;
+		}
+
         ///////////////////////////////////////////////////////////////////////////////
         /// DMD FUNCTIONS
         ///////////////////////////////////////////////////////////////////////////////

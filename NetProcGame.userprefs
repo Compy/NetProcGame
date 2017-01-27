@@ -1,0 +1,20 @@
+﻿<Properties StartupItem="PinprocTest/NetProcGameTest.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="NetProcGame/Pinproc.cs">
+    <Files>
+      <File FileName="NetProcGame/pdb/PDBConfig.cs" Line="48" Column="18" />
+      <File FileName="NetProcGame/Pinproc.cs" Line="258" Column="82" />
+      <File FileName="PinprocTest/StarterGame/Attract.cs" Line="199" Column="10" />
+      <File FileName="PinprocTest/StarterGame/StarterGame.cs" Line="11" Column="27" />
+      <File FileName="NetProcGame/game/BasicGame.cs" Line="35" Column="97" />
+      <File FileName="NetProcGame/game/GameController.cs" Line="175" Column="34" />
+      <File FileName="NetProcGame/dmd/Animation.cs" Line="46" Column="36" />
+      <File FileName="PinprocTest/Program.cs" Line="31" Column="20" />
+      <File FileName="NetProcGame/ProcDevice.cs" Line="462" Column="6" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

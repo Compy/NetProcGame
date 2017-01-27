@@ -216,94 +216,113 @@ namespace NetProcGame
         public const int kPRSwitchCount = 256;
         public const int kPRDriverCount = 256;
         public const int kPRSwitchRulesCount = (kPRSwitchCount << 2);
+
+		#if BUILD_MAC
+		public const string DLLName = "libpinproc.dylib";
+		#elif BUILD_LINUX
+		public const string DLLName = "libpinproc.so";
+		#else
+		public const string DLLName = "pinproc.dll";
+		#endif
+
+
         // General Methods //
 
         // Status: Presumed good
-        [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DLLName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void PRLogSetLevel(LogLevel level);
 
-        [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLLName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int PRGetVersionInfo(ref UInt16 version, ref UInt16 revision, ref UInt16 combined);
 
         // Status: Good
-        [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLLName, CallingConvention = CallingConvention.Cdecl)]
         public static extern string PRGetLastErrorText();
 
         // Status: Good
-        [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLLName, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr PRCreate(MachineType machineType);
 
         // Status: Good
-        [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLLName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void PRDelete(IntPtr handle);
 
         // Staus: Presumed good
-        [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLLName, CallingConvention = CallingConvention.Cdecl)]
         public static extern Result PRReset(IntPtr handle, UInt32 flags);
 
         // Status: Good
-        [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLLName, CallingConvention = CallingConvention.Cdecl)]
         public static extern Result PRFlushWriteData(IntPtr handle);
+
+		[DllImport(DLLName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern Result PRWriteData (IntPtr handle, UInt32 moduleSelect, UInt32 startingAddr, 
+			Int32 numWriteWords, ref UInt32 writeBuffer);
+
+		[DllImport(DLLName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern Result PRReadData (IntPtr handle, UInt32 moduleSelect, UInt32 startingAddr, 
+			Int32 numReadWords, ref UInt32 readBuffer);
+
 
 
         // Driver Methods //
 
 
         // Status: Presumed good
-        [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DLLName, CallingConvention = CallingConvention.Cdecl)]
         public static extern Result PRDriverWatchdogTickle(IntPtr handle);
 
 
         // Status: Soft tested
-        [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DLLName, CallingConvention = CallingConvention.Cdecl)]
         public static extern Result PRDriverGetState(IntPtr handle, byte driverNum, ref DriverState driverState);
 
         // Status: Soft tested
-        [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DLLName, CallingConvention = CallingConvention.Cdecl)]
         public static extern Result PRDriverUpdateState(IntPtr handle, ref DriverState driverState);
 
         // Status: UNTESTED
-        [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DLLName, CallingConvention = CallingConvention.Cdecl)]
         public static extern Result PRDriverUpdateGlobalConfig(IntPtr handle, ref DriverGlobalConfig driverGlobalConfig);
 
-        [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DLLName, CallingConvention = CallingConvention.Cdecl)]
         public static extern Result PRDriverGetGroupConfig(IntPtr handle, byte groupNum, ref DriverGroupConfig driverGroupConfig);
 
-        [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DLLName, CallingConvention = CallingConvention.Cdecl)]
         public static extern Result PRDriverUpdateGroupConfig(IntPtr handle, ref DriverGroupConfig driverGroupConfig);
 
         // Status: UNTESTED
-        [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DLLName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void PRDriverStateDisable(ref DriverState state);
 
         // Status: UNTESTED
-        [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DLLName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void PRDriverStatePulse(ref DriverState state, byte milliseconds);
 
         // Status: UNTESTED
-        [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DLLName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void PRDriverStateSchedule(ref DriverState state, UInt32 schedule, byte cycleSeconds, bool now);
 
         // Status: UNTESTED
-        [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DLLName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void PRDriverStatePatter(ref DriverState state, UInt16 millisecondsOn, UInt16 millisecondsOff, UInt16 originalOnTime);
 
         // Status: UNTESTED
-        [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DLLName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void PRDriverStatePulsedPatter(ref DriverState state, UInt16 millisecondsOn, UInt16 millisecondsOff, UInt16 patterTime);
 
         // Status: UNTESTED
-        [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DLLName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void PRDriverFuturePulse(IntPtr handle, byte driverNum, UInt16 milliseconds, UInt16 futureTime);
 
-        [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DLLName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void PRDriverStateFuturePulse(ref DriverState state, UInt16 milliseconds, UInt16 futureTime);
 
         // Status: Good
-        [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DLLName, CallingConvention = CallingConvention.Cdecl)]
         public static extern UInt16 PRDecode(MachineType machineType, string str);
 
-        [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DLLName, CallingConvention = CallingConvention.Cdecl)]
         public static extern Result PRDriverGroupDisable(IntPtr handle, byte groupNum);
 
 
@@ -311,19 +330,19 @@ namespace NetProcGame
 
 
         // Status: Good
-        [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DLLName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int PRGetEvents(IntPtr handle, [In, Out] Event[] events, int maxEvents);
 
         // Status: UNTESTED
-        [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DLLName, CallingConvention = CallingConvention.Cdecl)]
         public static extern Result PRSwitchUpdateConfig(IntPtr handle, ref SwitchConfig switchConfig);
 
         // Status: UNTESTED
-        [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DLLName, CallingConvention = CallingConvention.Cdecl)]
         public static extern Result PRSwitchUpdateRule(IntPtr handle, byte switchNum, EventType eventType, ref SwitchRule rule, DriverState[] linkedDrivers, int numDrivers, bool drive_outputs_now);
 
         // Status: UNTESTED
-        [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DLLName, CallingConvention = CallingConvention.Cdecl)]
         public static extern Result PRSwitchGetStates(IntPtr handle, [In, Out] EventType[] switchStates, UInt16 numSwitches);
 
 
@@ -332,11 +351,11 @@ namespace NetProcGame
 
 
         // Status: UNTESTED
-        [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DLLName, CallingConvention = CallingConvention.Cdecl)]
         public static extern Result PRDMDDraw(IntPtr handle, byte[] dots);
 
         // Status: Good
-        [DllImport("pinproc.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DLLName, CallingConvention = CallingConvention.Cdecl)]
         public static extern Result PRDMDUpdateConfig(IntPtr handle, ref DMDConfig config);
 
 

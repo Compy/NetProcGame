@@ -34,19 +34,19 @@ namespace PinprocTest.StarterGame
 
             Game.score_display.layer.enabled = false;
 
-            Animation anim = new Animation().load(@"animations\williams_animated.dmd");
+            Animation anim = new Animation().load(@"animations/williams_animated.dmd");
             this.williams_logo = new AnimatedLayer(false, true, false, 1, anim.frames.ToArray());
 
-            anim = new Animation().load(@"animations\ballcross.dmd");
+            anim = new Animation().load(@"animations/ballcross.dmd");
             this.ballcross = new AnimatedLayer(false, true, false, 1, anim.frames.ToArray());
 
-            anim = new Animation().load(@"animations\dm_logo.dmd");
+            anim = new Animation().load(@"animations/dm_logo.dmd");
             this.dm_logo = new AnimatedLayer(false, true, false, 1, anim.frames.ToArray());
 
-            anim = new Animation().load(@"animations\pcc_logo.dmd");
+            anim = new Animation().load(@"animations/pcc_logo.dmd");
             this.pcc_logo = new AnimatedLayer(false, true, false, 1, anim.frames.ToArray());
 
-            anim = new Animation().load(@"animations\github_fork.dmd");
+            anim = new Animation().load(@"animations/github_fork.dmd");
             this.github_logo = new AnimatedLayer(false, true, false, 1, anim.frames.ToArray());
 
             presents_layer = new TextLayer(128 / 2, 0, FontManager.instance.font_named("Font09Bx7.dmd"), FontJustify.Center, true);
@@ -155,7 +155,6 @@ namespace PinprocTest.StarterGame
 
         public bool sw_coinDoor_open(Switch sw)
         {
-            Game.PROC.swCoindoor = true;
             
             return SWITCH_CONTINUE;
         }

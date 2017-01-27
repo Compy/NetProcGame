@@ -17,7 +17,7 @@ namespace NetProcGame.dmd
         {
             instance = this;
             _font_cache = new Dictionary<string, Font>();
-            if (!path.EndsWith(@"\")) path = path + @"\";
+            if (!path.EndsWith(@"/")) path = path + @"/";
             font_paths = new List<string>();
             font_paths.Add(path);
         }

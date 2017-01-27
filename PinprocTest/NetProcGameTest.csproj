@@ -52,11 +52,6 @@
     <Compile Include="TestGame.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="pinproc.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="animations\ballcross.dmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -43,5 +43,8 @@ namespace NetProcGame
         void switch_update_rule(ushort number, EventType event_type, SwitchRule rule, DriverState[] linked_drivers, bool drive_outputs_now);
         void watchdog_tickle();
 
+		Result write_data(uint module, uint address, ref uint data);
+		Result read_data(uint module, uint address, ref uint data);
+
     }
 }

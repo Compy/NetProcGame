@@ -22,10 +22,10 @@ namespace NetProcGame.game
         //public ScoreDisplay score_display = null;
         public ScoreDisplay score_display = null;
 
-        public BasicGame(MachineType machine_type, ILogger logger)
-            : base(machine_type, logger)
+		public BasicGame(MachineType machine_type, ILogger logger, bool simulated = false)
+            : base(machine_type, logger, simulated)
         {
-            FontManager manager = new FontManager(@"fonts\");
+            FontManager manager = new FontManager(@"fonts/");
             if (machine_type == MachineType.WPCAlphanumeric)
             {
                 // Create alphanumeric display

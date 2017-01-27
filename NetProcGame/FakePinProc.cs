@@ -164,6 +164,16 @@ namespace NetProcGame
         {
         }
 
+		public Result write_data(uint module, uint startingAddr, ref uint data)
+		{
+			return Result.Success;
+		}
+
+		public Result read_data(uint module, uint startingAddr, ref uint data)
+		{
+			return Result.Success;
+		}
+
         public void set_dmd_color_mapping(byte[] mapping)
         {
         }
