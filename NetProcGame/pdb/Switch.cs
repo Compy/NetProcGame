@@ -7,25 +7,10 @@ namespace NetProcGame.pdb
 {
     public class Switch
     {
-        private string sw_type;
         private int sw_number;
         public Switch(string number_str)
         {
-            string upper_str = number_str.ToUpper();
-            if (upper_str.StartsWith("SD"))
-            {
-                sw_type = "dedicated";
-            }
-            else if (upper_str.Contains('/'))
-            {
-                sw_type = "matrix";
-                sw_number = this.parse_matrix_num(upper_str);
-            }
-            else
-            {
-                sw_type = "proc";
-                sw_number = Int32.Parse(number_str);
-            }
+			sw_number = Int32.Parse (number_str);
         }
 
         public int proc_num()

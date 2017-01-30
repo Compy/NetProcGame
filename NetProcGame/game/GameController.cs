@@ -461,13 +461,15 @@ namespace NetProcGame.game
             foreach (GIConfigFileEntry ge in config.PRGI)
             {
                 Driver d = new Driver(this, ge.Name, PinProc.PRDecode(_machineType, ge.Number));
+				Log ("Adding GI " + d.ToString ());
                 _gi.Add(d.Number, d.Name, d);
             }
 
             foreach (SwitchConfigFileEntry se in config.PRSwitches)
             {
-
-                Switch s = new Switch(this, se.Name, PinProc.PRDecode(_machineType, se.Number), se.Type);
+				//Log (se.Number);
+                //Switch s = new Switch(this, se.Name, PinProc.PRDecode(_machineType, se.Number), se.Type);
+				Switch s = new Switch(this, se.Name, Convert.ToUInt16(se.Number), se.Type);
                 
                 _proc.switch_update_rule(s.Number, 
                     EventType.SwitchClosedDebounced, 
@@ -773,6 +775,7 @@ namespace NetProcGame.game
             }
             else
             {
+				Log (evt.ToString ());
                 Switch sw = _switches[(ushort)evt.Value];
                 bool recvd_state = evt.Type == EventType.SwitchClosedDebounced;
 

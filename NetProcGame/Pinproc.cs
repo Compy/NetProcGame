@@ -30,7 +30,7 @@
 //   mono pinproc.exe
 //
 
-
+#define BUILD_MAC
 using System;
 using System.Runtime.InteropServices;
 

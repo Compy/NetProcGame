@@ -16,13 +16,12 @@ namespace PinprocTest.StarterGame
         public BaseGameMode _base_game_mode;
         public BallSave ball_save;
         public Trough trough;
-        public Claw claw;
         public LampController lampctrl;
 
         public bool ball_being_saved = false;
 
         public StarterGame(ILogger logger)
-            : base(MachineType.WPC, logger, false)
+			: base(MachineType.PDB, logger, false)
         {
             this.lampctrl = new LampController(this);
         }
@@ -48,16 +47,14 @@ namespace PinprocTest.StarterGame
             attract = new Attract(this);
             _base_game_mode = new BaseGameMode(this);
 
-            string[] trough_switchnames = new string[5] { "trough1", "trough2", "trough3", "trough4", "trough5" };
+            string[] trough_switchnames = new string[3] { "trough1", "trough2", "trough3" };
             trough = new Trough(this,
                                 trough_switchnames,
-                                "trough5",
+                                "trough1",
                                 "trough",
                                 new string[] { "leftOutlane", "rightOutlane" },
                                 "shooterLane");
             ball_save = new BallSave(this, "ballSave", "shooterLane");
-
-            claw = new Claw(this);
 
             // Link ball save to trough
             ball_save.allow_multiple_saves = false;
@@ -87,9 +84,7 @@ namespace PinprocTest.StarterGame
             _modes.Add(attract);
             _modes.Add(ball_save);
             _modes.Add(trough);
-            _modes.Add(claw);
 
-            claw.orient();
             //_modes.Add(_ball_search);
 
             // Disable the flippers

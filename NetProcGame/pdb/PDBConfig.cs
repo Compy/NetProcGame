@@ -41,6 +41,7 @@ namespace NetProcGame.pdb
             List<PDBLampEntry> lamp_list = new List<PDBLampEntry>();
             List<PDBLampListIndexEntry> lamp_list_for_index = new List<PDBLampListIndexEntry>();
             this.aliases = new List<DriverAlias>();
+			this.indexes = new List<object> ();
 
             if (config.PRDriverAliases != null)
             {
