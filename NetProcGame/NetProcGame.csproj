@@ -109,6 +109,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="tools\Time.cs" />
     <Compile Include="game\I2cServo.cs" />
+    <Compile Include="game\WSLEDDriver.cs" />
+    <Compile Include="tools\BinaryEnums.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

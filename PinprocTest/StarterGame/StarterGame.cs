@@ -23,11 +23,13 @@ namespace PinprocTest.StarterGame
 		public I2cServo wall1;
 		public I2cServo wall2;
 		public I2cServo testServo;
+		public WSLEDDriver ledDriver;
 
         public StarterGame(ILogger logger)
 			: base(MachineType.PDB, logger, false)
         {
             this.lampctrl = new LampController(this);
+			this.ledDriver = new WSLEDDriver ("/dev/ttyusb1", 100);
         }
 
         public void save_settings()
