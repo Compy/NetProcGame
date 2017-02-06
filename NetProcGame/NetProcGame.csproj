@@ -108,6 +108,7 @@
     <Compile Include="ProcDevice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="tools\Time.cs" />
+    <Compile Include="game\I2cServo.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

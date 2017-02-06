@@ -1,13 +1,13 @@
 ﻿<Properties StartupItem="PinprocTest/NetProcGameTest.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="NetProcGame/game/GameController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="NetProcGame/game/I2cServo.cs">
     <Files>
-      <File FileName="PinprocTest/StarterGame/Attract.cs" Line="65" Column="10" />
-      <File FileName="PinprocTest/StarterGame/BaseGameMode.cs" Line="99" Column="11" />
-      <File FileName="PinprocTest/StarterGame/StarterGame.cs" Line="50" Column="55" />
-      <File FileName="PinprocTest/configuration/machine.json" Line="61" Column="19" />
-      <File FileName="NetProcGame/game/GameController.cs" Line="764" Column="25" />
-      <File FileName="NetProcGame/game/ModeQueue.cs" Line="48" Column="9" />
+      <File FileName="NetProcGame/game/I2cServo.cs" Line="56" Column="75" />
+      <File FileName="NetProcGame/IProcDevice.cs" Line="50" Column="37" />
+      <File FileName="NetProcGame/ProcDevice.cs" Line="420" Column="56" />
+      <File FileName="NetProcGame/FakePinProc.cs" Line="236" Column="4" />
+      <File FileName="PinprocTest/StarterGame/StarterGame.cs" Line="86" Column="35" />
+      <File FileName="PinprocTest/Program.cs" Line="73" Column="7" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

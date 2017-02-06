@@ -407,6 +407,22 @@ namespace NetProcGame
 			return r;
 		}
 
+		public void i2c_write8(uint address, uint register, uint value)
+		{
+			this.write_data (7, address << 9 | register, ref value);
+		}
+
+		public void initialize_i2c(uint address)
+		{
+			this.i2c_write8 (address, 0x00, 0x11); // Set sleep
+			this.i2c_write8 (address, 0x01, 0x04); // Configure output
+			//this.i2c_write8 (address, 0xFE, 130); // Set to 50Hz
+			this.i2c_write8 (address, 0xFE, 102); // Set to 60Hz
+			Thread.Sleep(10); // Sleep needed to sync PLL
+			this.i2c_write8 (address, 0x00, 0x01); // No more sleeping
+			Thread.Sleep(10);
+		}
+
         ///////////////////////////////////////////////////////////////////////////////
         /// DMD FUNCTIONS
         ///////////////////////////////////////////////////////////////////////////////

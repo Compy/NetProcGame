@@ -20,6 +20,10 @@ namespace PinprocTest.StarterGame
 
         public bool ball_being_saved = false;
 
+		public I2cServo wall1;
+		public I2cServo wall2;
+		public I2cServo testServo;
+
         public StarterGame(ILogger logger)
 			: base(MachineType.PDB, logger, false)
         {
@@ -61,11 +65,34 @@ namespace PinprocTest.StarterGame
             trough.ball_save_callback = new AnonDelayedHandler(ball_save.launch_callback);
             trough.num_balls_to_save = new GetNumBallsToSaveHandler(ball_save.get_num_balls_to_save);
             ball_save.trough_enable_ball_save = new BallSaveEnable(trough.enable_ball_save);
+
+			this.PROC.initialize_i2c (0x40);
+
+			ServoConfiguration _servoConfig = new ServoConfiguration () { address = 0x40, minimum = 125, maximum = 600 };
+
+			this.wall1 = new I2cServo(0, _servoConfig, this.PROC);
+			this.wall2 = new I2cServo(1, _servoConfig, this.PROC);
+			this.testServo = new I2cServo (0, _servoConfig, this.PROC);
             
             // Instead of resetting everything here as well as when a user initiated reset occurs, do everything in
             // this.reset and call it now and during a user initiated reset
             this.Reset();
         }
+
+		public void left_wall_down() 
+		{
+			//this.wall1.goToPosition (0);
+			//this.wall2.goToPosition (0);
+			this.testServo.goToPosition(0.9f);
+		}
+
+		public void left_wall_up()
+		{
+			//this.wall1.goToPosition (0.5f);
+			//this.wall1.stop();
+			//this.wall2.stop ();
+			this.testServo.goToPosition(0.6f);
+		}
 
         public void on_ball_saved()
         {

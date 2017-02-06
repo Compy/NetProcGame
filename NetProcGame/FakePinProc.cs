@@ -227,5 +227,13 @@ namespace NetProcGame
         {
             return Result.Success;
         }
+
+		public void i2c_write8(uint address, uint register, uint value)
+		{
+		}
+
+		public void initialize_i2c(uint address)
+		{
+		}
     }
 }

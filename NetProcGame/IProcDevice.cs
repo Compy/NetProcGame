@@ -46,5 +46,7 @@ namespace NetProcGame
 		Result write_data(uint module, uint address, ref uint data);
 		Result read_data(uint module, uint address, ref uint data);
 
+		void i2c_write8(uint address, uint register, uint value);
+		void initialize_i2c(uint address);
     }
 }

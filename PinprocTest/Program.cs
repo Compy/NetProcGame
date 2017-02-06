@@ -18,9 +18,11 @@ namespace PinprocTest
 
         private static ConsoleLogger logger;
 
+		private static bool wallStatus;
+
         static void Main(string[] args)
         {
-
+			wallStatus = false;
             System.Threading.Thread.CurrentThread.Name = "Console Thread";
             logger = new ConsoleLogger();
             Console.CancelKeyPress += new ConsoleCancelEventHandler(Console_CancelKeyPress);
@@ -59,6 +61,18 @@ namespace PinprocTest
                     game.Coils["bottomPopper"].Pulse();
                 if (line == "t")
                     game.Coils["topPopper"].Pulse();
+
+				if (line == "w") {
+					wallStatus = !wallStatus;
+
+					if (wallStatus) {
+						Console.WriteLine ("Wall scoops up");
+						game.left_wall_up ();
+					} else {
+						Console.WriteLine ("Wall scoops down");
+						game.left_wall_down ();
+					}
+				}
 
                 line = Console.ReadLine();
             }
