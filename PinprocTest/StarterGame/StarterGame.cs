@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using NetProcGame;
 using NetProcGame.game;
 using NetProcGame.modes;
@@ -23,13 +24,16 @@ namespace PinprocTest.StarterGame
 		public I2cServo wall1;
 		public I2cServo wall2;
 		public I2cServo testServo;
+		public I2cServo flasherMotor1;
+		public I2cServo flasherMotor2;
+		public I2cServo flasherMotor3;
 		public WSLEDDriver ledDriver;
 
         public StarterGame(ILogger logger)
 			: base(MachineType.PDB, logger, false)
         {
             this.lampctrl = new LampController(this);
-			this.ledDriver = new WSLEDDriver ("/dev/ttyusb1", 100);
+			//this.ledDriver = new WSLEDDriver ("/dev/ttyusb1", 100);
         }
 
         public void save_settings()
@@ -70,10 +74,13 @@ namespace PinprocTest.StarterGame
 
 			this.PROC.initialize_i2c (0x40);
 
-			ServoConfiguration _servoConfig = new ServoConfiguration () { address = 0x40, minimum = 125, maximum = 600 };
+			ServoConfiguration _servoConfig = new ServoConfiguration () { address = 0x40, minimum = 150, maximum = 600 };
 
 			this.wall1 = new I2cServo(0, _servoConfig, this.PROC);
 			this.wall2 = new I2cServo(1, _servoConfig, this.PROC);
+			this.flasherMotor1 = new I2cServo(2, _servoConfig, this.PROC);
+			this.flasherMotor2 = new I2cServo(3, _servoConfig, this.PROC);
+			this.flasherMotor3 = new I2cServo(4, _servoConfig, this.PROC);
 			this.testServo = new I2cServo (0, _servoConfig, this.PROC);
             
             // Instead of resetting everything here as well as when a user initiated reset occurs, do everything in
@@ -83,9 +90,9 @@ namespace PinprocTest.StarterGame
 
 		public void left_wall_down() 
 		{
-			//this.wall1.goToPosition (0);
+			this.wall1.goToPosition (0.8f);
 			//this.wall2.goToPosition (0);
-			this.testServo.goToPosition(0.9f);
+			//this.testServo.goToPosition(0.9f);
 		}
 
 		public void left_wall_up()
@@ -93,7 +100,34 @@ namespace PinprocTest.StarterGame
 			//this.wall1.goToPosition (0.5f);
 			//this.wall1.stop();
 			//this.wall2.stop ();
-			this.testServo.goToPosition(0.6f);
+			this.wall1.goToPosition (0.25f);
+			//this.wall2.goToPosition (0.5f);
+			//this.testServo.goToPosition(0.6f);
+		}
+
+		public void spinning_flashers_on()
+		{
+			this.flasherMotor1.goToPosition (0.65f);
+			this.flasherMotor2.goToPosition (0.65f);
+			this.flasherMotor3.goToPosition (0.65f);
+		}
+
+		public void spinning_flashers_off()
+		{
+			this.flasherMotor1.stop ();
+			this.flasherMotor2.stop ();
+			this.flasherMotor3.stop ();
+		}
+
+		public void test_servo()
+		{
+			for (uint pulselen = 150; pulselen < 600; pulselen++) {
+				this.testServo.SetPwm (0, pulselen);
+			}
+			Thread.Sleep (500);
+			for (uint pulselen = 600; pulselen > 150; pulselen--) {
+				this.testServo.SetPwm (0, pulselen);
+			}
 		}
 
         public void on_ball_saved()

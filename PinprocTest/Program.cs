@@ -19,10 +19,12 @@ namespace PinprocTest
         private static ConsoleLogger logger;
 
 		private static bool wallStatus;
+		private static bool flasherStatus;
 
         static void Main(string[] args)
         {
 			wallStatus = false;
+			flasherStatus = false;
             System.Threading.Thread.CurrentThread.Name = "Console Thread";
             logger = new ConsoleLogger();
             Console.CancelKeyPress += new ConsoleCancelEventHandler(Console_CancelKeyPress);
@@ -49,6 +51,16 @@ namespace PinprocTest
                 {
                     game.PROC.reset(1);
                 }
+				if (line == "f") {
+					flasherStatus = !flasherStatus;
+					if (flasherStatus) {
+						Console.WriteLine ("Spinning flashers on");
+						game.spinning_flashers_on ();
+					} else {
+						Console.WriteLine ("Spinning flashers off");
+						game.spinning_flashers_off ();
+					}
+				}
                 if (line == "o")
                 {
                     game.open_divertor();
@@ -72,6 +84,7 @@ namespace PinprocTest
 						Console.WriteLine ("Wall scoops down");
 						game.left_wall_down ();
 					}
+					//game.test_servo ();
 				}
 
                 line = Console.ReadLine();
