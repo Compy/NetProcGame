@@ -33,7 +33,8 @@ namespace PinprocTest.StarterGame
 			: base(MachineType.PDB, logger, false)
         {
             this.lampctrl = new LampController(this);
-			//this.ledDriver = new WSLEDDriver ("/dev/ttyusb1", 100);
+			// Internal offset should be 200
+			this.ledDriver = new WSLEDDriver ("/dev/tty.usbmodem1403131", 50);
         }
 
         public void save_settings()
@@ -82,6 +83,11 @@ namespace PinprocTest.StarterGame
 			this.flasherMotor2 = new I2cServo(3, _servoConfig, this.PROC);
 			this.flasherMotor3 = new I2cServo(4, _servoConfig, this.PROC);
 			this.testServo = new I2cServo (0, _servoConfig, this.PROC);
+
+			this.ledDriver.FadeAllToColor (0, 0, 0, 0);
+			this.ledDriver.ScheduleAll (0xFFFFFFFF);
+			Thread.Sleep (1000);
+			this.ledDriver.FadeAllToColor (255, 0, 0, 32);
             
             // Instead of resetting everything here as well as when a user initiated reset occurs, do everything in
             // this.reset and call it now and during a user initiated reset
