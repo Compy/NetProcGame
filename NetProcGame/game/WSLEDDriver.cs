@@ -171,6 +171,17 @@ namespace NetProcGame
 			_driver.BaseStream.Flush ();
 		}
 
+		public void FadeLedToColor(byte led, byte r, byte g, byte b, byte time = 1) 
+		{
+			byte byte1 = 1;
+			byte1 <<= 4;
+			byte1 = (byte)(byte1 | (led & Convert.ToUInt32("111100000000",2)));
+			byte byte2 = (byte)(led & Convert.ToUInt32("000011111111",2));
+
+			byte[] buff = new byte[7] { byte1, byte2, r, g, b, time, 0 };
+			_driver.Write (buff, 0, buff.Length);
+		}
+
 		/// <summary>
 		/// Closes the connection to the LED driver
 		/// </summary>

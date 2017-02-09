@@ -84,15 +84,24 @@ namespace PinprocTest.StarterGame
 			this.flasherMotor3 = new I2cServo(4, _servoConfig, this.PROC);
 			this.testServo = new I2cServo (0, _servoConfig, this.PROC);
 
-			this.ledDriver.FadeAllToColor (0, 0, 0, 0);
+			this.ledDriver.FadeAllToColor (255, 255, 255, 0);
 			this.ledDriver.ScheduleAll (0xFFFFFFFF);
-			Thread.Sleep (1000);
-			this.ledDriver.FadeAllToColor (255, 0, 0, 32);
             
             // Instead of resetting everything here as well as when a user initiated reset occurs, do everything in
             // this.reset and call it now and during a user initiated reset
             this.Reset();
         }
+
+		public void RunFlasherRoutine() {
+			attract.RunFlasherRoutine ();
+		}
+
+		public void flash_lamp(byte lamp)
+		{
+			ledDriver.FadeAllToColor (0, 0, 0, 0);
+			ledDriver.FadeLedToColor (lamp, 255, 255, 255, 0);
+			ledDriver.ScheduleLamp (lamp, 0xFFFFFFFF);
+		}
 
 		public void left_wall_down() 
 		{

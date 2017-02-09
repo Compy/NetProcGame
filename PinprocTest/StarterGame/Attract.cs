@@ -27,6 +27,45 @@ namespace PinprocTest.StarterGame
 
         }
 
+		public void RunFlasherRoutine()
+		{
+			Game.ledDriver.FadeAllToColor (0, 0, 0, 0);
+
+			// Turn on the flasher motors
+			Game.spinning_flashers_on ();
+
+			/*
+			// Do a color fade
+			Game.ledDriver.ScheduleLamp (11, 0xFFFFFFFF);
+			Game.ledDriver.FadeLedToColor (11, 255, 0, 0, 32);
+			this.delay ("flasherEvent1", EventType.None, 1.0, new AnonDelayedHandler (delegate() {
+				Game.ledDriver.FadeLedToColor (11, 0, 0, 255, 32);
+				this.delay ("flasherEvent2", EventType.None, 1.0, new AnonDelayedHandler (delegate() {
+					Game.ledDriver.FadeLedToColor (11, 255, 255, 255, 32);
+					this.delay ("flasherEvent3", EventType.None, 1.0, new AnonDelayedHandler (delegate() {
+						Game.ledDriver.ScheduleLamp (11, 0xCCCCCCCC);
+						this.delay ("flasherEventFinal", EventType.None, 1.0, new AnonDelayedHandler (delegate() {
+							Game.spinning_flashers_off ();
+							Game.ledDriver.ScheduleLamp (11, 0x0);
+						}));
+					}));
+				}));
+			}));
+			*/
+
+			// EFFECT 2 -- Blink then fade out
+			Game.ledDriver.FadeLedToColor (11, 255, 255, 255, 0);
+			Game.ledDriver.ScheduleLamp (11, 0xCCCCCCCC);
+			this.delay ("flasherEvent1", EventType.None, 0.75, new AnonDelayedHandler (delegate() {
+				Game.ledDriver.ScheduleLamp (11, 0xFFFFFFFF);
+				Game.ledDriver.FadeLedToColor (11, 0, 0, 0, 32);
+				this.delay ("flasherEvent2", EventType.None, 1.0, new AnonDelayedHandler (delegate() {
+					Game.spinning_flashers_off ();
+					Game.ledDriver.ScheduleLamp (11, 0x0);
+				}));
+			}));
+		}
+
         public override void mode_started()
         {
             // Blinky start button

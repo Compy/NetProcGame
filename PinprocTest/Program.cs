@@ -20,9 +20,11 @@ namespace PinprocTest
 
 		private static bool wallStatus;
 		private static bool flasherStatus;
+		private static int currentLamp;
 
         static void Main(string[] args)
         {
+			currentLamp = 0;
 			wallStatus = false;
 			flasherStatus = false;
             System.Threading.Thread.CurrentThread.Name = "Console Thread";
@@ -52,6 +54,7 @@ namespace PinprocTest
                     game.PROC.reset(1);
                 }
 				if (line == "f") {
+					/*
 					flasherStatus = !flasherStatus;
 					if (flasherStatus) {
 						Console.WriteLine ("Spinning flashers on");
@@ -60,6 +63,8 @@ namespace PinprocTest
 						Console.WriteLine ("Spinning flashers off");
 						game.spinning_flashers_off ();
 					}
+					*/
+					game.RunFlasherRoutine ();
 				}
                 if (line == "o")
                 {
@@ -85,6 +90,14 @@ namespace PinprocTest
 						game.left_wall_down ();
 					}
 					//game.test_servo ();
+				}
+
+				if (line == "l") {
+					Console.WriteLine ("Flashing lamp " + currentLamp.ToString());
+					game.flash_lamp ((byte)currentLamp);
+					currentLamp++;
+					if (currentLamp == 50)
+						currentLamp = 0;
 				}
 
                 line = Console.ReadLine();
