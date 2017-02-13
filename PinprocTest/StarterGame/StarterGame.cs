@@ -34,7 +34,11 @@ namespace PinprocTest.StarterGame
         {
             this.lampctrl = new LampController(this);
 			// Internal offset should be 200
+			try {
 			this.ledDriver = new WSLEDDriver ("/dev/tty.usbmodem1403131", 50);
+			} catch (Exception e) {
+				Console.WriteLine ("Could not initialize LED driver");
+			}
         }
 
         public void save_settings()
@@ -84,8 +88,10 @@ namespace PinprocTest.StarterGame
 			this.flasherMotor3 = new I2cServo(4, _servoConfig, this.PROC);
 			this.testServo = new I2cServo (0, _servoConfig, this.PROC);
 
-			this.ledDriver.FadeAllToColor (255, 255, 255, 0);
-			this.ledDriver.ScheduleAll (0xFFFFFFFF);
+			if (this.ledDriver != null) {
+				this.ledDriver.FadeAllToColor (255, 255, 255, 0);
+				this.ledDriver.ScheduleAll (0xFFFFFFFF);
+			}
             
             // Instead of resetting everything here as well as when a user initiated reset occurs, do everything in
             // this.reset and call it now and during a user initiated reset
@@ -118,6 +124,16 @@ namespace PinprocTest.StarterGame
 			this.wall1.goToPosition (0.25f);
 			//this.wall2.goToPosition (0.5f);
 			//this.testServo.goToPosition(0.6f);
+		}
+
+		public void right_wall_down() 
+		{
+			this.wall2.goToPosition (0.8f);
+		}
+
+		public void right_wall_up()
+		{
+			this.wall2.goToPosition (0.25f);
 		}
 
 		public void spinning_flashers_on()

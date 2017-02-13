@@ -61,6 +61,11 @@
       "Number": "1"
     },
 	{
+      "Name": "S2",
+	  "Type": "NO",
+	  "Number": "2"
+	},
+	{
       "Name": "coinSlot3",
       "Type": "NO",
       "Number": "3"

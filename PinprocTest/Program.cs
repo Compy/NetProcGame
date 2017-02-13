@@ -85,9 +85,11 @@ namespace PinprocTest
 					if (wallStatus) {
 						Console.WriteLine ("Wall scoops up");
 						game.left_wall_up ();
+						game.right_wall_up ();
 					} else {
 						Console.WriteLine ("Wall scoops down");
 						game.left_wall_down ();
+						game.right_wall_down ();
 					}
 					//game.test_servo ();
 				}
