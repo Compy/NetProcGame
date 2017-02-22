@@ -1,11 +1,10 @@
 ﻿<Properties StartupItem="PinprocTest/NetProcGameTest.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="PinprocTest/configuration/machine.json">
+  <MonoDevelop.Ide.Workbench ActiveDocument="PinprocTest/Program.cs">
     <Files>
-      <File FileName="PinprocTest/StarterGame/Attract.cs" Line="54" Column="6" />
-      <File FileName="PinprocTest/Program.cs" Line="92" Column="31" />
-      <File FileName="PinprocTest/StarterGame/StarterGame.cs" Line="131" Column="14" />
-      <File FileName="PinprocTest/configuration/machine.json" Line="66" Column="17" />
+      <File FileName="PinprocTest/StarterGame/StarterGame.cs" Line="102" Column="4" />
+      <File FileName="PinprocTest/StarterGame/Attract.cs" Line="32" Column="4" />
+      <File FileName="PinprocTest/Program.cs" Line="67" Column="8" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

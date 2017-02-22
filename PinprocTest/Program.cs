@@ -20,6 +20,7 @@ namespace PinprocTest
 
 		private static bool wallStatus;
 		private static bool flasherStatus;
+		private static bool stepLampStatus;
 		private static int currentLamp;
 
         static void Main(string[] args)
@@ -27,6 +28,7 @@ namespace PinprocTest
 			currentLamp = 0;
 			wallStatus = false;
 			flasherStatus = false;
+			stepLampStatus = false;
             System.Threading.Thread.CurrentThread.Name = "Console Thread";
             logger = new ConsoleLogger();
             Console.CancelKeyPress += new ConsoleCancelEventHandler(Console_CancelKeyPress);
@@ -54,30 +56,29 @@ namespace PinprocTest
                     game.PROC.reset(1);
                 }
 				if (line == "f") {
-					/*
+					
 					flasherStatus = !flasherStatus;
-					if (flasherStatus) {
-						Console.WriteLine ("Spinning flashers on");
-						game.spinning_flashers_on ();
-					} else {
-						Console.WriteLine ("Spinning flashers off");
-						game.spinning_flashers_off ();
-					}
-					*/
+					//if (flasherStatus) {
+					//	Console.WriteLine ("Spinning flashers on");
+					//	game.spinning_flashers_on ();
+					//} else {
+					//	Console.WriteLine ("Spinning flashers off");
+					//	game.spinning_flashers_off ();
+					//}
+
 					game.RunFlasherRoutine ();
 				}
-                if (line == "o")
-                {
-                    game.open_divertor();
-                }
-                if (line == "c")
-                {
-                    game.close_divertor();
-                }
-                if (line == "b")
-                    game.Coils["bottomPopper"].Pulse();
-                if (line == "t")
-                    game.Coils["topPopper"].Pulse();
+
+				// Step through lamps
+				if (line == "s") {
+					/*
+					if (stepLampStatus)
+						game.stop_stepping_lamps ();
+					else
+						game.step_lamps ();
+					*/
+					stepLampStatus = !stepLampStatus;
+				}
 
 				if (line == "w") {
 					wallStatus = !wallStatus;

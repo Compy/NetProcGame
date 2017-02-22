@@ -102,6 +102,10 @@ namespace PinprocTest.StarterGame
 			attract.RunFlasherRoutine ();
 		}
 
+		public void step_lamp_status() {
+			
+		}
+
 		public void flash_lamp(byte lamp)
 		{
 			ledDriver.FadeAllToColor (0, 0, 0, 0);
