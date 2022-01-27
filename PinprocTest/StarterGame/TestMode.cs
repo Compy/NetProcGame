@@ -6,7 +6,7 @@ using NetProcGame;
 using NetProcGame.game;
 using NetProcGame.tools;
 
-namespace NetProcGame.modes
+namespace NetProcGameTest.StarterGame
 {
     public class TestMode : Mode
     {

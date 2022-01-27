@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using NetProcGame;
 using NetProcGame.game;
 using NetProcGame.tools;
-using NetProcGame.modes;
-using System.Timers;
+using NetProcGameTest.StarterGame;
 
 namespace PinprocTest
 {
