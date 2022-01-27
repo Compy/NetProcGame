@@ -1,124 +1,29 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{8310E1EA-4988-455D-9CEA-EF114B1AEEAA}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NetProcGame</RootNamespace>
-    <AssemblyName>NetProcGame</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <UserSecretsId>cc3e6350-00ae-4286-98ca-df183fc092b8</UserSecretsId>
+    <Platforms>x86</Platforms>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x64</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="System.IO.Ports" Version="5.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="YamlSerializer">
       <HintPath>YamlSerializer.dll</HintPath>
     </Reference>
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="config\MachineConfiguration.cs" />
-    <Compile Include="dmd\AnimatedLayer.cs" />
-    <Compile Include="dmd\Animation.cs" />
-    <Compile Include="dmd\CrossFadeTransition.cs" />
-    <Compile Include="dmd\DisplayController.cs" />
-    <Compile Include="dmd\DMDBuffer.cs" />
-    <Compile Include="dmd\DMDGlobals.cs" />
-    <Compile Include="dmd\DMDTypes.cs" />
-    <Compile Include="dmd\ExpandTransition.cs" />
-    <Compile Include="dmd\Font.cs" />
-    <Compile Include="dmd\FontManager.cs" />
-    <Compile Include="dmd\Frame.cs" />
-    <Compile Include="dmd\FrameLayer.cs" />
-    <Compile Include="dmd\GroupedLayer.cs" />
-    <Compile Include="dmd\Layer.cs" />
-    <Compile Include="dmd\LayerTransitionBase.cs" />
-    <Compile Include="dmd\MarkupGenerator.cs" />
-    <Compile Include="dmd\ObscuredWipeTransition.cs" />
-    <Compile Include="dmd\PanningLayer.cs" />
-    <Compile Include="dmd\PushTransition.cs" />
-    <Compile Include="dmd\ScoreLayer.cs" />
-    <Compile Include="dmd\ScriptedLayer.cs" />
-    <Compile Include="dmd\SlideOverTransition.cs" />
-    <Compile Include="dmd\TextLayer.cs" />
-    <Compile Include="dmd\WipeTransition.cs" />
-    <Compile Include="FakePinProc.cs" />
-    <Compile Include="game\AttrCollection.cs" />
-    <Compile Include="game\BasicGame.cs" />
-    <Compile Include="game\Mode.cs" />
-    <Compile Include="game\ModeQueue.cs" />
-    <Compile Include="game\SafeDrive.cs" />
-    <Compile Include="IProcDevice.cs" />
-    <Compile Include="lamps\LampController.cs" />
-    <Compile Include="lamps\LampShow.cs" />
-    <Compile Include="lamps\LampShowMode.cs" />
-    <Compile Include="lamps\LampShowTrack.cs" />
-    <Compile Include="lamps\LampshowUtils.cs" />
-    <Compile Include="modes\BallSave.cs" />
-    <Compile Include="modes\BallSearch.cs" />
-    <Compile Include="modes\ScoreDisplay.cs" />
-    <Compile Include="modes\TestMode.cs" />
-    <Compile Include="modes\Trough.cs" />
-    <Compile Include="pdb\Coil.cs" />
-    <Compile Include="pdb\DriverAlias.cs" />
-    <Compile Include="pdb\Lamp.cs" />
-    <Compile Include="pdb\PDBConfig.cs" />
-    <Compile Include="pdb\PDBFunctions.cs" />
-    <Compile Include="pdb\Switch.cs" />
-    <Compile Include="tools\ILogger.cs" />
-    <Compile Include="tools\Pair.cs" />
-    <Compile Include="YamlConfig.cs" />
-    <Compile Include="game\Driver.cs" />
-    <Compile Include="game\GameController.cs" />
-    <Compile Include="game\GameItem.cs" />
-    <Compile Include="game\Player.cs" />
-    <Compile Include="game\Switch.cs" />
-    <Compile Include="game\VirtualDriver.cs" />
-    <Compile Include="Pinproc.cs" />
-    <Compile Include="ProcDevice.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="tools\Time.cs" />
-    <Compile Include="game\I2cServo.cs" />
-    <Compile Include="game\WSLEDDriver.cs" />
-    <Compile Include="tools\BinaryEnums.cs" />
+    <None Update="libpinproc.so">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="pinproc-old.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>

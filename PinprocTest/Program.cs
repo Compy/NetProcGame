@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Yaml.Serialization;
-using NetProcGame;
-using NetProcGame.config;
-using NetProcGame.dmd;
 
 using System.ComponentModel;
 
