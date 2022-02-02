@@ -1,0 +1,121 @@
+{
+  /**
+   * This is the configuration for the entire game
+   */
+  "PRGame": {
+    /**
+	 * Comments about machineType
+	 */
+    "MachineType": "PDB",
+
+    /**
+	 * Comments about numBalls
+	 */
+    "numBalls": 5,
+
+    /**
+	 * Comments about displaymonitor
+	 */
+    "displayMonitor": true
+  },
+  "PRFlippers": [
+    "flipperLwR",
+    "flipperLwL",
+  ],
+  "PRFlipperLeft": [
+    "flipperLwL",
+    "flipperUpL",
+  ],
+  "PRFlipperRight": [
+    "flipperLwR"
+  ],
+  "PRBumpers": [
+    "leftSlingshot",
+    "rightSlingshot",
+    "leftJet",
+    "rightJet",
+    "bottomJet",
+  ],
+  "PRSwitches": [
+    /***** Format ****
+     * name:
+     *   number: <number>
+     *   type: <type>
+     *
+     *   <number> can be: SFx (Flipper switch, labeled Fx in WPC manual
+     *                    SDx (Dedicated switch, labeled SDx in WPC manual
+     *                    Sx  (Matrix switch, labeled x in WPC manual
+     *   <type> can be: 'NO' (normally open.  This is the default; so no need to use this)
+     *    'NC' (normally closed.  Common for optos)
+	 */
+    /* Dedicated Grounded Swtches */
+    {
+      "Name": "trough",
+      "Number": "0/0"
+    },
+    {
+      "Name": "trough2",
+      "Number": "0/1"
+    }
+  ],
+  "PRCoils": [
+    {
+      "Name": "trough",
+      "Number": "1:A0-B1-6"
+    }
+  ],
+  "PRLeds": [
+    {
+      "Name": "LED1",
+      "Number": "A0-R0-G1-B2"
+    },
+    {
+      "Name": "LED2",
+      "Number": "A0-R3-G4-B5"
+    },
+    {
+      "Name": "LED3",
+      "Number": "A0-R6-G7-B8"
+    },
+    {
+      "Name": "LED4",
+      "Number": "A0-R9-G10-B11"
+    },
+    {
+      "Name": "LED5",
+      "Number": "A0-R12-G13-B14"
+    },
+    {
+      "Name": "LED6",
+      "Number": "A0-R81-G82-B83"
+    }
+  ],
+  "PRGI": [
+  ],
+  "PRBallSave": {
+    "PulseCoils": [
+      "leftSlingshot",
+      "rightSlingshot",
+      "leftJet",
+      "rightJet",
+      "bottomJet",
+      "eject",
+      "topPopper",
+      "bottomPopper"
+    ],
+    "ResetSwitches": {
+      "leftSlingshot": "open",
+      "rightSlingshot": "open",
+      "leftJet": "open",
+      "rightJet": "open",
+      "bottomJet": "open",
+      "leftOutlane": "open",
+      "leftInlane": "open"
+    },
+    "StopSwitches": {
+      "shooterLane": "closed",
+      "flipperLwL": "closed",
+      "flipperLwR": "closed"
+    }
+  }
+}

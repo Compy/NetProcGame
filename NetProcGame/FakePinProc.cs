@@ -1,9 +1,8 @@
-﻿using System;
+﻿using NetProcGame.Dmd;
+using NetProcGame.Game;
+using NetProcGame.Tools;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NetProcGame.game;
-using NetProcGame.tools;
 
 namespace NetProcGame
 {
@@ -11,11 +10,11 @@ namespace NetProcGame
     {
         public bool NotifyHost;
         public bool ReloadActive;
-        public List<Driver> Drivers;
+        public List<IDriver> Drivers;
     }
     public class FakePinProc : IProcDevice
     {
-        private AttrCollection<ushort, string, VirtualDriver> drivers;
+        private AttrCollection<ushort, string, IVirtualDriver> drivers;
         private List<Event> switch_events = new List<Event>();
         private FakeSwitchRule[] switch_rules = new FakeSwitchRule[1024];
         private double now;
@@ -24,20 +23,23 @@ namespace NetProcGame
 
         public FakePinProc(MachineType machineType)
         {
-            this.drivers = new AttrCollection<ushort, string, VirtualDriver>();
-            // Make 256 drivers
-            for (ushort i = 0; i < 256; i++)
-            {
-                string name = "driver" + i.ToString();
-                drivers.Add(i, name, new VirtualDriver(null, name, i, true));
-            }
+            this.drivers = new AttrCollection<ushort, string, IVirtualDriver>();
+
+            //todo: Make 256 drivers
+            //for (ushort i = 0; i < 256; i++)
+            //{
+            //    string name = "driver" + i.ToString();
+            //    drivers.Add(i, name, new VirtualDriver(null, name, i, true));
+            //}
+
             // Instantiate default switch rules
             for (int j = 0; j < 1024; j++)
             {
-                switch_rules[j] = new FakeSwitchRule() { NotifyHost = false, ReloadActive = false, Drivers = new List<Driver>() };
+                switch_rules[j] = new FakeSwitchRule() { NotifyHost = false, ReloadActive = false, Drivers = new List<IDriver>() };
             }
         }
-        public void aux_send_commands(ushort address, ushort aux_commands)
+
+        public void AuxSendCommands(ushort address, ushort aux_commands)
         {
         }
 
@@ -45,72 +47,72 @@ namespace NetProcGame
         {
         }
 
-        public void dmd_draw(byte[] bytes)
+        public void DmdDraw(byte[] bytes)
         {
         }
 
-        public void dmd_draw(dmd.Frame frame)
+        public void DmdDraw(Frame frame)
         {
         }
 
-        public void dmd_update_config(ushort[] high_cycles)
+        public void DmdUpdateConfig(ushort[] high_cycles)
         {
         }
 
-        public void driver_disable(ushort number)
+        public void DriverDisable(ushort number)
         {
             this.drivers[number].Disable();
         }
 
-        public DriverState driver_get_state(ushort number)
+        public DriverState DriverGetState(ushort number)
         {
             return this.drivers[number].State;
         }
 
-        public void driver_group_disable(byte number)
+        public void DriverGroupDisable(byte number)
         {
         }
 
-        public void driver_patter(ushort number, ushort milliseconds_on, ushort milliseconds_off, ushort original_on_time)
+        public void DriverPatter(ushort number, ushort milliseconds_on, ushort milliseconds_off, ushort original_on_time)
         {
         }
 
-        public Result driver_pulse(ushort number, byte milliseconds)
+        public Result DriverPulse(ushort number, byte milliseconds)
         {
             this.drivers[number].Pulse(milliseconds);
             return Result.Success;
         }
 
-        public void driver_pulsed_patter(ushort number, ushort milliseconds_on, ushort milliseconds_off, ushort milliseconds_overall_patter_time)
+        public void DriverPulsedPatter(ushort number, ushort milliseconds_on, ushort milliseconds_off, ushort milliseconds_overall_patter_time)
         {
         }
 
-        public void driver_schedule(ushort number, uint schedule, ushort cycle_seconds, bool now)
+        public void DriverSchedule(ushort number, uint schedule, ushort cycle_seconds, bool now)
         {
             this.drivers[number].Schedule(schedule, cycle_seconds, now);
         }
 
-        public DriverState driver_state_disable(DriverState state)
+        public DriverState DriverStateDisable(DriverState state)
         {
             return state;
         }
 
-        public DriverState driver_state_future_pulse(DriverState state, byte milliseconds, ushort futureTime)
+        public DriverState DriverStateFuturePulse(DriverState state, byte milliseconds, ushort futureTime)
         {
             return state;
         }
 
-        public DriverState driver_state_patter(DriverState state, ushort milliseconds_on, ushort milliseconds_off, ushort original_on_time)
+        public DriverState DriverStatePatter(DriverState state, ushort milliseconds_on, ushort milliseconds_off, ushort original_on_time)
         {
             return state;
         }
 
-        public DriverState driver_state_pulse(DriverState state, byte milliseconds)
+        public DriverState DriverStatePulse(DriverState state, byte milliseconds)
         {
             return state;
         }
 
-        public DriverState driver_state_pulsed_patter(DriverState state, ushort milliseconds_on, ushort milliseconds_off, ushort milliseconds_overall_patter_time)
+        public DriverState DriverStatePulsedPatter(DriverState state, ushort milliseconds_on, ushort milliseconds_off, ushort milliseconds_overall_patter_time)
         {
             return state;
         }
@@ -137,7 +139,7 @@ namespace NetProcGame
         {
         }
 
-        public Event[] get_events()
+        public Event[] Getevents()
         {
             List<Event> events = new List<Event>();
             events.AddRange(this.switch_events);
@@ -154,31 +156,31 @@ namespace NetProcGame
             return events.ToArray();
         }
 
-        public tools.ILogger Logger
+        public ILogger Logger
         {
             get;
             set;
         }
 
-        public void reset(uint flags)
+        public void Reset(uint flags)
         {
         }
 
-		public Result write_data(uint module, uint startingAddr, ref uint data)
+		public Result WriteData(uint module, uint startingAddr, ref uint data)
 		{
 			return Result.Success;
 		}
 
-		public Result read_data(uint module, uint startingAddr, ref uint data)
+		public Result ReadData(uint module, uint startingAddr, ref uint data)
 		{
 			return Result.Success;
 		}
 
-        public void set_dmd_color_mapping(byte[] mapping)
+        public void SetDmdColorMapping(byte[] mapping)
         {
         }
 
-        public EventType[] switch_get_states()
+        public EventType[] SwitchGetStates()
         {
             EventType[] result = new EventType[256];
             for (int i = 0; i < 256; i++)
@@ -190,7 +192,7 @@ namespace NetProcGame
         public void switch_update_rule(ushort number, EventType event_type, SwitchRule rule, DriverState[] linked_drivers, bool drive_outputs_now)
         {
             int rule_index = ((int)event_type * 256) + number;
-            List<Driver> d = new List<Driver>();
+            List<IDriver> d = new List<IDriver>();
             if (linked_drivers != null)
             {
                 foreach (DriverState s in linked_drivers)
@@ -203,9 +205,9 @@ namespace NetProcGame
             this.switch_rules[rule_index] = new FakeSwitchRule() { Drivers = d, NotifyHost = rule.NotifyHost };
         }
 
-        public void watchdog_tickle()
+        public void WatchDogTickle()
         {
-            foreach (Driver d in this.drivers.Values) d.Tick();
+            foreach (IVirtualDriver d in this.drivers.Values) d.Tick();
         }
 
         public void add_switch_event(ushort number, EventType event_type)
@@ -218,12 +220,12 @@ namespace NetProcGame
                 this.switch_events.Add(evt);
             }
 
-            List<Driver> dlist = this.switch_rules[rule_index].Drivers;
-            foreach (Driver drv in dlist)
+            List<IDriver> dlist = this.switch_rules[rule_index].Drivers;
+            foreach (IDriver drv in dlist)
                 this.drivers[drv.Number].State = drv.State;
         }
 
-        public Result driver_future_pulse(ushort number, byte milliseconds, UInt16 futureTime)
+        public Result DriverFuturePulse(ushort number, byte milliseconds, UInt16 futureTime)
         {
             return Result.Success;
         }

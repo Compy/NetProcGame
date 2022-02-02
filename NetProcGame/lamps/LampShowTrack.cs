@@ -1,12 +1,9 @@
-﻿using System;
+﻿using NetProcGame.Game;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 
-using NetProcGame.game;
-
-namespace NetProcGame.lamps
+namespace NetProcGame.Lamps
 {
     public class LampShowTrack
     {
@@ -28,7 +25,7 @@ namespace NetProcGame.lamps
         /// <summary>
         /// The driver corresponding to this track
         /// </summary>
-        public Driver driver = null;
+        public IDriver driver = null;
 
         private uint static31shift;
 
@@ -70,7 +67,7 @@ namespace NetProcGame.lamps
             }
         }
 
-        public void resolve_driver_with_game(GameController game)
+        public void resolve_driver_with_game(IGameController game)
         {
             if (name.StartsWith("coil:"))
                 this.driver = game.Coils[name.Substring(5)];

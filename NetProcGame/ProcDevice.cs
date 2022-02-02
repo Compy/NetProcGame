@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using NetProcGame.tools;
+﻿using NetProcGame.Dmd;
+using NetProcGame.Tools;
+using System;
 using System.Threading;
 namespace NetProcGame
 {
     /// <summary>
-    /// Wrapper for netpinproc (libpinproc native interface).
+    /// Wrapper for NetProcGame (libpinproc native interface).
     /// </summary>
     public class ProcDevice : IProcDevice
     {
@@ -24,11 +24,11 @@ namespace NetProcGame
 
         public ILogger Logger { get; set; }
 
-        public ProcDevice(MachineType machineType, ILogger logger)
+        public ProcDevice(MachineType machineType, ILogger logger = null)
         {
             this.Logger = logger;
 
-            Logger.Log("Initializing P-ROC device...");
+            Logger?.Log("Initializing P-ROC device...");
 
             dmdMapping = new byte[dmdMappingSize];
             for (int i = 0; i < dmdMappingSize; i++)
@@ -63,9 +63,9 @@ namespace NetProcGame
         /// DRIVER FUNCTIONS
         ///////////////////////////////////////////////////////////////////////////////
 
-        public Result driver_pulse(ushort number, byte milliseconds)
+        public Result DriverPulse(ushort number, byte milliseconds)
         {
-            DriverState state = this.driver_get_state(number);
+            DriverState state = this.DriverGetState(number);
             Result res;
             lock (procSyncObject)
             {
@@ -84,9 +84,9 @@ namespace NetProcGame
             return res;
         }
 
-        public Result driver_future_pulse(ushort number, byte milliseconds, UInt16 futureTime)
+        public Result DriverFuturePulse(ushort number, byte milliseconds, UInt16 futureTime)
         {
-            DriverState state = this.driver_get_state(number);
+            DriverState state = this.DriverGetState(number);
             Result res;
 
             lock (procSyncObject)
@@ -106,9 +106,9 @@ namespace NetProcGame
             return res;
         }
 
-        public void driver_schedule(ushort number, uint schedule, ushort cycle_seconds, bool now)
+        public void DriverSchedule(ushort number, uint schedule, ushort cycle_seconds, bool now)
         {
-            DriverState state = this.driver_get_state(number);
+            DriverState state = this.DriverGetState(number);
             lock (procSyncObject)
             {
                 PinProc.PRDriverStateSchedule(ref state, schedule, (byte)cycle_seconds, now);
@@ -117,9 +117,9 @@ namespace NetProcGame
             }
         }
 
-        public void driver_patter(ushort number, ushort milliseconds_on, ushort milliseconds_off, ushort original_on_time)
+        public void DriverPatter(ushort number, ushort milliseconds_on, ushort milliseconds_off, ushort original_on_time)
         {
-            DriverState state = this.driver_get_state(number);
+            DriverState state = this.DriverGetState(number);
             lock (procSyncObject)
             {
                 PinProc.PRDriverStatePatter(ref state, milliseconds_on, milliseconds_off, original_on_time);
@@ -128,9 +128,9 @@ namespace NetProcGame
             }
         }
 
-        public void driver_pulsed_patter(ushort number, ushort milliseconds_on, ushort milliseconds_off, ushort milliseconds_overall_patter_time)
+        public void DriverPulsedPatter(ushort number, ushort milliseconds_on, ushort milliseconds_off, ushort milliseconds_overall_patter_time)
         {
-            DriverState state = this.driver_get_state(number);
+            DriverState state = this.DriverGetState(number);
             lock (procSyncObject)
             {
                 PinProc.PRDriverStatePulsedPatter(ref state, milliseconds_on, milliseconds_off, milliseconds_overall_patter_time);
@@ -139,7 +139,7 @@ namespace NetProcGame
             }
         }
 
-        public void driver_group_disable(byte number)
+        public void DriverGroupDisable(byte number)
         {
             lock (procSyncObject)
             {
@@ -147,9 +147,9 @@ namespace NetProcGame
             }
         }
 
-        public void driver_disable(ushort number)
+        public void DriverDisable(ushort number)
         {
-            DriverState state = this.driver_get_state(number);
+            DriverState state = this.DriverGetState(number);
             lock (procSyncObject)
             {
                 PinProc.PRDriverStateDisable(ref state);
@@ -158,7 +158,7 @@ namespace NetProcGame
             }
         }
 
-        public DriverState driver_get_state(ushort number)
+        public DriverState DriverGetState(ushort number)
         {
             DriverState ds = new DriverState();
             lock (procSyncObject)
@@ -222,7 +222,7 @@ namespace NetProcGame
             }
         }
 
-        public DriverState driver_state_pulse(DriverState state, byte milliseconds)
+        public DriverState DriverStatePulse(DriverState state, byte milliseconds)
         {
             lock (procSyncObject)
             {
@@ -231,7 +231,7 @@ namespace NetProcGame
             return state;
         }
 
-        public DriverState driver_state_future_pulse(DriverState state, byte milliseconds, UInt16 futureTime)
+        public DriverState DriverStateFuturePulse(DriverState state, byte milliseconds, UInt16 futureTime)
         {
             lock (procSyncObject)
             {
@@ -240,7 +240,7 @@ namespace NetProcGame
             return state;
         }
 
-        public DriverState driver_state_disable(DriverState state)
+        public DriverState DriverStateDisable(DriverState state)
         {
             lock (procSyncObject)
             {
@@ -258,7 +258,7 @@ namespace NetProcGame
             return state;
         }
 
-        public DriverState driver_state_patter(DriverState state, ushort milliseconds_on, ushort milliseconds_off, ushort original_on_time)
+        public DriverState DriverStatePatter(DriverState state, ushort milliseconds_on, ushort milliseconds_off, ushort original_on_time)
         {
             lock (procSyncObject)
             {
@@ -267,7 +267,7 @@ namespace NetProcGame
             return state;
         }
 
-        public DriverState driver_state_pulsed_patter(DriverState state, ushort milliseconds_on, ushort milliseconds_off, ushort milliseconds_overall_patter_time)
+        public DriverState DriverStatePulsedPatter(DriverState state, ushort milliseconds_on, ushort milliseconds_off, ushort milliseconds_overall_patter_time)
         {
             lock (procSyncObject)
             {
@@ -280,7 +280,7 @@ namespace NetProcGame
         /// SWITCH FUNCTIONS
         ///////////////////////////////////////////////////////////////////////////////
 
-        public EventType[] switch_get_states()
+        public EventType[] SwitchGetStates()
         {
             ushort numSwitches = PinProc.kPRSwitchPhysicalLast + 1;
             EventType[] procSwitchStates = new EventType[numSwitches];
@@ -338,7 +338,7 @@ namespace NetProcGame
         /// </summary>
         /// <param name="address"></param>
         /// <param name="aux_commands"></param>
-        public void aux_send_commands(ushort address, ushort aux_commands)
+        public void AuxSendCommands(ushort address, ushort aux_commands)
         {
             throw new NotImplementedException();
         }
@@ -347,7 +347,7 @@ namespace NetProcGame
         /// PROC BOARD INTERACTIONS
         ///////////////////////////////////////////////////////////////////////////////
 
-        public void watchdog_tickle()
+        public void WatchDogTickle()
         {
             lock (procSyncObject)
             {
@@ -356,7 +356,7 @@ namespace NetProcGame
             }
         }
 
-        public Event[] get_events()
+        public Event[] Getevents()
         {
             const int batchSize = 16; // Pyprocgame uses 16
             Event[] events = new Event[batchSize];
@@ -373,7 +373,7 @@ namespace NetProcGame
             return events;
         }
 
-        public void reset(uint flags)
+        public void Reset(uint flags)
         {
             lock (procSyncObject)
             {
@@ -381,7 +381,7 @@ namespace NetProcGame
             }
         }
 
-		public Result write_data(uint module, uint startingAddr, ref uint data)
+		public Result WriteData(uint module, uint startingAddr, ref uint data)
 		{
 			Result r;
 			lock (procSyncObject) {
@@ -394,7 +394,7 @@ namespace NetProcGame
 			return r;
 		}
 
-		public Result read_data(uint module, uint startingAddr, ref uint data)
+		public Result ReadData(uint module, uint startingAddr, ref uint data)
 		{
 			Result r;
 
@@ -409,7 +409,7 @@ namespace NetProcGame
 
 		public void i2c_write8(uint address, uint register, uint value)
 		{
-			this.write_data (7, address << 9 | register, ref value);
+			this.WriteData (7, address << 9 | register, ref value);
 		}
 
 		public void initialize_i2c(uint address)
@@ -452,7 +452,7 @@ namespace NetProcGame
             dmdConfig.DeHighCycles[3] = 377;
         }
 
-        public void dmd_draw(byte[] bytes)
+        public void DmdDraw(byte[] bytes)
         {
             if (!dmdConfigured)
             {
@@ -464,7 +464,7 @@ namespace NetProcGame
             PinProc.PRDMDDraw(ProcHandle, bytes);
         }
 
-        public void dmd_draw(dmd.Frame frame)
+        public void DmdDraw(Frame frame)
         {
             if (!dmdConfigured)
             {
@@ -475,15 +475,15 @@ namespace NetProcGame
             }
             //dmd_draw(testFrame);
             byte[] dots = new byte[4*kDMDColumns*kDMDRows/8];
-            dmd.DMDGlobals.DMDFrameCopyPROCSubframes(ref frame.frame, dots, kDMDColumns, kDMDRows, 4, dmdMapping);
-            dmd_draw(dots);
+            DMDGlobals.DMDFrameCopyPROCSubframes(ref frame.frame, dots, kDMDColumns, kDMDRows, 4, dmdMapping);
+            DmdDraw(dots);
         }
 
-        public void set_dmd_color_mapping(byte[] mapping)
+        public void SetDmdColorMapping(byte[] mapping)
         {
         }
 
-        public void dmd_update_config(ushort[] high_cycles)
+        public void DmdUpdateConfig(ushort[] high_cycles)
         {
             DMDConfig dmdConfig = new DMDConfig();
             DMDConfigPopulateDefaults(ref dmdConfig);

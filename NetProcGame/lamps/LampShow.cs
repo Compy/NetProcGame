@@ -1,13 +1,9 @@
-﻿using System;
+﻿using NetProcGame.Game;
+using NetProcGame.Tools;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 
-using NetProcGame.game;
-using NetProcGame.tools;
-
-namespace NetProcGame.lamps
+namespace NetProcGame.Lamps
 {
     /// <summary>
     /// Manages loading and playing a lamp show consisting of several lamps (or other drivers),
@@ -16,12 +12,12 @@ namespace NetProcGame.lamps
     public class LampShow
     {
 
-        public GameController game;
+        public IGameController game;
         public List<LampShowTrack> tracks;
         private double t0 = 0;
         private double last_time;
 
-        public LampShow(GameController game)
+        public LampShow(IGameController game)
         {
             this.game = game;
             this.reset();

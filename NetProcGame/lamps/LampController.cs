@@ -1,41 +1,20 @@
-﻿using System;
+﻿using NetProcGame.Game;
+using NetProcGame.Modes;
+using NetProcGame.Tools;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-using NetProcGame.game;
-using NetProcGame.tools;
-
-namespace NetProcGame.lamps
+namespace NetProcGame.Lamps
 {
     /// <summary>
     /// Controller object that encapsulates a LampShow class and helps to restore lamp drivers to their
     /// prior state.
     /// </summary>
-    public class LampController
+    public class LampController : ILampController
     {
-        struct LampStateRecord
-        {
-            public double time;
-            public DriverState state;
+        public string resume_key = "";
 
-            public LampStateRecord(double time, DriverState state)
-            {
-                this.time = time;
-                this.state = state;
-            }
-        }
-
-        struct SavedLampState
-        {
-            public Dictionary<string, LampStateRecord> lamp_states;
-            public double time_saved;
-        }
-
-        /// <summary>
-        /// LampShowMode that must be added to the mode queue
-        /// </summary>
-        LampShowMode show = null;
+        public bool resume_state = false;
 
         /// <summary>
         /// True if a show is currently playing
@@ -48,13 +27,16 @@ namespace NetProcGame.lamps
         /// </summary>
         public Dictionary<string, string> shows;
 
+        private IGameController game;
+
         private Dictionary<string, SavedLampState> saved_state_dicts;
 
-        private GameController game;
-        public bool resume_state = false;
-        public string resume_key = "";
+        /// <summary>
+        /// LampShowMode that must be added to the mode queue
+        /// </summary>
+        ILampShowMode show = null;
 
-        public LampController(GameController game)
+        public LampController(IGameController game)
         {
             this.game = game;
             this.show = new LampShowMode(game);
@@ -62,52 +44,28 @@ namespace NetProcGame.lamps
             this.shows = new Dictionary<string, string>();
         }
 
-        public void register_show(string key, string show_file)
-        {
-            this.shows.Add(key, show_file);
-        }
-
-        public void play_show(string key, bool repeat = false, Delegate callback = null)
+        public void PlayShow(string key, bool repeat = false, Delegate callback = null)
         {
             // Always stop any previously running show first
-            this.stop_show();
-            this.show.load(this.shows[key], repeat, callback);
+            this.StopShow();
+            this.show.Load(this.shows[key], repeat, callback);
             this.game.Modes.Add(this.show);
             this.show_playing = true;
         }
 
-        public void restore_callback()
+        public void RegisterShow(string key, string show_file)
+        {
+            this.shows.Add(key, show_file);
+        }
+
+        public void RestorePlayback()
         {
             this.resume_state = false;
-            this.restore_state(this.resume_key);
+            this.RestoreState(this.resume_key);
             //this.callback() ?
         }
 
-        public void stop_show()
-        {
-            if (show_playing)
-                this.game.Modes.Remove(this.show);
-            this.show_playing = false;
-        }
-
-        public void save_state(string key)
-        {
-            SavedLampState state = new SavedLampState();
-            state.time_saved = Time.GetTime();
-            foreach (Driver lamp in this.game.Lamps.Values)
-            {
-                state.lamp_states.Add(lamp.Name, new LampStateRecord(lamp.last_time_changed, lamp.State));
-            }
-
-            if (this.saved_state_dicts.ContainsKey(key))
-            {
-                this.saved_state_dicts[key] = state;
-            }
-            else
-                this.saved_state_dicts.Add(key, state);
-        }
-
-        public void restore_state(string key)
+        public void RestoreState(string key)
         {
             if (this.saved_state_dicts.ContainsKey(key))
             {
@@ -146,6 +104,47 @@ namespace NetProcGame.lamps
                     }
                 }
             }
+        }
+
+        public void SaveState(string key)
+        {
+            SavedLampState state = new SavedLampState();
+            state.time_saved = Time.GetTime();
+            foreach (IDriver lamp in this.game.Lamps.Values)
+            {
+                state.lamp_states.Add(lamp.Name, new LampStateRecord(lamp._last_time_changed, lamp.State));
+            }
+
+            if (this.saved_state_dicts.ContainsKey(key))
+            {
+                this.saved_state_dicts[key] = state;
+            }
+            else
+                this.saved_state_dicts.Add(key, state);
+        }
+
+        public void StopShow()
+        {
+            if (show_playing)
+                this.game.Modes.Remove(this.show);
+            this.show_playing = false;
+        }
+
+        struct LampStateRecord
+        {
+            public DriverState state;
+            public double time;
+            public LampStateRecord(double time, DriverState state)
+            {
+                this.time = time;
+                this.state = state;
+            }
+        }
+
+        struct SavedLampState
+        {
+            public Dictionary<string, LampStateRecord> lamp_states;
+            public double time_saved;
         }
     }
 }

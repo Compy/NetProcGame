@@ -1,0 +1,97 @@
+{
+  /**
+   * This is the configuration for the entire game
+   */
+  "PRGame": {
+    /**
+	 * Comments about machineType
+	 */
+    "MachineType": "PDB",
+
+    /**
+	 * Comments about numBalls
+	 */
+    "numBalls": 5,
+
+    /**
+	 * Comments about displaymonitor
+	 */
+    "displayMonitor": true
+  },
+  "PRFlippers": [
+    "flipperLwR",
+    "flipperLwL",
+  ],
+  "PRFlipperLeft": [
+    "flipperLwL",
+    "flipperUpL",
+  ],
+  "PRFlipperRight": [
+    "flipperLwR"
+  ],
+  "PRBumpers": [
+    "leftSlingshot",
+    "rightSlingshot",
+    "leftJet",
+    "rightJet",
+    "bottomJet",
+  ],
+  "PRSwitches": [
+    /***** Format ****
+     * name:
+     *   number: <number>
+     *   type: <type>
+     *
+     *   <number> can be: SFx (Flipper switch, labeled Fx in WPC manual
+     *                    SDx (Dedicated switch, labeled SDx in WPC manual
+     *                    Sx  (Matrix switch, labeled x in WPC manual
+     *   <type> can be: 'NO' (normally open.  This is the default; so no need to use this)
+     *    'NC' (normally closed.  Common for optos)
+	 */
+    /* Dedicated Grounded Swtches */
+    {
+      "Name": "trough",
+      "Number": "0/0"
+    }
+  ],
+  "PRCoils": [
+    {
+      "Name": "trough",
+      "Number": "1:A0-B1-6"
+    }
+  ],
+  "PRLeds": [
+    {
+      "Name": "TestLED",
+      "Number": "A0-R12-G13-B14"
+    }
+  ],
+  "PRGI": [
+  ],
+  "PRBallSave": {
+    "PulseCoils": [
+      "leftSlingshot",
+      "rightSlingshot",
+      "leftJet",
+      "rightJet",
+      "bottomJet",
+      "eject",
+      "topPopper",
+      "bottomPopper"
+    ],
+    "ResetSwitches": {
+      "leftSlingshot": "open",
+      "rightSlingshot": "open",
+      "leftJet": "open",
+      "rightJet": "open",
+      "bottomJet": "open",
+      "leftOutlane": "open",
+      "leftInlane": "open"
+    },
+    "StopSwitches": {
+      "shooterLane": "closed",
+      "flipperLwL": "closed",
+      "flipperLwR": "closed"
+    }
+  }
+}
