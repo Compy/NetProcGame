@@ -1,6 +1,4 @@
-﻿using NetProcGame;
-using NetProcGame.Game;
-using NetProcGame.Tools;
+﻿using NetProcGame.Tools;
 using System;
 
 namespace NetProcGame.Game
@@ -20,8 +18,8 @@ namespace NetProcGame.Game
         /// </summary>
         public double _last_time_changed { get; set; }
 
-        public Driver(IGameController game, string name, ushort number)
-            : base(game, name, number)
+        public Driver(IProcDevice proc, string name, ushort number)
+            : base(proc, name, number)
         {
             
         }
@@ -32,7 +30,7 @@ namespace NetProcGame.Game
         public void Disable()
         {
 
-            this._game.PROC.DriverDisable(this._number);
+            this.proc.DriverDisable(this._number);
             this._last_time_changed = Time.GetTime();
         }
 
@@ -49,7 +47,7 @@ namespace NetProcGame.Game
             if (milliseconds > 255)
                 throw new ArgumentOutOfRangeException("Milliseconds must be in range 0-255");
 
-            this._game.PROC.DriverPulse(this._number, (byte)milliseconds);
+            this.proc.DriverPulse(this._number, (byte)milliseconds);
             this._last_time_changed = Time.GetTime();
         }
 
@@ -60,7 +58,7 @@ namespace NetProcGame.Game
             if (milliseconds > 255)
                 throw new ArgumentOutOfRangeException("Milliseconds must be in range 0-255");
 
-            this._game.PROC.DriverFuturePulse(this._number, (byte)milliseconds, futureTime);
+            this.proc.DriverFuturePulse(this._number, (byte)milliseconds, futureTime);
             this._last_time_changed = Time.GetTime();
         }
 
@@ -82,7 +80,7 @@ namespace NetProcGame.Game
             if (orig_on_time < 0 || orig_on_time > 255)
                 throw new ArgumentOutOfRangeException("orig_on_time must be in range 0-255");
 
-            this._game.PROC.DriverPatter(this._number, off_time, on_time, orig_on_time);
+            this.proc.DriverPatter(this._number, off_time, on_time, orig_on_time);
             this._last_time_changed = Time.GetTime();
         }
 
@@ -103,7 +101,7 @@ namespace NetProcGame.Game
             if (run_time < 0 || run_time > 255)
                 throw new ArgumentOutOfRangeException("run_time must be in range 0-255");
 
-            this._game.PROC.DriverPulsedPatter(this._number, off_time, on_time, run_time);
+            this.proc.DriverPulsedPatter(this._number, off_time, on_time, run_time);
             this._last_time_changed = Time.GetTime();
         }
 
@@ -115,7 +113,7 @@ namespace NetProcGame.Game
         /// <param name="now"></param>
         public void Schedule(uint schedule, int cycle_seconds = 0, bool now = true)
         {
-            this._game.PROC.DriverSchedule(this._number, schedule, (byte)cycle_seconds, now);
+            this.proc.DriverSchedule(this._number, schedule, (byte)cycle_seconds, now);
             this._last_time_changed = Time.GetTime();
         }
 
@@ -139,7 +137,7 @@ namespace NetProcGame.Game
         {
             get
             {
-                return this._game.PROC.DriverGetState(this._number);
+                return this.proc.DriverGetState(this._number);
             }
             set
             {
@@ -160,7 +158,7 @@ namespace NetProcGame.Game
         {
             DriverState state = this.State;
             state.Polarity = polarity;
-            _game.PROC.driver_update_state(ref state);
+            this.proc.driver_update_state(ref state);
         }
     }
 }

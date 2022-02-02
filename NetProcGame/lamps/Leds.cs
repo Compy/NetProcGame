@@ -31,7 +31,7 @@ namespace NetProcGame.lamps
         private bool invert = true;
         private double lastTimeChanged;
 
-        public LED(IGameController game, string name, ushort number, string strNumber = "") : base(game, name, number, strNumber)
+        public LED(IProcDevice proc, string name, ushort number, string strNumber = "") : base(proc, name, number, strNumber)
         {
             //take the first number in the array to get address. A0-R0-G1-B2
             var crList = strNumber.Split('-');
@@ -62,7 +62,7 @@ namespace NetProcGame.lamps
             //add the board if wasn't found into PDLEDS collection
             if (!pdLedExists)
             {
-                this.board = new PDLED(game.PROC, boardAddress);
+                this.board = new PDLED(proc, boardAddress);
                 LEDS.PDLEDS.Add(board);
             }
         }

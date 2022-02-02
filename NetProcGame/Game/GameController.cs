@@ -660,12 +660,12 @@ namespace NetProcGame.Game
 
                 if ((ce.Bus != null && ce.Bus == "AuxPort") || number >= PinProc.kPRDriverCount)
                 {
-                    d = new VirtualDriver(this, ce.Name, (ushort)number, polarity);
+                    d = new VirtualDriver(PROC, ce.Name, (ushort)number, polarity);
                     new_virtual_drivers.Add((VirtualDriver)d);
                 }
                 else
                 {
-                    d = new Driver(this, ce.Name, (ushort)number);
+                    d = new Driver(PROC, ce.Name, (ushort)number);
                     Log("Adding driver " + d.ToString());
                     d.reconfigure(ce.Polarity);
                 }
@@ -677,7 +677,7 @@ namespace NetProcGame.Game
                 ushort i = 0;
                 foreach (LampConfigFileEntry le in config.PRLeds)
                 {
-                    LED led = new LED(this, le.Name, i, le.Number);
+                    LED led = new LED(PROC, le.Name, i, le.Number);
                     string number;
                     number = le.Number;
                     //todo: polarity
@@ -689,7 +689,7 @@ namespace NetProcGame.Game
             foreach (SwitchConfigFileEntry se in config.PRSwitches)
             {
                 //Log (se.Number);
-                var s = new NetProcGame.Game.Switch(this, se.Name, PinProc.PRDecode(_machineType, se.Number), se.Type);
+                var s = new NetProcGame.Game.Switch(PROC, se.Name, PinProc.PRDecode(_machineType, se.Number), se.Type);
 
                 ushort number = 0;
                 if (_machineType == MachineType.PDB)
@@ -729,7 +729,7 @@ namespace NetProcGame.Game
 
             foreach (GIConfigFileEntry ge in config.PRGI)
             {
-                Driver d = new Driver(this, ge.Name, PinProc.PRDecode(_machineType, ge.Number));
+                Driver d = new Driver(PROC, ge.Name, PinProc.PRDecode(_machineType, ge.Number));
                 Log("Adding GI " + d.ToString());
                 _gi.Add(d.Number, d.Name, d);
             }
@@ -756,7 +756,7 @@ namespace NetProcGame.Game
                 foreach (Driver d in items_to_remove)
                 {
                     _coils.Remove(d.Name);
-                    VirtualDriver vd = new VirtualDriver(this, d.Name, d.Number, polarity);
+                    VirtualDriver vd = new VirtualDriver(PROC, d.Name, d.Number, polarity);
                     _coils.Add(d.Number, d.Name, d);
                 }
                 items_to_remove.Clear();
@@ -768,7 +768,7 @@ namespace NetProcGame.Game
                 foreach (Driver d in items_to_remove)
                 {
                     _lamps.Remove(d.Name);
-                    VirtualDriver vd = new VirtualDriver(this, d.Name, d.Number, polarity);
+                    VirtualDriver vd = new VirtualDriver(PROC, d.Name, d.Number, polarity);
                     _lamps.Add(d.Number, d.Name, d);
                 }
             }

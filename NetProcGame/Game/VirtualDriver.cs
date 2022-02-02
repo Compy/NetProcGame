@@ -51,8 +51,8 @@ namespace NetProcGame.Game
         /// </summary>
         protected double _timeMs = 0;
 
-        public VirtualDriver(IGameController game, string name, ushort number, bool polarity)
-            : base(game, name, number)
+        public VirtualDriver(IProcDevice proc, string name, ushort number, bool polarity)
+            : base(proc, name, number)
         {
             this._state = new DriverState();
             this._state.Polarity = polarity;

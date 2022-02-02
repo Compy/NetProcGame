@@ -3,12 +3,10 @@
     /// <summary>
     /// Base class for 'Driver' and 'Switch'
     /// </summary>
-    public class GameItem
+    public class GameItem : IGameItem
     {
-        /// <summary>
-        /// GameController instance to which this item belongs
-        /// </summary>
-        protected IGameController _game = null;
+        protected readonly IProcDevice proc;
+
         /// <summary>
         /// Name of this item
         /// </summary>
@@ -26,9 +24,9 @@
         protected string _strNumber;
 
 
-        public GameItem(IGameController game, string name, ushort number, string strNumber = "")
+        public GameItem(IProcDevice proc, string name, ushort number, string strNumber = "")
         {
-            this._game = game;
+            this.proc = proc;
             this._name = name;
             this._number = number;
             _strNumber = strNumber;

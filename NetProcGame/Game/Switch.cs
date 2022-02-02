@@ -38,8 +38,8 @@ namespace NetProcGame.Game
         /// <param name="name">The pretty name of this switch</param>
         /// <param name="number">The encoded number of this switch</param>
         /// <param name="sType">Switch type NO = Normally Open (leaf switches), NC = Normally Closed (optos)</param>
-        public Switch(IGameController game, string name, ushort number, SwitchType sType = SwitchType.NO)
-            : base(game, name, number)
+        public Switch(IProcDevice proc, string name, ushort number, SwitchType sType = SwitchType.NO)
+            : base(proc, name, number)
         {
             this._type = sType;
         }
