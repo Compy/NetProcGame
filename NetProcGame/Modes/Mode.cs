@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using NetProcGame.Dmd;
+using NetProc;
+using NetProc.Dmd;
+using NetProc.Tools;
 using NetProcGame.Events;
 using NetProcGame.Modes;
-using NetProcGame.Tools;
 
 namespace NetProcGame.Game
 {

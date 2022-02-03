@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\NetProcGame\NetProcGame.csproj" />
+    <ProjectReference Include="..\..\..\NetProc\NetProc.csproj" />
   </ItemGroup>
 
   <ItemGroup>

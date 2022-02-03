@@ -1,8 +1,7 @@
-﻿using NetProcGame.Config;
-using NetProcGame.lamps;
+﻿using NetProc;
+using NetProc.Pdb;
 using NetProcGame.Lamps;
 using NetProcGame.Modes;
-using NetProcGame.Tools;
 using System.Collections.Generic;
 
 namespace NetProcGame.Game
@@ -20,14 +19,14 @@ namespace NetProcGame.Game
         AttrCollection<ushort, string, LED> LEDS { get; set; }
         ILogger Logger { get; set; }
         ModeQueue Modes { get; set; }
-        List<Player> Players { get; set; }
+        List<IPlayer> Players { get; set; }
         IProcDevice PROC { get; }
         AttrCollection<ushort, string, Switch> Switches { get; set; }
-        Player AddPlayer();
+        IPlayer AddPlayer();
         void BallEnded();
         void BallStarting();
-        Player create_player(string name);
-        Player CurrentPlayer();
+        IPlayer create_player(string name);
+        IPlayer CurrentPlayer();
         void DmdEvent();
         void EndBall();
         void EndGame();

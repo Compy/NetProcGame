@@ -1,4 +1,5 @@
-﻿using NetProcGame.Game;
+﻿using NetProc;
+using NetProcGame.Game;
 
 namespace NetProcGame.Events
 {

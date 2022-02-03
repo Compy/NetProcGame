@@ -2,4 +2,4 @@
 
 Example to test the procdevice without creating a game controller instance.
 
-Write events to console.
+Add items to machine.json

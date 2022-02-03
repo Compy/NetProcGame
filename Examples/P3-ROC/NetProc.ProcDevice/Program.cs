@@ -1,4 +1,4 @@
-﻿using NetProcGame;
+﻿using NetProc.Pdb;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,15 +8,31 @@ namespace NetProc.ProcDevices
     class Program
     {
         static CancellationTokenSource source = new CancellationTokenSource();
+        private static AttrCollection<ushort, string, Switch> _switches;
+        private static AttrCollection<ushort, string, LED> _leds;
+        private static AttrCollection<ushort, string, IDriver> _coils;
+
         static async Task Main(string[] args)
         {
-            ProcDevice proc = null;
+            ProcDevice PROC = null;
             try
             {
                 Console.WriteLine("Creating PROC");
-                proc = new ProcDevice(MachineType.PDB);
+                PROC = new ProcDevice(MachineType.PDB);
                 await Task.Delay(100);
-                proc?.Reset(1);
+                PROC?.Reset(1);
+
+                //load machine config.
+                var config = MachineConfiguration.FromFile("machine.json");
+
+                //create collections to pass into the setup.
+                //The GameController does this for you in LoadConfig, but this is to test without a game
+                _switches = new AttrCollection<ushort, string, Switch>();
+                _leds = new AttrCollection<ushort, string, LED>();
+                _coils = new AttrCollection<ushort, string, IDriver>();
+
+                //setup machine items to be able to process events.
+                (PROC as ProcDevice).SetupProcMachine(config, _switches: _switches, _leds: _leds, _coils: _coils);
 
                 //listen for cancel keypress and end run loop
                 Console.CancelKeyPress += (sender, eventArgs) =>
@@ -27,10 +43,10 @@ namespace NetProc.ProcDevices
                 };
 
                 //run game loop
-                await run_loop(proc);
+                await RunLoop(PROC);
 
                 //close console
-                Console.WriteLine("netprocgame closing...");              
+                Console.WriteLine("netprocgame closing...");
                 await Task.Delay(500);
             }
             catch (Exception ex)
@@ -39,7 +55,7 @@ namespace NetProc.ProcDevices
             }
         }
 
-        static Task run_loop(ProcDevice proc)
+        static Task RunLoop(ProcDevice proc)
         {
             long loops = 0;
             Event[] events;
@@ -51,7 +67,17 @@ namespace NetProc.ProcDevices
                 {
                     foreach (Event evt in events)
                     {
-                        Console.WriteLine("  {0}", evt);
+                        if (evt.Type != EventType.None && evt.Type != EventType.Invalid)
+                        {
+                            Console.WriteLine($"{evt.Type} event");
+                            Switch sw = _switches[(ushort)evt.Value];
+                            bool recvd_state = evt.Type == EventType.SwitchClosedDebounced;
+                            if (!sw.IsState(recvd_state))
+                            {
+                                Console.WriteLine($"{sw.Name} {recvd_state}");
+                                sw.SetState(recvd_state);
+                            }
+                        }
                     }
                 }
 

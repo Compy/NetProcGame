@@ -1,4 +1,4 @@
-﻿using NetProcGame.Pdb;
+﻿using NetProc.Pdb;
 using Xunit;
 
 namespace NetProc.Tests

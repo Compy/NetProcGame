@@ -1,4 +1,5 @@
-﻿using NetProcGame.Dmd;
+﻿using NetProc;
+using NetProc.Dmd;
 using NetProcGame.Events;
 using NetProcGame.Game;
 using System;

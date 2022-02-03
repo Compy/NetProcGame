@@ -1,6 +1,7 @@
-﻿using NetProcGame.Game;
+﻿using NetProc;
+using NetProc.Tools;
+using NetProcGame.Game;
 using NetProcGame.Modes;
-using NetProcGame.Tools;
 using System;
 using System.Collections.Generic;
 

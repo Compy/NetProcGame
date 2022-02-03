@@ -1,10 +1,12 @@
-﻿namespace NetProcGame.Game
+﻿using NetProc;
+
+namespace NetProcGame.Game
 {
     /// <summary>
     /// Represents a player in the game. <para/>
     /// The game maintains a collection of players in GameController.Players
     /// </summary>
-    public class Player
+    public class Player : IPlayer
     {
         /// <summary>
         /// This player's score

@@ -1,6 +1,6 @@
-﻿using NetProcGame.Dmd;
+﻿using NetProc.Dmd;
+using NetProc.Tools;
 using NetProcGame.Game;
-using NetProcGame.Tools;
 using System;
 using System.Collections.Generic;
 

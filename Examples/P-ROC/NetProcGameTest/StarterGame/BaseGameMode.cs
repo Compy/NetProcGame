@@ -1,4 +1,5 @@
-﻿using NetProcGame.Events;
+﻿using NetProc;
+using NetProcGame.Events;
 using NetProcGame.Game;
 
 namespace PinprocTest.StarterGame

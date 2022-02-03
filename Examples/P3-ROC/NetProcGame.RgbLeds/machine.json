@@ -50,12 +50,12 @@
 	 */
     /* Dedicated Grounded Swtches */
     {
-      "Name": "trough",
-      "Number": "0/0"
+      "Name": "coin1",
+      "Number": "SD0"
     },
     {
-      "Name": "trough2",
-      "Number": "0/1"
+      "Name": "coin2",
+      "Number": "0/0"
     }
   ],
   "PRCoils": [

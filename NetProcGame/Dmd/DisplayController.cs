@@ -1,4 +1,5 @@
-﻿using NetProcGame.Game;
+﻿using NetProc.Dmd;
+using NetProcGame.Game;
 using NetProcGame.Modes;
 using System;
 using System.Collections.Generic;

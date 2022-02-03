@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using NetProc;
 using NetProcGame;
 using NetProcGame.Events;
 using NetProcGame.Game;

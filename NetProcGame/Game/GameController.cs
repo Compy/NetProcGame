@@ -1,9 +1,8 @@
-﻿using NetProcGame.Config;
-using NetProcGame.lamps;
+﻿using NetProc;
+using NetProc.Pdb;
+using NetProc.Tools;
 using NetProcGame.Lamps;
 using NetProcGame.Modes;
-using NetProcGame.Pdb;
-using NetProcGame.Tools;
 using System;
 using System.Collections.Generic;
 
@@ -16,8 +15,6 @@ namespace NetProcGame.Game
     /// </summary>
     public class GameController : IGameController
     {
-        public PDBConfig pdb_config;
-
         public byte[] testFrame;
         /// <summary>
         /// Thread synchronization object for coils
@@ -79,12 +76,12 @@ namespace NetProcGame.Game
         /// <summary>
         /// A collection of old player objects if reset is called.
         /// </summary>
-        protected List<Player> _old_players;
+        protected List<IPlayer> _old_players;
 
         /// <summary>
         /// A collection of player objects
         /// </summary>
-        protected List<Player> _players;
+        protected List<IPlayer> _players;
 
         /// <summary>
         /// A pinproc class instance, created in the constructor with the Machine_Type attribute
@@ -100,7 +97,7 @@ namespace NetProcGame.Game
         /// <summary>
         /// TODO: implement switch object lists
         /// </summary>
-        protected AttrCollection<ushort, string, NetProcGame.Game.Switch> _switches;
+        protected AttrCollection<ushort, string, Switch> _switches;
 
         /// <summary>
         /// Contains local game information such as volume
@@ -155,12 +152,12 @@ namespace NetProcGame.Game
             this._modes = new ModeQueue(this);
             this.BootTime = Time.GetTime();
             this._coils = new AttrCollection<ushort, string, IDriver>();
-            this._switches = new AttrCollection<ushort, string, NetProcGame.Game.Switch>();
+            this._switches = new AttrCollection<ushort, string, Switch>();
             this._lamps = new AttrCollection<ushort, string, IDriver>();
             this._leds = new AttrCollection<ushort, string, LED>();
             this._gi = new AttrCollection<ushort, string, IDriver>();
-            this._old_players = new List<Player>();
-            this._players = new List<Player>();
+            this._old_players = new List<IPlayer>();
+            this._players = new List<IPlayer>();
 
             this.LampController = new LampController(this);
 
@@ -377,7 +374,7 @@ namespace NetProcGame.Game
         /// <summary>
         /// The list of players currently playing the game
         /// </summary>
-        public List<Player> Players
+        public List<IPlayer> Players
         {
             get { return _players; }
             set { _players = value; }
@@ -394,7 +391,7 @@ namespace NetProcGame.Game
         /// <summary>
         /// All switches and optos within the game
         /// </summary>
-        public AttrCollection<ushort, string, NetProcGame.Game.Switch> Switches
+        public AttrCollection<ushort, string, NetProc.Switch> Switches
         {
             get { return _switches; }
             set { _switches = value; }
@@ -404,9 +401,9 @@ namespace NetProcGame.Game
         /// Adds a new player to 'Players' and auto-assigns a name
         /// </summary>
         /// <returns></returns>
-        public virtual Player AddPlayer()
+        public virtual IPlayer AddPlayer()
         {
-            Player newPlayer = this.CreatePlayer("Player " + (_players.Count + 1).ToString());
+            IPlayer newPlayer = this.CreatePlayer("Player " + (_players.Count + 1).ToString());
             _players.Add(newPlayer);
             return newPlayer;
         }
@@ -432,7 +429,7 @@ namespace NetProcGame.Game
         /// </summary>
         /// <param name="name">The name for the player to use, usually auto generated</param>
         /// <returns>A new player object</returns>
-        public Player create_player(string name)
+        public IPlayer create_player(string name)
         {
             return new Player(name);
         }
@@ -441,7 +438,7 @@ namespace NetProcGame.Game
         /// Returns the current 'Player' object according to the current_player_index value
         /// </summary>
         /// <returns></returns>
-        public Player CurrentPlayer()
+        public IPlayer CurrentPlayer()
         {
             if (this._players.Count > this.CurrentPlayerIndex)
                 return this._players[this.CurrentPlayerIndex];
@@ -523,7 +520,7 @@ namespace NetProcGame.Game
         public virtual void GameStarted()
         {
             this.ball = 1;
-            this._players = new List<Player>();
+            this._players = new List<IPlayer>();
             this.CurrentPlayerIndex = 0;
         }
 
@@ -633,149 +630,12 @@ namespace NetProcGame.Game
         /// <param name="PathToFile">The path to the configuration XML file</param>
         public void LoadConfig(string PathToFile)
         {
-            MachineConfiguration config = MachineConfiguration.FromFile(PathToFile);
-
-            List<VirtualDriver> new_virtual_drivers = new List<VirtualDriver>();
-            bool polarity = (this._machineType == MachineType.SternWhitestar || this._machineType == MachineType.SternSAM || this._machineType == MachineType.PDB);
-
-            if (_machineType == MachineType.PDB)
-                pdb_config = new PDBConfig(this._proc, config);
-
-            foreach (CoilConfigFileEntry ce in config.PRCoils)
-            {
-                Driver d;
-                int number;
-                if (_machineType == MachineType.PDB)
-                {
-                    number = pdb_config.get_proc_number("PRCoils", ce.Number);
-
-                    if (number == -1)
-                    {
-                        Console.WriteLine("Coil {0} cannot be controlled by the P-ROC. Ignoring...", ce.Name);
-                        continue;
-                    }
-                }
-                else
-                    number = PinProc.PRDecode(_machineType, ce.Number);
-
-                if ((ce.Bus != null && ce.Bus == "AuxPort") || number >= PinProc.kPRDriverCount)
-                {
-                    d = new VirtualDriver(PROC, ce.Name, (ushort)number, polarity);
-                    new_virtual_drivers.Add((VirtualDriver)d);
-                }
-                else
-                {
-                    d = new Driver(PROC, ce.Name, (ushort)number);
-                    Log("Adding driver " + d.ToString());
-                    d.reconfigure(ce.Polarity);
-                }
-                _coils.Add(d.Number, d.Name, d);
-            }
-
-            if (_machineType == MachineType.PDB)
-            {
-                ushort i = 0;
-                foreach (LampConfigFileEntry le in config.PRLeds)
-                {
-                    LED led = new LED(PROC, le.Name, i, le.Number);
-                    string number;
-                    number = le.Number;
-                    //todo: polarity
-                    _leds.Add(i, led.Name, led);
-                    i++;
-                }
-            }
-
-            foreach (SwitchConfigFileEntry se in config.PRSwitches)
-            {
-                //Log (se.Number);
-                var s = new NetProcGame.Game.Switch(PROC, se.Name, PinProc.PRDecode(_machineType, se.Number), se.Type);
-
-                ushort number = 0;
-                if (_machineType == MachineType.PDB)
-                {
-                    var num = pdb_config.get_proc_number("PRSwitches", se.Number);
-                    if (num == -1)
-                    {
-                        Console.WriteLine("Switch {0} cannot be controlled by the P-ROC. Ignoring...", se.Name);
-                        continue;
-                    }
-                    else
-                    {
-                        number = Convert.ToUInt16(num);
-                    }
-                }
-                else
-                {
-                    number = PinProc.PRDecode(_machineType, se.Number);
-                }
-
-                s.Number = number;
-                _proc.switch_update_rule(number,
-                    EventType.SwitchClosedDebounced,
-                    new SwitchRule { NotifyHost = true, ReloadActive = false },
-                    null,
-                    false
-                );
-                _proc.switch_update_rule(number,
-                    EventType.SwitchOpenDebounced,
-                    new SwitchRule { NotifyHost = true, ReloadActive = false },
-                    null,
-                    false
-                );
-                Log("Adding switch " + s.ToString());
-                _switches.Add(s.Number, s.Name, s);
-            }
-
-            foreach (GIConfigFileEntry ge in config.PRGI)
-            {
-                Driver d = new Driver(PROC, ge.Name, PinProc.PRDecode(_machineType, ge.Number));
-                Log("Adding GI " + d.ToString());
-                _gi.Add(d.Number, d.Name, d);
-            }
-
-            /// TODO: THIS SHOULD RETURN A LIST OF STATES
-            EventType[] states = _proc.SwitchGetStates();
-            foreach (NetProcGame.Game.Switch s in _switches.Values)
-            {
-                s.SetState(states[s.Number] == EventType.SwitchClosedDebounced);
-            }
-
-            _num_balls_total = config.PRGame.numBalls;
+            MachineConfiguration config = MachineConfiguration.FromFile(PathToFile);                        
             _config = config;
+            _num_balls_total = config.PRGame.numBalls;
 
-            foreach (VirtualDriver virtual_driver in new_virtual_drivers)
-            {
-                int base_group_number = virtual_driver.Number / 8;
-                List<Driver> items_to_remove = new List<Driver>();
-                foreach (Driver d in _coils.Values)
-                {
-                    if (d.Number / 8 == base_group_number)
-                        items_to_remove.Add(d);
-                }
-                foreach (Driver d in items_to_remove)
-                {
-                    _coils.Remove(d.Name);
-                    VirtualDriver vd = new VirtualDriver(PROC, d.Name, d.Number, polarity);
-                    _coils.Add(d.Number, d.Name, d);
-                }
-                items_to_remove.Clear();
-                foreach (Driver d in _lamps.Values)
-                {
-                    if (d.Number / 8 == base_group_number)
-                        items_to_remove.Add(d);
-                }
-                foreach (Driver d in items_to_remove)
-                {
-                    _lamps.Remove(d.Name);
-                    VirtualDriver vd = new VirtualDriver(PROC, d.Name, d.Number, polarity);
-                    _lamps.Add(d.Number, d.Name, d);
-                }
-            }
-
-            if (_config.PRGame.displayMonitor)
-            {
-            }
+            //setup machine items
+            (PROC as ProcDevice).SetupProcMachine(config, _coils, _switches, _lamps, _leds, _gi);
         }
 
         /// <summary>
@@ -797,11 +657,12 @@ namespace NetProcGame.Game
                 this.DmdEvent();
             }
             else
-            {
-                Console.WriteLine("event");
-                Log(evt.ToString());
-                NetProcGame.Game.Switch sw = _switches[(ushort)evt.Value];
+            {                                
+                Switch sw = _switches[(ushort)evt.Value];
                 bool recvd_state = evt.Type == EventType.SwitchClosedDebounced;
+
+                Console.WriteLine($"{sw.Name}-{sw.Number} {evt.ToString()}");
+                Log(evt.ToString());
 
                 if (!sw.IsState(recvd_state))
                 {
@@ -848,7 +709,6 @@ namespace NetProcGame.Game
                     foreach (Event evt in events)
                     {
                         ProcessEvent(evt);
-
                     }
                 }
 

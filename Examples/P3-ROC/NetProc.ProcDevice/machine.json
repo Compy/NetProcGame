@@ -51,7 +51,7 @@
     /* Dedicated Grounded Swtches */
     {
       "Name": "trough",
-      "Number": "0/0"
+      "Number": "SD0"
     }
   ],
   "PRCoils": [

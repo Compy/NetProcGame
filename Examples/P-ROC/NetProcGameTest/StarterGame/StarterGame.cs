@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Threading;
-using NetProcGame;
 using NetProcGame.Game;
 using NetProcGame.Modes;
 using NetProcGameTest.game;
 using NetProcGame.Ports;
 using NetProcGame.Lamps;
-using NetProcGame.Tools;
 using NetProcGame.Events;
+using NetProc;
 
 namespace PinprocTest.StarterGame
 {
@@ -217,7 +216,7 @@ namespace PinprocTest.StarterGame
 
         public void extra_ball()
         {
-            Player p = CurrentPlayer();
+            IPlayer p = CurrentPlayer();
             p.ExtraBalls++;
         }
 

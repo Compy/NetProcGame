@@ -1,5 +1,4 @@
-﻿using NetProcGame.Dmd;
-using NetProcGame.Dmd;
+﻿using NetProc.Dmd;
 
 namespace NetProcGame.Modes
 {

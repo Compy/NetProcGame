@@ -1,8 +1,8 @@
-﻿using NetProcGame;
+﻿using NetProc;
+using NetProc.Dmd;
 using NetProcGame.Dmd;
 using NetProcGame.Game;
 using NetProcGame.Modes;
-using NetProcGame.Tools;
 
 namespace NetProcGameTest.game
 {
@@ -70,7 +70,7 @@ namespace NetProcGameTest.game
 
         public void score(int points)
         {
-            Player p = this.CurrentPlayer();
+            IPlayer p = this.CurrentPlayer();
             p.Score += points;
         }
     }

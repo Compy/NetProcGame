@@ -1,4 +1,4 @@
-﻿using NetProcGame.Config;
+﻿using NetProc;
 
 namespace NetProcGame.Data.Model
 {

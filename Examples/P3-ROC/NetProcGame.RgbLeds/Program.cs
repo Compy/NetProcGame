@@ -1,4 +1,5 @@
-﻿using NetProcGame.lamps;
+﻿using NetProc;
+using NetProc.Pdb;
 using System;
 using System.Threading;
 using System.Threading.Tasks;

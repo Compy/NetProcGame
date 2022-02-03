@@ -1,5 +1,5 @@
-﻿using NetProcGame.Game;
-using NetProcGame.Tools;
+﻿using NetProc;
+using NetProcGame.Game;
 
 namespace NetProcGame.RgbLeds
 {
@@ -13,7 +13,6 @@ namespace NetProcGame.RgbLeds
         internal void Setup()
         {
             LoadConfig(@"machine.json");
-            ;
         }        
     }
 }
