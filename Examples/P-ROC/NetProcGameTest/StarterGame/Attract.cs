@@ -58,56 +58,64 @@ namespace PinprocTest.StarterGame
 		}
 		public void RunFlasherRoutine()
 		{
-			Game.ledDriver.FadeAllToColor (0, 0, 0, 0);
-		
+			//don't run theese shows when null
+			if(Game.ledDriver != null)
+            {
+				Game.ledDriver.FadeAllToColor(0, 0, 0, 0);
 
-			// Turn on the flasher motors
-			//Game.spinning_flashers_on ();
+				// Turn on the flasher motors
+				//Game.spinning_flashers_on ();
 
-			//Game.ledDriver.ScheduleLamp (LP_LEFT_FLASHER, 0xFFFFFFFF);
-			//Game.ledDriver.ScheduleLamp (LP_RIGHT_FLASHER, 0xFFFFFFFF);
-			//Game.ledDriver.ScheduleLamp (LP_UPPER_LEFT_FLASHER, 0xFFFFFFFF);
+				//Game.ledDriver.ScheduleLamp (LP_LEFT_FLASHER, 0xFFFFFFFF);
+				//Game.ledDriver.ScheduleLamp (LP_RIGHT_FLASHER, 0xFFFFFFFF);
+				//Game.ledDriver.ScheduleLamp (LP_UPPER_LEFT_FLASHER, 0xFFFFFFFF);
 
-			Game.ledDriver.AssignLamp ((byte)LP_LEFT_FLASHER, GRP_FLASHERS);
-			Game.ledDriver.AssignLamp ((byte)LP_RIGHT_FLASHER, GRP_FLASHERS);
-			Game.ledDriver.AssignLamp ((byte)LP_UPPER_LEFT_FLASHER, GRP_FLASHERS);
+				Game.ledDriver.AssignLamp((byte)LP_LEFT_FLASHER, GRP_FLASHERS);
+				Game.ledDriver.AssignLamp((byte)LP_RIGHT_FLASHER, GRP_FLASHERS);
+				Game.ledDriver.AssignLamp((byte)LP_UPPER_LEFT_FLASHER, GRP_FLASHERS);
 
-			for (int i = 0; i < 50; i++) {
-				if (i != LP_RIGHT_FLASHER && i != LP_LEFT_FLASHER && i != LP_UPPER_LEFT_FLASHER) {
-					byte destGroup = (i % 2 == 0) ? GRP_EVEN_LAMPS : GRP_ODD_LAMPS;
-					Console.WriteLine ("Assigning " + i.ToString () + " to " + destGroup.ToString());
-					Game.ledDriver.AssignLamp ((byte)i, destGroup);
+				for (int i = 0; i < 50; i++)
+				{
+					if (i != LP_RIGHT_FLASHER && i != LP_LEFT_FLASHER && i != LP_UPPER_LEFT_FLASHER)
+					{
+						byte destGroup = (i % 2 == 0) ? GRP_EVEN_LAMPS : GRP_ODD_LAMPS;
+						Console.WriteLine("Assigning " + i.ToString() + " to " + destGroup.ToString());
+						Game.ledDriver.AssignLamp((byte)i, destGroup);
+					}
 				}
+
+				Game.ledDriver.GroupSchedule(GRP_FLASHERS, 0xFFFFFFFF, true);
+				Game.ledDriver.FadeLedToColor(LP_LEFT_FLASHER, 255, 0, 255, 32);
+				Game.ledDriver.FadeLedToColor(LP_RIGHT_FLASHER, 0, 0, 255, 32);
+				Game.ledDriver.FadeLedToColor(LP_UPPER_LEFT_FLASHER, 255, 255, 255, 32);
+
+				Game.ledDriver.GroupFadeToColor(GRP_EVEN_LAMPS, 255, 255, 255, 32);
+				Game.ledDriver.GroupFadeToColor(GRP_ODD_LAMPS, 255, 255, 255, 32);
+
+				//Game.ledDriver.GroupSchedule (GRP_EVEN_LAMPS, 0x55555555, true);
+				//Game.ledDriver.GroupSchedule (GRP_ODD_LAMPS, 0xAAAAAAAA, true);
+				alternateAllLampsAtSpeed(0);
+				this.Delay("flasherEvent", EventType.None, 1, new AnonDelayedHandler(delegate () {
+					alternateAllLampsAtSpeed(1);
+				}));
+
+				this.Delay("flasherEvent2", EventType.None, 2, new AnonDelayedHandler(delegate () {
+					alternateAllLampsAtSpeed(2);
+				}));
+
+				this.Delay("flasherEvent3", EventType.None, 3, new AnonDelayedHandler(delegate () {
+					alternateAllLampsAtSpeed(3);
+				}));
+
+				this.Delay("flasherEvent4", EventType.None, 5, new AnonDelayedHandler(delegate () {
+					Game.ledDriver.ScheduleAll(0x0);
+					Game.spinning_flashers_off();
+				}));
 			}
-
-			Game.ledDriver.GroupSchedule (GRP_FLASHERS, 0xFFFFFFFF, true);
-			Game.ledDriver.FadeLedToColor (LP_LEFT_FLASHER, 255, 0, 255, 32);
-			Game.ledDriver.FadeLedToColor (LP_RIGHT_FLASHER, 0, 0, 255, 32);
-			Game.ledDriver.FadeLedToColor (LP_UPPER_LEFT_FLASHER, 255, 255, 255, 32);
-
-			Game.ledDriver.GroupFadeToColor (GRP_EVEN_LAMPS, 255, 255, 255, 32);
-			Game.ledDriver.GroupFadeToColor (GRP_ODD_LAMPS, 255, 255, 255, 32);
+			
 			Game.spinning_flashers_on ();
 
-			//Game.ledDriver.GroupSchedule (GRP_EVEN_LAMPS, 0x55555555, true);
-			//Game.ledDriver.GroupSchedule (GRP_ODD_LAMPS, 0xAAAAAAAA, true);
-			alternateAllLampsAtSpeed(0);
-			this.Delay ("flasherEvent", EventType.None, 1, new AnonDelayedHandler (delegate() {
-				alternateAllLampsAtSpeed(1);
-			}));
-
-			this.Delay("flasherEvent2", EventType.None, 2, new AnonDelayedHandler (delegate() {
-				alternateAllLampsAtSpeed(2);
-			}));
-
-			this.Delay("flasherEvent3", EventType.None, 3, new AnonDelayedHandler (delegate() {
-				alternateAllLampsAtSpeed(3);
-			}));
-
-			this.Delay("flasherEvent4", EventType.None, 5, new AnonDelayedHandler (delegate() {
-				Game.ledDriver.ScheduleAll(0x0);
-				Game.spinning_flashers_off();
-			}));
+			
 
 			//Game.ledDriver.GroupSchedule (GRP_FLASHERS, 0xFFFFFFFF, true);
 			/*
