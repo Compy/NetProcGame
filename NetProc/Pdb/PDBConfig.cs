@@ -3,33 +3,18 @@ using System.Collections.Generic;
 
 namespace NetProc.Pdb
 {
-    public class PDBLampEntry
-    {
-        public int source_index { get; set; }
-        public int sink_bank { get; set; }
-        public int source_output { get; set; }
-    }
-
-    public class PDBLampListIndexEntry
-    {
-        public int source_board { get; set; }
-        public int sink_bank { get; set; }
-        public int source_output { get; set; }
-    }
     public class PDBConfig
     {
+        public List<DriverAlias> aliases;
         public List<object> indexes;
         public IProcDevice proc;
-        public List<DriverAlias> aliases;
-
         private ushort lamp_matrix_strobe_time;
-        private ushort watchdog_time;
         private bool use_watchdog;
-
+        private ushort watchdog_time;
         public PDBConfig(IProcDevice proc, MachineConfiguration config)
         {
             this.proc = proc;
-            this.get_globals(config);
+            this.GetGlobals(config);
 
             // Initialize some lists for data collection
             List<int> coil_bank_list = new List<int>();
@@ -37,7 +22,7 @@ namespace NetProc.Pdb
             List<PDBLampEntry> lamp_list = new List<PDBLampEntry>();
             List<PDBLampListIndexEntry> lamp_list_for_index = new List<PDBLampListIndexEntry>();
             this.aliases = new List<DriverAlias>();
-			this.indexes = new List<object> ();
+            this.indexes = new List<object>();
 
             if (config.PRDriverAliases != null)
             {
@@ -96,7 +81,7 @@ namespace NetProc.Pdb
             for (int i = 0; i < num_proc_banks; i++)
                 indexes.Add(99);
 
-            this.initialize_drivers(proc);
+            this.InitializeDrivers(proc);
 
             // Set up dedicated driver groups (groups 0-3)
             int group_ctr = 0;
@@ -193,11 +178,11 @@ namespace NetProc.Pdb
             // Now set up globals. First disable them to allow the P-ROC to set up the
             // polarities on the drivers, then enable them.
 
-            configure_globals(proc, lamp_source_bank_list, false);
-            configure_globals(proc, lamp_source_bank_list, true);
+            ConfigureGlobals(proc, lamp_source_bank_list, false);
+            ConfigureGlobals(proc, lamp_source_bank_list, true);
         }
 
-        public void configure_globals(IProcDevice proc, List<int> lamp_source_bank_list, bool enable = true)
+        public void ConfigureGlobals(IProcDevice proc, List<int> lamp_source_bank_list, bool enable = true)
         {
             if (enable)
             {
@@ -236,28 +221,7 @@ namespace NetProc.Pdb
                 this.watchdog_time);
         }
 
-        public void initialize_drivers(IProcDevice proc)
-        {
-            // Loop through all of the drivers, initializing them with the polarity
-            for (ushort i = 0; i < 208; i++)
-            {
-                DriverState state = new DriverState();
-                state.DriverNum = i;
-                state.OutputDriveTime = 0;
-                state.Polarity = true;
-                state.State = false;
-                state.WaitForFirstTimeSlot = false;
-                state.Timeslots = 0;
-                state.PatterOnTime = 0;
-                state.PatterOffTime = 0;
-                state.PatterEnable = false;
-                state.futureEnable = false;
-
-                proc.driver_update_state(ref state);
-            }
-        }
-
-        public void get_globals(MachineConfiguration config)
+        public void GetGlobals(MachineConfiguration config)
         {
             if (config.PRDriverGlobals != null)
             {
@@ -273,7 +237,7 @@ namespace NetProc.Pdb
             }
         }
 
-        public int get_proc_number(string section, string number_str)
+        public int GetProcNumber(string section, string number_str)
         {
             int index, bank, num;
             if (section == "PRCoils")
@@ -312,5 +276,40 @@ namespace NetProc.Pdb
             }
             return -1;
         }
+
+        public void InitializeDrivers(IProcDevice proc)
+        {
+            // Loop through all of the drivers, initializing them with the polarity
+            for (ushort i = 0; i < 208; i++)
+            {
+                DriverState state = new DriverState();
+                state.DriverNum = i;
+                state.OutputDriveTime = 0;
+                state.Polarity = true;
+                state.State = false;
+                state.WaitForFirstTimeSlot = false;
+                state.Timeslots = 0;
+                state.PatterOnTime = 0;
+                state.PatterOffTime = 0;
+                state.PatterEnable = false;
+                state.futureEnable = false;
+
+                proc.driver_update_state(ref state);
+            }
+        }
+    }
+
+    public class PDBLampEntry
+    {
+        public int sink_bank { get; set; }
+        public int source_index { get; set; }
+        public int source_output { get; set; }
+    }
+
+    public class PDBLampListIndexEntry
+    {
+        public int sink_bank { get; set; }
+        public int source_board { get; set; }
+        public int source_output { get; set; }
     }
 }

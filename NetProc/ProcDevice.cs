@@ -538,7 +538,7 @@ namespace NetProc
                     int number;
                     if (g_machineType == MachineType.PDB && pdb_config != null)
                     {
-                        number = pdb_config.get_proc_number("PRCoils", ce.Number);
+                        number = pdb_config.GetProcNumber("PRCoils", ce.Number);
 
                         if (number == -1)
                         {
@@ -589,7 +589,7 @@ namespace NetProc
                     ushort number = 0;
                     if (g_machineType == MachineType.PDB)
                     {
-                        var num = pdb_config.get_proc_number("PRSwitches", se.Number);
+                        var num = pdb_config.GetProcNumber("PRSwitches", se.Number);
                         if (num == -1)
                         {
                             Console.WriteLine("Switch {0} cannot be controlled by the P-ROC. Ignoring...", se.Name);
