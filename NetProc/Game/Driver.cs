@@ -71,16 +71,10 @@ namespace NetProc
         /// <param name="on_time"></param>
         /// <param name="off_time"></param>
         /// <param name="orig_on_time"></param>
-        public void Patter(ushort on_time = 10, ushort off_time = 10, ushort orig_on_time = 0)
+        public void Patter(byte on_time = 10, byte off_time = 10, byte orig_on_time = 0)
         {
-            if (off_time < 0 || off_time > 255)
-                throw new ArgumentOutOfRangeException("off_time must be in range 0-255");
-            if (on_time < 0 || on_time > 255)
-                throw new ArgumentOutOfRangeException("on_time must be in range 0-255");
-            if (orig_on_time < 0 || orig_on_time > 255)
-                throw new ArgumentOutOfRangeException("orig_on_time must be in range 0-255");
 
-            this.proc.DriverPatter(this._number, off_time, on_time, orig_on_time);
+            this.proc.DriverPatter(this._number, on_time, off_time, orig_on_time);
             this._last_time_changed = Time.GetTime();
         }
 

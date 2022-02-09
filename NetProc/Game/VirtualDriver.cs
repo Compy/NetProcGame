@@ -127,6 +127,12 @@ namespace NetProc
             else this._timeMs = Time.GetTime() + milliseconds / 1000;
         }
 
+        /// <summary>
+        /// Schedules the driver. todo: implement the now parameter
+        /// </summary>
+        /// <param name="schedule"></param>
+        /// <param name="cycle_seconds"></param>
+        /// <param name="now"></param>
         public new void Schedule(uint schedule, int cycle_seconds = 0, bool now = true)
         {
             this._function = "schedule";

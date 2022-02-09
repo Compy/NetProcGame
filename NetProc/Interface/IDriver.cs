@@ -12,9 +12,9 @@ namespace NetProc
         void Disable();
         void Pulse(int milliseconds = -1);
         void FuturePulse(int milliseconds = -1, UInt16 futureTime = 100);
-        void Patter(ushort on_time = 10, ushort off_time = 10, ushort orig_on_time = 0);
+        void Patter(byte on_time = 10, byte off_time = 10, byte orig_on_time = 0);
         void Tick();
-        void Schedule(uint sch, int v1, bool v2);
+        void Schedule(uint schedule, int cycle_seconds = 0, bool now = true);
         void Enable();
     }
 }
