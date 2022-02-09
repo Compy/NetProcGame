@@ -29,7 +29,10 @@ namespace NetProc
         public string Number { get; set; }
         public int PulseTime { get; set; }
         public string Bus { get; set; }
-        public bool Polarity { get; set; }
+        /// <summary>
+        /// Defaults to true
+        /// </summary>
+        public bool Polarity { get; set; } = true;
         public CoilConfigFileEntry()
         {
             PulseTime = 30;
@@ -44,7 +47,7 @@ namespace NetProc
         public string Name { get; set; }
         public string Number { get; set; }
         public string Bus { get; set; }
-        public bool Polarity { get; set; }
+        public bool Polarity { get; set; } = true;
     }
 
     /// <summary>
