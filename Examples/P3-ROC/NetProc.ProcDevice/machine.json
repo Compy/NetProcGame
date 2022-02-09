@@ -56,8 +56,8 @@
   ],
   "PRCoils": [
     {
-      "Name": "trough",
-      "Number": "1:A0-B1-6"
+      "Name": "flasher",
+      "Number": "0/0/0"
     }
   ],
   "PRLeds": [

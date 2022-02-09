@@ -54,14 +54,38 @@
       "Number": "SD0"
     },
     {
-      "Name": "coin2",
+      "Name": "coin",
+      "Number": "1/0"
+    },
+    {
+      "Name": "coin20",
       "Number": "0/0"
+    },
+    {
+      "Name": "coin2",
+      "Number": "4/0"
+    },
+    {
+      "Name": "coin3",
+      "Number": "5/0"
+    },
+    {
+      "Name": "coin4",
+      "Number": "5/1"
+    },
+    {
+      "Name": "coin5",
+      "Number": "3/0"
+    },
+    {
+      "Name": "coin6",
+      "Number": "3/1"
     }
   ],
   "PRCoils": [
     {
-      "Name": "trough",
-      "Number": "1:A0-B1-6"
+      "Name": "flasher",
+      "Number": "0/0/0"
     }
   ],
   "PRLeds": [

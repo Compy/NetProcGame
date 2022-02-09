@@ -42,6 +42,8 @@ namespace NetProc.ProcDevices
                     eventArgs.Cancel = true;
                 };
 
+                
+
                 //run game loop
                 await RunLoop(PROC);
 
@@ -59,6 +61,22 @@ namespace NetProc.ProcDevices
         {
             long loops = 0;
             Event[] events;
+            //_coils["trough"].Pulse(255);
+
+            var flasher = _coils["flasher"];
+
+            //flasher.Pulse(255);
+
+            //flasher.Schedule(0x4F4F4F4F, 10); //schedule for 10 sec
+
+            //flasher.Patter(0, 0, 0); // on 1, off 1
+            flasher.Patter(10, 0, 0); // on 10ms, off 1
+
+            //flasher.Patter(255, 10); //flash fast
+            //flasher.Patter(255, 255); //flash med
+            //flasher.Patter(10, 10); //always on (pretty much)
+
+
             while (!source.IsCancellationRequested)
             {
                 loops++;
