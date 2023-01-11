@@ -51,42 +51,42 @@
     /* Dedicated Grounded Swtches */
     {
       "Name": "coin1",
-      "Number": "SD0"
+      "Number": "0"
     },
     {
       "Name": "coin",
-      "Number": "1/0"
+      "Number": "1"
     },
     {
       "Name": "coin20",
-      "Number": "0/0"
+      "Number": "3"
     },
     {
       "Name": "coin2",
-      "Number": "4/0"
+      "Number": "4"
     },
     {
       "Name": "coin3",
-      "Number": "5/0"
+      "Number": "5"
     },
     {
       "Name": "coin4",
-      "Number": "5/1"
+      "Number": "6"
     },
     {
       "Name": "coin5",
-      "Number": "3/0"
+      "Number": "7"
     },
     {
       "Name": "coin6",
-      "Number": "3/1"
+      "Number": "8"
     }
   ],
   "PRCoils": [
-    {
-      "Name": "flasher",
-      "Number": "0/0/0"
-    }
+    //{
+    //  "Name": "flasher",
+    //  "Number": "0/0/0"
+    //}
   ],
   "PRLeds": [
     {
@@ -112,7 +112,11 @@
     {
       "Name": "LED6",
       "Number": "A0-R81-G82-B83"
-    }
+    },
+    //{
+    //  "Name": "Serial",
+    //  "Number": "A0-R81-B82-G83"
+    //}
   ],
   "PRGI": [
   ],

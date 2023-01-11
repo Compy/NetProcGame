@@ -225,9 +225,9 @@ namespace NetProc.Pdb
         {
             if (config.PRDriverGlobals != null)
             {
-                lamp_matrix_strobe_time = config.PRDriverGlobals.lamp_matrix_strobe_time;
-                watchdog_time = config.PRDriverGlobals.watchdog_time;
-                use_watchdog = config.PRDriverGlobals.use_watchdog;
+                lamp_matrix_strobe_time = config.PRDriverGlobals.LampMatrixStrobeTime;
+                watchdog_time = config.PRDriverGlobals.WatchdogTime;
+                use_watchdog = config.PRDriverGlobals.UseWatchdog;
             }
             else
             {
@@ -270,7 +270,7 @@ namespace NetProc.Pdb
             }
             if (section == "PRSwitches")
             {
-                SwitchPdb sw = new SwitchPdb(number_str);
+                PDBSwitch sw = new PDBSwitch(number_str);
                 num = sw.ProcNum();
                 return num;
             }
@@ -297,19 +297,5 @@ namespace NetProc.Pdb
                 proc.driver_update_state(ref state);
             }
         }
-    }
-
-    public class PDBLampEntry
-    {
-        public int sink_bank { get; set; }
-        public int source_index { get; set; }
-        public int source_output { get; set; }
-    }
-
-    public class PDBLampListIndexEntry
-    {
-        public int sink_bank { get; set; }
-        public int source_board { get; set; }
-        public int source_output { get; set; }
     }
 }

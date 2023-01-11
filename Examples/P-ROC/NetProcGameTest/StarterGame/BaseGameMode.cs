@@ -1,6 +1,7 @@
 ﻿using NetProc;
-using NetProcGame.Events;
-using NetProcGame.Game;
+using NetProc.Events;
+using NetProc.Game;
+using NetProc.Game.Modes;
 
 namespace PinprocTest.StarterGame
 {

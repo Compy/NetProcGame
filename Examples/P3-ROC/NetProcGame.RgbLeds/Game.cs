@@ -1,5 +1,5 @@
 ﻿using NetProc;
-using NetProcGame.Game;
+using NetProc.Game;
 
 namespace NetProcGame.RgbLeds
 {

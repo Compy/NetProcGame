@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Threading;
-using NetProcGame.Game;
-using NetProcGame.Modes;
+using NetProc.Game.Modes;
 using NetProcGameTest.game;
-using NetProcGame.Ports;
-using NetProcGame.Lamps;
-using NetProcGame.Events;
+using NetProc.Game.Lamps;
 using NetProc;
+using NetProc.Interface;
+using NetProc.Events;
+using NetProc.Ports.WSLED;
 
 namespace PinprocTest.StarterGame
 {

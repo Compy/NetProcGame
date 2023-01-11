@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using NetProc;
-using NetProcGame;
-using NetProcGame.Events;
-using NetProcGame.Game;
+using NetProc.Events;
+using NetProc.Game;
+using NetProc.Game.Modes;
 
 namespace NetProcGameTest.StarterGame
 {

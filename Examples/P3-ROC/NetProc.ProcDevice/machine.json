@@ -49,10 +49,30 @@
      *    'NC' (normally closed.  Common for optos)
 	 */
     /* Dedicated Grounded Swtches */
-    {
-      "Name": "trough",
-      "Number": "SD0"
-    }
+    //{
+    //  "Name": "trough",
+    //  "Number": "0"
+    //},
+    //{
+    //  "Name": "trough3",
+    //  "Number": "7"
+    //},
+    //{
+    //  "Name": "trough4",
+    //  "Number": "8"
+    //},
+    //{
+    //  "Name": "trough5",
+    //  "Number": "16"
+    //},
+    //{
+    //  "Name": "trough6",
+    //  "Number": "1"
+    //},
+    //{
+    //  "Name": "trough7",
+    //  "Number": "6/0/0"
+    //}
   ],
   "PRCoils": [
     {

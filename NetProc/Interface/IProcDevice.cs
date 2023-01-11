@@ -1,4 +1,5 @@
-﻿using NetProc.Dmd;
+﻿using NetProc.Interface;
+using NetProc.Pdb;
 using System;
 
 namespace NetProc
@@ -10,7 +11,7 @@ namespace NetProc
         void AuxSendCommands(ushort address, ushort aux_commands);
         void Close();
         void DmdDraw(byte[] bytes);
-        void DmdDraw(Frame frame);
+        void DmdDraw(IFrame frame);
         void DmdUpdateConfig(ushort[] high_cycles);
         DriverState DriverStatePulsedPatter(DriverState state, ushort milliseconds_on, ushort milliseconds_off, ushort milliseconds_overall_patter_time);
 
@@ -54,10 +55,12 @@ namespace NetProc
 
         void Reset(uint flags);
         void SetDmdColorMapping(byte[] mapping);
+        void SetupProcMachine(MachineConfiguration config, AttrCollection<ushort, string, IDriver> coils, AttrCollection<ushort, string, Switch> switches, AttrCollection<ushort, string, IDriver> lamps, AttrCollection<ushort, string, LED> leds, AttrCollection<ushort, string, IDriver> gi);
+
         EventType[] SwitchGetStates();
         void switch_update_rule(ushort number, EventType event_type, SwitchRule rule, DriverState[] linked_drivers, bool drive_outputs_now);
         void WatchDogTickle();
 
-		Result WriteData(uint module, uint address, ref uint data);
+		Result WriteData(uint module, uint address, ref uint data);        
     }
 }

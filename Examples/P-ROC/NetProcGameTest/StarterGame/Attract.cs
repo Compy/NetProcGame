@@ -1,12 +1,12 @@
 ﻿using NetProc;
 using NetProc.Dmd;
-using NetProcGame.Events;
-using NetProcGame.Game;
+using NetProc.Events;
+using NetProc.Game.Modes;
 using System;
 
 namespace PinprocTest.StarterGame
 {
-    public delegate void VoidDelegateNoArgs();
+	public delegate void VoidDelegateNoArgs();
     public class Attract : Mode
     {
         private TextLayer testfontlayer_04B37, testfontlayer_07x4, testfontlayer_07x5, testfontlayer_09Bx7,

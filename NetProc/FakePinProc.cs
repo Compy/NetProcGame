@@ -1,4 +1,5 @@
-﻿using NetProc.Dmd;
+﻿using NetProc.Interface;
+using NetProc.Pdb;
 using NetProc.Tools;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace NetProc
     public class FakePinProc : IProcDevice
     {
         private AttrCollection<ushort, string, IVirtualDriver> drivers;
+        private MachineType _machineType;
         private List<Event> switch_events = new List<Event>();
         private FakeSwitchRule[] switch_rules = new FakeSwitchRule[1024];
         private double now;
@@ -23,6 +25,8 @@ namespace NetProc
         public FakePinProc(MachineType machineType)
         {
             this.drivers = new AttrCollection<ushort, string, IVirtualDriver>();
+
+            _machineType = machineType;
 
             //todo: Make 256 drivers
             //for (ushort i = 0; i < 256; i++)
@@ -50,7 +54,7 @@ namespace NetProc
         {
         }
 
-        public void DmdDraw(Frame frame)
+        public void DmdDraw(IFrame frame)
         {
         }
 
@@ -236,5 +240,20 @@ namespace NetProc
 		public void initialize_i2c(uint address)
 		{
 		}
+
+        /// <summary>
+        /// NOT USED, FAKE
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="_coils"></param>
+        /// <param name="_switches"></param>
+        /// <param name="_lamps"></param>
+        /// <param name="_leds"></param>
+        /// <param name="_gi"></param>
+        public void SetupProcMachine(MachineConfiguration config, AttrCollection<ushort, string, IDriver> _coils = null,
+            AttrCollection<ushort, string, Switch> _switches = null, AttrCollection<ushort, string, IDriver> _lamps = null, AttrCollection<ushort, string, LED> _leds = null, AttrCollection<ushort, string, IDriver> _gi = null)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

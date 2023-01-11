@@ -1,5 +1,5 @@
 ﻿using NetProc;
-using NetProc.Pdb;
+using NetProcGame.Data;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,11 +13,18 @@ namespace NetProcGame.RgbLeds
         {
             try
             {
+                //create context for database and create machine config
+                INetProcDbContext ctx = new NetProcDbContext();
+                var mc = ctx.GetMachineConfiguration();
+                
                 //create rgb PDB P3-ROC game. Set true for simulated
                 var game = new Game(MachineType.PDB, null, false);
 
-                //run setup to read machine config
-                game.Setup();
+                //run setup machine from machine.json
+                //game.Setup();
+
+                //run setup from config from database
+                game.LoadConfig(mc);
 
                 //listen for cancel keypress and end run loop
                 Console.CancelKeyPress += (sender, eventArgs) =>
@@ -57,7 +64,7 @@ namespace NetProcGame.RgbLeds
         async static Task GameLoop(Game game)
         {
             await Task.Run(() =>
-            {               
+            {
                 game.RunLoop();
             });
         }
@@ -69,20 +76,22 @@ namespace NetProcGame.RgbLeds
         private static void ScriptedLEDS(Game game)
         {
             //create led script to cycle colors
-            var script = new LEDScript[3]
-            {
-                    new LEDScript(){ Colour = new uint[] { 0, 0xFF, 0}, Duration = 2, FadeTime = 0},
-                    new LEDScript(){ Colour = new uint[] { 0xFF, 0xFF, 0}, Duration = 2, FadeTime = 0},
-                    new LEDScript(){ Colour = new uint[] { 0, 0xFF, 0xFF}, Duration = 2, FadeTime = 0}
-            };
+            //var script = new LEDScript[3]
+            //{
+            //        new LEDScript(){ Colour = new uint[] { 0, 0xFF, 0}, Duration = 2, FadeTime = 0},
+            //        new LEDScript(){ Colour = new uint[] { 0xFF, 0xFF, 0}, Duration = 2, FadeTime = 0},
+            //        new LEDScript(){ Colour = new uint[] { 0, 0xFF, 0xFF}, Duration = 2, FadeTime = 0}
+            //};
 
-            //apply script to each led in the machine.json
-            for (int i = 1; i < 6; i++)
-            {
-                game.LEDS["LED" + i].Script(script);
-            }
+            ////apply script to each led in the machine.json
+            //for (int i = 1; i < 6; i++)
+            //{
+            //    game.LEDS["LED" + i].Script(script);
+            //}
 
-            game.LEDS["LED6"].ChangeColor(new uint[] { 255, 0, 0 });
+            //game.LEDS["LED6"].ChangeColor(new uint[] { 255, 0, 0 });
+
+            //game.LEDS["Serial"].ChangeColor(new uint[] { 255, 0, 0 });
         }
     }
 }

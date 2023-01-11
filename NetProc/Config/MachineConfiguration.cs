@@ -10,14 +10,12 @@ namespace NetProc
     /// </summary>
     public class SwitchConfigFileEntry
     {
-        public string Name { get; set; }        
+        public string Name { get; set; }
         public SwitchType Type { get; set; }
         public string Number { get; set; }
-
-        public SwitchConfigFileEntry()
-        {
-            this.Type = SwitchType.NO;
-        }
+        public string Tags { get; set; }
+        public string SearchReset { get; set; }
+        public string SearchStop { get; set; }
     }
 
     /// <summary>
@@ -27,16 +25,14 @@ namespace NetProc
     {
         public string Name { get; set; }
         public string Number { get; set; }
-        public int PulseTime { get; set; }
+        public int PulseTime { get; set; } = 30;
         public string Bus { get; set; }
         /// <summary>
         /// Defaults to true
         /// </summary>
         public bool Polarity { get; set; } = true;
-        public CoilConfigFileEntry()
-        {
-            PulseTime = 30;
-        }
+        public string Tags { get; set; }
+        public int Search { get; set; }
     }
 
     /// <summary>
@@ -48,7 +44,13 @@ namespace NetProc
         public string Number { get; set; }
         public string Bus { get; set; }
         public bool Polarity { get; set; } = true;
+        public string Tags { get; set; }
     }
+
+    /// <summary>
+    /// Represents an LED's configuration in memory
+    /// </summary>
+    public class LedConfigFileEntry : LampConfigFileEntry { }
 
     /// <summary>
     /// Represents a GI string list element in memory
@@ -57,20 +59,14 @@ namespace NetProc
     {
         public string Name { get; set; }
         public string Number { get; set; }
+        public string Tags { get; set; }
     }
 
     public class PRDriverGlobalsEntry
     {
-        public ushort lamp_matrix_strobe_time { get; set; }
-        public ushort watchdog_time { get; set; }
-        public bool use_watchdog { get; set; }
-
-        public PRDriverGlobalsEntry()
-        {
-            lamp_matrix_strobe_time = 200;
-            watchdog_time = 1000;
-            use_watchdog = true;
-        }
+        public ushort LampMatrixStrobeTime { get; set; } = 200;
+        public ushort WatchdogTime { get; set; } = 1000;
+        public bool UseWatchdog { get; set; } = true;
     }
 
     public class DriverAliasEntry
@@ -79,17 +75,11 @@ namespace NetProc
         public string repl { get; set; }
     }
 
-    public class BallSaveConfigFileEntry
+    public class BallSearchConfigFileEntry
     {
-        public List<string> PulseCoils { get; set; }
-        public Dictionary<string, string> ResetSwitches { get; set; }
-        public Dictionary<string, string> StopSwitches { get; set; }
-        public BallSaveConfigFileEntry()
-        {
-            PulseCoils = new List<string>();
-            ResetSwitches = new Dictionary<string, string>();
-            StopSwitches = new Dictionary<string, string>();
-        }
+        public List<string> PulseCoils { get; set; } = new List<string>();
+        public Dictionary<string, string> ResetSwitches { get; set; } = new Dictionary<string, string>();
+        public Dictionary<string, string> StopSwitches { get; set; } = new Dictionary<string, string>();
     }
 
     /// <summary>
@@ -98,8 +88,8 @@ namespace NetProc
     public class GameConfigFileEntry
     {
         public MachineType MachineType { get; set; }
-        public int numBalls { get; set; }
-        public bool displayMonitor { get; set; }
+        public int NumBalls { get; set; }
+        public bool DisplayMonitor { get; set; } = false;
     }
 
     /// <summary>
@@ -116,7 +106,7 @@ namespace NetProc
         public List<CoilConfigFileEntry> PRCoils { get; set; } = new List<CoilConfigFileEntry>();
         public List<LampConfigFileEntry> PRLamps { get; set; } = new List<LampConfigFileEntry>();
         public List<GIConfigFileEntry> PRGI { get; set; } = new List<GIConfigFileEntry>();
-        public BallSaveConfigFileEntry PRBallSave { get; set; } = new BallSaveConfigFileEntry();
+        public BallSearchConfigFileEntry PRBallSearch { get; set; } = new BallSearchConfigFileEntry();
         public PRDriverGlobalsEntry PRDriverGlobals { get; set; } = new PRDriverGlobalsEntry();
         public List<DriverAliasEntry> PRDriverAliases { get; set; } = new List<DriverAliasEntry>();
         public List<LampConfigFileEntry> PRLeds { get; set; } = new List<LampConfigFileEntry>();

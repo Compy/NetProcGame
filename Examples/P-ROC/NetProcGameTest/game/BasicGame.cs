@@ -1,8 +1,7 @@
 ﻿using NetProc;
 using NetProc.Dmd;
-using NetProcGame.Dmd;
-using NetProcGame.Game;
-using NetProcGame.Modes;
+using NetProc.Game;
+using NetProc.Game.Modes;
 
 namespace NetProcGameTest.game
 {
@@ -64,7 +63,7 @@ namespace NetProcGameTest.game
 
         public override void GameStarted()
         {
-            score_display.Layer.enabled = true;
+            score_display.Layer.Enabled = true;
             base.GameStarted();
         }
 

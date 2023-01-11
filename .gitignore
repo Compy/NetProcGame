@@ -361,3 +361,8 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Doc/ServiceMenu
+/Examples/P3-ROC/PiGodot3.3
+/Examples/P3-ROC/PiGodot
+/Examples/P3-ROC/Exports
+/Examples/P3-ROC/NetProc.PinGod

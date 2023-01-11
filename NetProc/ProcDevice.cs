@@ -1,4 +1,4 @@
-﻿using NetProc.Dmd;
+﻿using NetProc.Interface;
 using NetProc.Pdb;
 using System;
 using System.Collections.Generic;
@@ -471,7 +471,7 @@ namespace NetProc
             PinProc.PRDMDDraw(ProcHandle, bytes);
         }
 
-        public void DmdDraw(Frame frame)
+        public void DmdDraw(IFrame frame)
         {
             if (!dmdConfigured)
             {
@@ -482,7 +482,7 @@ namespace NetProc
             }
             //dmd_draw(testFrame);
             byte[] dots = new byte[4 * kDMDColumns * kDMDRows / 8];
-            DMDGlobals.DMDFrameCopyPROCSubframes(ref frame.frame, dots, kDMDColumns, kDMDRows, 4, dmdMapping);
+            DMDGlobals.DMDFrameCopyPROCSubframes(frame.frame, dots, kDMDColumns, kDMDRows, 4, dmdMapping);
             DmdDraw(dots);
         }
 
@@ -573,7 +573,7 @@ namespace NetProc
                     LED led = new LED(this, le.Name, i, le.Number);
                     string number;
                     number = le.Number;
-                    //todo: polarity
+                    led.Polarity = le.Polarity;
                     _leds.Add(i, led.Name, led);
                     i++;
                 }

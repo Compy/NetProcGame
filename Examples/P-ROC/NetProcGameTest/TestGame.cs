@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NetProc;
-using NetProcGame.Game;
+using NetProc.Game;
 using NetProcGameTest.StarterGame;
 
 namespace PinprocTest

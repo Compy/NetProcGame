@@ -25,6 +25,11 @@ namespace NetProc.ProcDevices
                 //load machine config.
                 var config = MachineConfiguration.FromFile("machine.json");
 
+                for (int i = 0; i < 222; i++)
+                {
+                    config.AddSwitch("switch" + i, i.ToString(), SwitchType.NO);
+                }
+
                 //create collections to pass into the setup.
                 //The GameController does this for you in LoadConfig, but this is to test without a game
                 _switches = new AttrCollection<ushort, string, Switch>();
@@ -33,6 +38,8 @@ namespace NetProc.ProcDevices
 
                 //setup machine items to be able to process events.
                 (PROC as ProcDevice).SetupProcMachine(config, _switches: _switches, _leds: _leds, _coils: _coils);
+
+                var states = PROC.SwitchGetStates();
 
                 //listen for cancel keypress and end run loop
                 Console.CancelKeyPress += (sender, eventArgs) =>
@@ -70,11 +77,13 @@ namespace NetProc.ProcDevices
             //flasher.Schedule(0x4F4F4F4F, 10); //schedule for 10 sec
 
             //flasher.Patter(0, 0, 0); // on 1, off 1
-            flasher.Patter(10, 0, 0); // on 10ms, off 1
+            //flasher.Patter(125, 0, 0); // on 10ms, off 1
 
-            //flasher.Patter(255, 10); //flash fast
+            //flasher.Patter(10, 255); //flash fast
             //flasher.Patter(255, 255); //flash med
             //flasher.Patter(10, 10); //always on (pretty much)
+
+            //flasher.Enable();
 
 
             while (!source.IsCancellationRequested)
