@@ -35,6 +35,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NetProc.Ports", "NetProc.Po
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetProc.Ports.WSLED", "NetProc.Ports\NetProc.Ports.WSLED\NetProc.Ports.WSLED.csproj", "{E923B539-0C3D-4919-8D3D-E7E3FFD19B02}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetProc.FakeProcDevice", "Examples\P3-ROC\NetProc.FakeProcDevice\NetProc.FakeProcDevice.csproj", "{D806A911-9182-4269-98D4-A9421BB54607}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -291,6 +293,30 @@ Global
 		{E923B539-0C3D-4919-8D3D-E7E3FFD19B02}.Release|Mixed Platforms.Build.0 = Release|x86
 		{E923B539-0C3D-4919-8D3D-E7E3FFD19B02}.Release|x86.ActiveCfg = Release|x86
 		{E923B539-0C3D-4919-8D3D-E7E3FFD19B02}.Release|x86.Build.0 = Release|x86
+		{D806A911-9182-4269-98D4-A9421BB54607}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{D806A911-9182-4269-98D4-A9421BB54607}.Debug|Any CPU.Build.0 = Debug|x86
+		{D806A911-9182-4269-98D4-A9421BB54607}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{D806A911-9182-4269-98D4-A9421BB54607}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{D806A911-9182-4269-98D4-A9421BB54607}.Debug|x86.ActiveCfg = Debug|x86
+		{D806A911-9182-4269-98D4-A9421BB54607}.Debug|x86.Build.0 = Debug|x86
+		{D806A911-9182-4269-98D4-A9421BB54607}.ExportDebug|Any CPU.ActiveCfg = Debug|x86
+		{D806A911-9182-4269-98D4-A9421BB54607}.ExportDebug|Any CPU.Build.0 = Debug|x86
+		{D806A911-9182-4269-98D4-A9421BB54607}.ExportDebug|Mixed Platforms.ActiveCfg = Debug|x86
+		{D806A911-9182-4269-98D4-A9421BB54607}.ExportDebug|Mixed Platforms.Build.0 = Debug|x86
+		{D806A911-9182-4269-98D4-A9421BB54607}.ExportDebug|x86.ActiveCfg = Debug|x86
+		{D806A911-9182-4269-98D4-A9421BB54607}.ExportDebug|x86.Build.0 = Debug|x86
+		{D806A911-9182-4269-98D4-A9421BB54607}.ExportRelease|Any CPU.ActiveCfg = Release|x86
+		{D806A911-9182-4269-98D4-A9421BB54607}.ExportRelease|Any CPU.Build.0 = Release|x86
+		{D806A911-9182-4269-98D4-A9421BB54607}.ExportRelease|Mixed Platforms.ActiveCfg = Release|x86
+		{D806A911-9182-4269-98D4-A9421BB54607}.ExportRelease|Mixed Platforms.Build.0 = Release|x86
+		{D806A911-9182-4269-98D4-A9421BB54607}.ExportRelease|x86.ActiveCfg = Release|x86
+		{D806A911-9182-4269-98D4-A9421BB54607}.ExportRelease|x86.Build.0 = Release|x86
+		{D806A911-9182-4269-98D4-A9421BB54607}.Release|Any CPU.ActiveCfg = Release|x86
+		{D806A911-9182-4269-98D4-A9421BB54607}.Release|Any CPU.Build.0 = Release|x86
+		{D806A911-9182-4269-98D4-A9421BB54607}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{D806A911-9182-4269-98D4-A9421BB54607}.Release|Mixed Platforms.Build.0 = Release|x86
+		{D806A911-9182-4269-98D4-A9421BB54607}.Release|x86.ActiveCfg = Release|x86
+		{D806A911-9182-4269-98D4-A9421BB54607}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -308,6 +334,7 @@ Global
 		{57FBFF49-2DBF-4744-A2BB-9CFCDDC0AF85} = {0D635C32-503C-4ED7-B73B-EF8C95360A3F}
 		{172F4249-4A0A-4ADA-B57A-996016C1D519} = {0D635C32-503C-4ED7-B73B-EF8C95360A3F}
 		{E923B539-0C3D-4919-8D3D-E7E3FFD19B02} = {E982502B-E408-4083-A92A-5CBD58CCF0B0}
+		{D806A911-9182-4269-98D4-A9421BB54607} = {522576D4-8C90-4469-867D-FAB427D9B36E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FD6546DD-0D75-49F6-A97B-802159FE24BA}

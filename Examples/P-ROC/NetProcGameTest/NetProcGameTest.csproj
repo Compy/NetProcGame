@@ -14,7 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\NetProcGame.Ports\NetProc.Ports.WSLED.csproj" />
+    <ProjectReference Include="..\..\..\NetProc.Game\NetProc.Game.csproj" />
+    <ProjectReference Include="..\..\..\NetProc.Ports\NetProc.Ports.WSLED\NetProc.Ports.WSLED.csproj" />
   </ItemGroup>
 
   <ItemGroup>

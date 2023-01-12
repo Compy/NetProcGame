@@ -60,7 +60,7 @@ namespace NetProc
             ProcHandle = IntPtr.Zero;
         }
 
-        public void flush()
+        public void Flush()
         {
             lock (procSyncObject)
             {
@@ -299,7 +299,7 @@ namespace NetProc
             return procSwitchStates;
         }
 
-        public void switch_update_rule(ushort number, EventType event_type, SwitchRule rule, DriverState[] linked_drivers, bool drive_outputs_now)
+        public void SwitchUpdateRule(ushort number, EventType event_type, SwitchRule rule, DriverState[] linked_drivers, bool drive_outputs_now)
         {
             int numDrivers = 0;
             if (linked_drivers != null)
@@ -332,7 +332,7 @@ namespace NetProc
             }
             if (r == Result.Success)
             {
-                // Possibly we should flush the write data here
+                // Possibly we should Flush the write data here
             }
             else
             {
@@ -364,7 +364,11 @@ namespace NetProc
             }
         }
 
-        public Event[] Getevents()
+        /// <summary>
+        /// Calls pinproc get events (see <see cref="PinProc.PRGetEvents"/>)
+        /// </summary>
+        /// <returns>null if no events</returns>
+        public Event[] Getevents(bool dmdEvents = true)
         {
             const int batchSize = 16; // Pyprocgame uses 16
             Event[] events = new Event[batchSize];
@@ -606,13 +610,13 @@ namespace NetProc
                     }
 
                     s.Number = number;
-                    switch_update_rule(number,
+                    SwitchUpdateRule(number,
                         EventType.SwitchClosedDebounced,
                         new SwitchRule { NotifyHost = true, ReloadActive = false },
                         null,
                         false
                     );
-                    switch_update_rule(number,
+                    SwitchUpdateRule(number,
                         EventType.SwitchOpenDebounced,
                         new SwitchRule { NotifyHost = true, ReloadActive = false },
                         null,

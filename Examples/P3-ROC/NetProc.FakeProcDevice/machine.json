@@ -1,0 +1,89 @@
+{
+  /**
+   * This is the configuration for the entire game
+   */
+  "PRGame": {
+    /**
+	 * Comments about machineType
+	 */
+    "MachineType": "PDB",
+
+    /**
+	 * Comments about numBalls
+	 */
+    "numBalls": 5,
+
+    /**
+	 * Comments about displaymonitor
+	 */
+    "displayMonitor": true
+  },
+  "PRFlippers": [
+    "flipperLwR",
+    "flipperLwL"
+  ],
+  "PRFlipperLeft": [
+    "flipperLwL",
+    "flipperUpL"
+  ],
+  "PRFlipperRight": [
+    "flipperLwR"
+  ],
+  "PRBumpers": [
+    "leftSlingshot",
+    "rightSlingshot",
+    "leftJet",
+    "rightJet",
+    "bottomJet"
+  ],
+  "PRSwitches": [
+    {
+      "Name": "trough_1",
+      "Number": "0/0"
+    },
+    {
+      "Name": "trough_2",
+      "Number": "0/1"
+    }
+  ],
+  "PRCoils": [
+    {
+      "Name": "flasher",
+      "Number": "0/0/0"
+    }
+  ],
+  "PRLeds": [
+    {
+      "Name": "TestLED",
+      "Number": "A0-R12-G13-B14"
+    }
+  ],
+  "PRGI": [
+  ],
+  "PRBallSave": {
+    "PulseCoils": [
+      "leftSlingshot",
+      "rightSlingshot",
+      "leftJet",
+      "rightJet",
+      "bottomJet",
+      "eject",
+      "topPopper",
+      "bottomPopper"
+    ],
+    "ResetSwitches": {
+      "leftSlingshot": "open",
+      "rightSlingshot": "open",
+      "leftJet": "open",
+      "rightJet": "open",
+      "bottomJet": "open",
+      "leftOutlane": "open",
+      "leftInlane": "open"
+    },
+    "StopSwitches": {
+      "shooterLane": "closed",
+      "flipperLwL": "closed",
+      "flipperLwR": "closed"
+    }
+  }
+}

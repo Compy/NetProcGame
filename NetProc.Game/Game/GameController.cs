@@ -232,7 +232,7 @@ namespace NetProc.Game
                         {
                             drivers = null;
                         }
-                        _proc.switch_update_rule(
+                        _proc.SwitchUpdateRule(
                             switch_num,
                             EventType.SwitchClosedNondebounced,
                             new SwitchRule { NotifyHost = false, ReloadActive = false },
@@ -250,7 +250,7 @@ namespace NetProc.Game
                         {
                             drivers = null;
                         }
-                        _proc.switch_update_rule(switch_num,
+                        _proc.SwitchUpdateRule(switch_num,
                             EventType.SwitchOpenNondebounced,
                             new SwitchRule { NotifyHost = false, ReloadActive = false },
                             drivers,
@@ -285,7 +285,7 @@ namespace NetProc.Game
                         else
                             drivers = null;
 
-                        _proc.switch_update_rule(switch_num,
+                        _proc.SwitchUpdateRule(switch_num,
                             EventType.SwitchClosedNondebounced,
                             new SwitchRule { NotifyHost = false, ReloadActive = false },
                             drivers,
@@ -298,7 +298,7 @@ namespace NetProc.Game
                         else
                             drivers = null;
 
-                        _proc.switch_update_rule(switch_num,
+                        _proc.SwitchUpdateRule(switch_num,
                             EventType.SwitchOpenNondebounced,
                             new SwitchRule { NotifyHost = false, ReloadActive = false },
                             drivers,
@@ -321,7 +321,7 @@ namespace NetProc.Game
                     else
                         drivers = null;
 
-                    _proc.switch_update_rule(switch_num,
+                    _proc.SwitchUpdateRule(switch_num,
                         EventType.SwitchClosedNondebounced,
                         new SwitchRule { NotifyHost = false, ReloadActive = true },
                         drivers,
@@ -573,7 +573,7 @@ namespace NetProc.Game
                     driverIdx++;
                 }
                 // Add switch rule for activating flippers (when switch closes)
-                _proc.switch_update_rule(switch_num,
+                _proc.SwitchUpdateRule(switch_num,
                     EventType.SwitchClosedNondebounced,
                     new SwitchRule { NotifyHost = false, ReloadActive = false },
                     drivers,
@@ -593,7 +593,7 @@ namespace NetProc.Game
                     drivers[driverIdx] = _proc.DriverStateDisable(hold_coil.State);
                     driverIdx++;
                 }
-                _proc.switch_update_rule(switch_num,
+                _proc.SwitchUpdateRule(switch_num,
                     EventType.SwitchOpenNondebounced,
                     new SwitchRule { NotifyHost = false, ReloadActive = false },
                     drivers,
@@ -603,13 +603,13 @@ namespace NetProc.Game
             else
             {
                 // Remove all switch linkages
-                _proc.switch_update_rule(switch_num,
+                _proc.SwitchUpdateRule(switch_num,
                     EventType.SwitchClosedNondebounced,
                     new SwitchRule { NotifyHost = false, ReloadActive = false },
                     null,
                     false
                 );
-                _proc.switch_update_rule(switch_num,
+                _proc.SwitchUpdateRule(switch_num,
                     EventType.SwitchOpenNondebounced,
                     new SwitchRule { NotifyHost = false, ReloadActive = false },
                     null,
@@ -726,7 +726,6 @@ namespace NetProc.Game
                 this.Tick();
                 TickVirtualDrivers();
                 this._modes.tick();
-                //this.modes.tick();
 
                 // Do we have any events waiting such as pulses from the UI
                 lock (_coil_lock_object)
@@ -736,7 +735,7 @@ namespace NetProc.Game
                     {
                         c = _safe_coil_drive_queue[i];
                         if (c.pulse)
-                            Coils[c.coil_name].Pulse(c.pulse_time);
+                            Coils[c.coil_name].Pulse((byte)c.pulse_time);
                         if (c.disable)
                             Coils[c.coil_name].Disable();
                     }

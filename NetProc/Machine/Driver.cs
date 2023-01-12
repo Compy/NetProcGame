@@ -30,7 +30,7 @@ namespace NetProc
         public void Disable()
         {
 
-            this.proc.DriverDisable(this._number);
+            this.proc.DriverDisable(_number);
             this._last_time_changed = Time.GetTime();
         }
 
@@ -42,23 +42,16 @@ namespace NetProc
         /// <param name="milliseconds">The number of milliseconds to pulse the coil</param>
         public void Pulse(int milliseconds = -1)
         {
-            if (milliseconds < 0) milliseconds = _default_pulse_time;
-
-            if (milliseconds > 255)
-                throw new ArgumentOutOfRangeException("Milliseconds must be in range 0-255");
-
-            this.proc.DriverPulse(this._number, (byte)milliseconds);
+            milliseconds = milliseconds > 255 ? 255 : milliseconds;
+            this.proc.DriverPulse(_number, (byte)milliseconds);
             this._last_time_changed = Time.GetTime();
         }
 
         public void FuturePulse(int milliseconds = -1, UInt16 futureTime = 100)
         {
             if (milliseconds < 0) milliseconds = _default_pulse_time;
-
-            if (milliseconds > 255)
-                throw new ArgumentOutOfRangeException("Milliseconds must be in range 0-255");
-
-            this.proc.DriverFuturePulse(this._number, (byte)milliseconds, futureTime);
+            milliseconds = milliseconds > 255 ? 255 : milliseconds;
+            this.proc.DriverFuturePulse(_number, (byte)milliseconds, futureTime);
             this._last_time_changed = Time.GetTime();
         }
 
@@ -74,7 +67,7 @@ namespace NetProc
         public void Patter(byte on_time = 10, byte off_time = 10, byte orig_on_time = 0)
         {
 
-            this.proc.DriverPatter(this._number, on_time, off_time, orig_on_time);
+            this.proc.DriverPatter(_number, on_time, off_time, orig_on_time);
             this._last_time_changed = Time.GetTime();
         }
 
@@ -95,7 +88,7 @@ namespace NetProc
             if (run_time < 0 || run_time > 255)
                 throw new ArgumentOutOfRangeException("run_time must be in range 0-255");
 
-            this.proc.DriverPulsedPatter(this._number, off_time, on_time, run_time);
+            this.proc.DriverPulsedPatter(_number, off_time, on_time, run_time);
             this._last_time_changed = Time.GetTime();
         }
 
@@ -107,7 +100,7 @@ namespace NetProc
         /// <param name="now"></param>
         public void Schedule(uint schedule, int cycle_seconds = 0, bool now = true)
         {
-            this.proc.DriverSchedule(this._number, schedule, (byte)cycle_seconds, now);
+            this.proc.DriverSchedule(_number, schedule, (byte)cycle_seconds, now);
             this._last_time_changed = Time.GetTime();
         }
 

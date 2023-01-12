@@ -22,6 +22,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\NetProc\NetProc.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="machine.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

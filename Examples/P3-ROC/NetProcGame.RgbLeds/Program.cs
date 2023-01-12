@@ -1,5 +1,5 @@
 ﻿using NetProc;
-using NetProcGame.Data;
+using NetProc.Data;
 using System;
 using System.Threading;
 using System.Threading.Tasks;

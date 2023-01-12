@@ -294,6 +294,8 @@ namespace NetProc.Pdb
                 state.PatterEnable = false;
                 state.futureEnable = false;
 
+                if (proc as IFakeProcDevice != null) continue;
+
                 proc.driver_update_state(ref state);
             }
         }

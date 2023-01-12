@@ -45,8 +45,13 @@ namespace NetProc
         DriverState DriverStateFuturePulse(DriverState state, byte milliseconds, UInt16 futureTime);
         DriverState DriverStatePatter(DriverState state, ushort milliseconds_on, ushort milliseconds_off, ushort original_on_time);
         DriverState DriverStatePulse(DriverState state, byte milliseconds);
-        void flush();
-        Event[] Getevents();
+        void Flush();
+        /// <summary>
+        /// Gets events from PinProc.
+        /// </summary>
+        /// <param name="dmdEvents">get DMD events</param>
+        /// <returns></returns>
+        Event[] Getevents(bool dmdEvents = true);
         void i2c_write8(uint address, uint register, uint value);
 
         void initialize_i2c(uint address);
@@ -58,7 +63,7 @@ namespace NetProc
         void SetupProcMachine(MachineConfiguration config, AttrCollection<ushort, string, IDriver> coils, AttrCollection<ushort, string, Switch> switches, AttrCollection<ushort, string, IDriver> lamps, AttrCollection<ushort, string, LED> leds, AttrCollection<ushort, string, IDriver> gi);
 
         EventType[] SwitchGetStates();
-        void switch_update_rule(ushort number, EventType event_type, SwitchRule rule, DriverState[] linked_drivers, bool drive_outputs_now);
+        void SwitchUpdateRule(ushort number, EventType event_type, SwitchRule rule, DriverState[] linked_drivers, bool drive_outputs_now);
         void WatchDogTickle();
 
 		Result WriteData(uint module, uint address, ref uint data);        
